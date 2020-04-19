@@ -30,4 +30,4 @@ run {
     standardInput = System.in
 }
 
-mainClassName = 'Main'
+mainClassName = 'dais.Main'

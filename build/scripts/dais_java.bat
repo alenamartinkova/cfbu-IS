@@ -82,7 +82,7 @@ set CMD_LINE_ARGS=%*
 set CLASSPATH=%APP_HOME%\lib\dais_java-1.0-SNAPSHOT.jar;%APP_HOME%\lib\ojdbc10-19.3.0.0.jar;%APP_HOME%\lib\ucp-19.3.0.0.jar;%APP_HOME%\lib\oraclepki-19.3.0.0.jar;%APP_HOME%\lib\osdt_cert-19.3.0.0.jar;%APP_HOME%\lib\osdt_core-19.3.0.0.jar;%APP_HOME%\lib\simplefan-19.3.0.0.jar;%APP_HOME%\lib\ons-19.3.0.0.jar
 
 @rem Execute dais_java
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DAIS_JAVA_OPTS%  -classpath "%CLASSPATH%" Main %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DAIS_JAVA_OPTS%  -classpath "%CLASSPATH%" dais.Main %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell
