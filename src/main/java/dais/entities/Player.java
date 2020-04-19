@@ -21,6 +21,8 @@ public class Player {
         this.year_born = y;
     }
 
+    public Player(){};
+
     public int getId() {
         return this.id;
     }

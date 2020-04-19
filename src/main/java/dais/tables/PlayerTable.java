@@ -31,4 +31,15 @@ public class PlayerTable {
     public int delete(int column, int value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM PLAYER WHERE "+ column +"="+ value +"");
     }
+
+    public Player playerDetail(int id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER WHERE player_id = "+ id +"");
+        var player = new Player();
+        while (rs.next()) {
+            player = new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+        }
+
+        rs.close();
+        return player;
+    }
 }

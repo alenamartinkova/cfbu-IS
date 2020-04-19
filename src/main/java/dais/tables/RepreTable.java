@@ -31,4 +31,15 @@ public class RepreTable {
     public int delete(int column, int value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE "+ column +"="+ value +"");
     }
+
+    public Repre repreDetail(int id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE WHERE repre_id = "+ id + "");
+        var repre = new Repre();
+        while (rs.next()) {
+            repre = new Repre(rs.getInt(1), rs.getString(2));
+        }
+
+        rs.close();
+        return repre;
+    }
 }

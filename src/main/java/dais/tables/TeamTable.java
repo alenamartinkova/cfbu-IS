@@ -1,5 +1,6 @@
 package dais.tables;
 
+import dais.entities.Player;
 import dais.entities.Team;
 
 import java.sql.Connection;
@@ -41,6 +42,17 @@ public class TeamTable {
 
     public int delete(int column, int value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE "+ column +"="+ value +"");
+    }
+
+    public Team teamDetail(int id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TEAM WHERE team_id = "+ id +"");
+        var team = new Team();
+        while (rs.next()) {
+            team = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+        }
+
+        rs.close();
+        return team;
     }
 
 }

@@ -30,4 +30,16 @@ public class LeagueTable {
     public int delete(int column, int value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE "+ column +"="+ value +"");
     }
+
+    public League leagueDetail(int id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE WHERE league_id = "+ id + "");
+        var league = new League();
+        while (rs.next()) {
+            league = new League(rs.getInt(1), rs.getInt(2), rs.getString(3));
+        }
+
+        rs.close();
+        return league;
+    }
 }
+

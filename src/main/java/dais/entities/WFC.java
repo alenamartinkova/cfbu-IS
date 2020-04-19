@@ -11,6 +11,8 @@ public class WFC {
         this.a_id = a;
     }
 
+    public WFC(){};
+
     public int getId() {
         return this.id;
     }

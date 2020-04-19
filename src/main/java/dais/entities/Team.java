@@ -13,6 +13,8 @@ public class Team {
         this.league_id = l;
     }
 
+    public Team(){};
+
     public int getId() {
         return this.id;
     }

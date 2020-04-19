@@ -30,4 +30,15 @@ public class WFCTable {
     public int delete(int column, int value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
     }
+
+    public WFC wfcDetail(int id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC WHERE wfc_id = " + id +"");
+        var wfc = new WFC();
+        while (rs.next()) {
+            wfc = new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+        }
+
+        rs.close();
+        return wfc;
+    }
 }

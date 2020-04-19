@@ -11,6 +11,8 @@ public class League {
         this.name = n;
     }
 
+    public League(){};
+
     public int getId() {
         return this.id;
     }

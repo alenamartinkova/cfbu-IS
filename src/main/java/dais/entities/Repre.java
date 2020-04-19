@@ -9,6 +9,8 @@ public class Repre {
         this.team_name = t;
     }
 
+    public Repre(){};
+
     public int getId() {
         return this.id;
     }
