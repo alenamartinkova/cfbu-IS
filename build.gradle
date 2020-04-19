@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation 'com.oracle.ojdbc:ojdbc10:19.3.0.0'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'dais.Main'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+run {
+    standardInput = System.in
+}
+
+mainClassName = 'Main'
