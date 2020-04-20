@@ -3,6 +3,7 @@ package dais.tables;
 import dais.entities.Player;
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,5 +57,25 @@ public class PlayerTable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Player> repreTeammates(int player_id) {
+        var players = new ArrayList<Player>();
+
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call repreTeammates(?)}");
+        ) {
+            statement.setInt(1, player_id );
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                players.add(new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+            }
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return players;
     }
 }

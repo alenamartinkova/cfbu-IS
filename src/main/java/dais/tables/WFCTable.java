@@ -1,6 +1,7 @@
 package dais.tables;
 import dais.entities.WFC;
 
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,19 @@ public class WFCTable {
 
         rs.close();
         return wfc;
+    }
+
+    public void changeWFCAddress(int id, int address_id) {
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call changeWFCAddress(?, ?)}");
+        ) {
+            statement.setInt(1, id );
+            statement.setInt(2, address_id );
+            statement.execute();
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
