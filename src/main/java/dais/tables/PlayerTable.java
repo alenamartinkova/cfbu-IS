@@ -2,6 +2,7 @@ package dais.tables;
 
 import dais.entities.Player;
 
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +42,19 @@ public class PlayerTable {
 
         rs.close();
         return player;
+    }
+
+    public void playerTransfer(int player_id, int team_id) {
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call playerTransfer(?, ?)}");
+        ) {
+            statement.setInt(1, player_id );
+            statement.setInt(2, team_id );
+            statement.execute();
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

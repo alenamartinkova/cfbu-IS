@@ -1,8 +1,8 @@
 package dais.tables;
 
-import dais.entities.Player;
 import dais.entities.Team;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,9 +24,9 @@ public class TeamTable {
     public List<Team> fetch() throws SQLException {
         var rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
         var teams = new ArrayList<Team>();
-         while (rs.next()) {
+        while (rs.next()) {
              teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
-         }
+        }
 
          rs.close();
          return teams;
@@ -53,6 +53,20 @@ public class TeamTable {
 
         rs.close();
         return team;
+    }
+
+    public void teamTransfer(int team_id, int league_id) {
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call transferTeam(?, ?)}");
+        ) {
+            statement.setInt(1, team_id );
+            statement.setInt(2, league_id );
+            statement.execute();
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

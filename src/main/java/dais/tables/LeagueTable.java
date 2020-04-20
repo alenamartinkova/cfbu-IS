@@ -1,6 +1,7 @@
 package dais.tables;
 import dais.entities.League;
 
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,21 @@ public class LeagueTable {
 
         rs.close();
         return league;
+    }
+
+    public void changeLeague(String name, int division, int old_league_id) {
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
+        ) {
+            statement.setString(1, name );
+            statement.setInt(2, division );
+            statement.setInt(3, old_league_id );
+            statement.execute();
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 
