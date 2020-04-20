@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamTable {
-    private TeamTable(){};
+    public TeamTable(){};
     public static Connection conn;
 
     static {
@@ -33,15 +33,15 @@ public class TeamTable {
     }
 
     public Integer insert(Integer id, Integer r, String n, Integer l_id) throws SQLException {
-        return conn.createStatement().executeUpdate("INSERT INTO TEAM (team_id, rank, name, league_id) VALUES (" + id.toString() + "," + r.toString() +", "+ n +", " + l_id.toString() +")");
+        return conn.createStatement().executeUpdate("INSERT INTO TEAM (team_id, rank, name, league_id) VALUES (" + id.toString() + "," + r.toString() +", '"+ n +"', " + l_id.toString() +")");
     }
 
     public Integer update(Integer id, Integer r, String n, Integer l_id) throws SQLException {
-        return conn.createStatement().executeUpdate("UPDATE TEAM SET rank = "+ r.toString() +", name = " + n +", league_id = " + l_id.toString()+" WHERE team_id = " + id.toString() + "");
+        return conn.createStatement().executeUpdate("UPDATE TEAM SET rank = "+ r.toString() +", name = '" + n +"', league_id = " + l_id.toString()+" WHERE team_id = " + id.toString() + "");
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE '"+ column +"'='"+ value +"'");
     }
 
     public Team teamDetail(Integer id) throws SQLException {

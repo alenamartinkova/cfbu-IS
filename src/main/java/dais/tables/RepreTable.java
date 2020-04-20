@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepreTable {
-    private RepreTable(){};
+    public RepreTable(){};
 
     public List<Repre> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE");
@@ -21,15 +21,15 @@ public class RepreTable {
     }
 
     public Integer insert(Integer id, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE (repre_id, team_name) VALUES (" + id.toString() + ", "+ n +")");
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE (repre_id, team_name) VALUES (" + id.toString() + ", '"+ n +"')");
     }
 
     public Integer update(Integer id, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE team_name = " + n + " WHERE repre_id = " + id.toString() + "");
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE team_name = '" + n + "' WHERE repre_id = " + id.toString() + "");
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE '"+ column +"'='"+ value +"'");
     }
 
     public Repre repreDetail(Integer id) throws SQLException {

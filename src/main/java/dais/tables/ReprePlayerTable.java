@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReprePlayerTable {
-    private ReprePlayerTable(){};
+    public ReprePlayerTable(){};
     public List<ReprePlayer> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE_PLAYER");
         var players = new ArrayList<ReprePlayer>();
@@ -28,6 +28,6 @@ public class ReprePlayerTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE '"+ column +"'='"+ value +"'");
     }
 }

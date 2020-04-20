@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WFCTable {
-    private WFCTable(){};
+    public WFCTable(){};
 
     public List<WFC> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC");
@@ -29,7 +29,7 @@ public class WFCTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE '"+ column +"'='"+ value +"'");
     }
 
     public WFC wfcDetail(Integer id) throws SQLException {

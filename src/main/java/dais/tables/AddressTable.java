@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressTable {
-    private AddressTable(){};
+    public AddressTable(){};
 
     public List<Address> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
@@ -21,14 +21,14 @@ public class AddressTable {
     }
 
     public Integer insert(Integer id, String c, String cou, String a) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id.toString() + ", " + c + ", "+ cou +", " + a +")");
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id.toString() + ", '" + c + "', '"+ cou +"', '" + a +"')");
     }
 
     public Integer update(Integer id, String c, String cou, String a) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE ADDRESS SET city = "+ c +", country = " + cou +", address_line = " + a +" WHERE address_id = "+ id.toString() +"");
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE ADDRESS SET city = '"+ c +"', country = '" + cou +"', address_line = '" + a +"' WHERE address_id = "+ id.toString() +"");
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE '"+ column +"'='"+ value +"'");
     }
 }

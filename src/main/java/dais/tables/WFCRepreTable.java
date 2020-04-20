@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WFCRepreTable {
-    private WFCRepreTable(){};
+    public WFCRepreTable(){};
     public List<WFCRepre> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC_REPRE");
         var wfc_repres = new ArrayList<WFCRepre>();
@@ -28,6 +28,6 @@ public class WFCRepreTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE '"+ column +"'='"+ value +"'");
     }
 }

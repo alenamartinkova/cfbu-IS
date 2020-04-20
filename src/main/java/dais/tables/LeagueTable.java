@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeagueTable {
-    private LeagueTable(){};
+    public LeagueTable(){};
 
     public List<League> fetch() throws SQLException {
         var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
@@ -21,15 +21,15 @@ public class LeagueTable {
     }
 
     public Integer insert(Integer id, Integer d, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO LEAGUE (league_id, division, name) VALUES (" + id.toString() + ", " + d.toString() + ", "+ n +")");
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO LEAGUE (league_id, division, name) VALUES (" + id.toString() + ", " + d.toString() + ", '"+ n +"')");
     }
 
     public Integer update(Integer id, Integer d, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE LEAGUE SET division = "+ d +", name = " + n + " WHERE league_id = " + id +"");
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE LEAGUE SET division = "+ d.toString() +", name = '" + n + "' WHERE league_id = " + id.toString() +"");
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE "+ column +"="+ value +"");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE '"+ column +"'='"+ value +"'");
     }
 
     public League leagueDetail(Integer id) throws SQLException {
