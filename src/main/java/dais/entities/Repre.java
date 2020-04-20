@@ -1,17 +1,17 @@
 package dais.entities;
 
 public class Repre {
-    int id;
+    Integer id;
     String team_name;
 
-    public Repre(int id, String t) {
+    public Repre(Integer id, String t) {
         this.id = id;
         this.team_name = t;
     }
 
     public Repre(){};
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 

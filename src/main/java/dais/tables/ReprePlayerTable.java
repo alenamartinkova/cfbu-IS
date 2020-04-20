@@ -19,15 +19,15 @@ public class ReprePlayerTable {
         return players;
     }
 
-    public int insert(int y, int p_id, int r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE_PLAYER (year, player_id, repre_id) VALUES (" + y + ", " + p_id + ", "+ r_id +")");
+    public Integer insert(Integer y, Integer p_id, Integer r_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE_PLAYER (year, player_id, repre_id) VALUES (" + y.toString() + ", " + p_id.toString() + ", "+ r_id.toString() +")");
     }
 
-    public int update(int y, int p_id, int r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE_PLAYER SET year = "+ y +" WHERE player_id = "+ p_id +" AND repre_id = " + r_id +"");
+    public Integer update(Integer y, Integer p_id, Integer r_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE_PLAYER SET year = "+ y.toString() +" WHERE player_id = "+ p_id.toString() +" AND repre_id = " + r_id.toString() +"");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE "+ column +"="+ value +"");
     }
 }

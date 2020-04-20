@@ -20,20 +20,20 @@ public class WFCTable {
         return wfcs;
     }
 
-    public int insert(int id, int y, int a_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC (wfc_id, year, address_id) VALUES (" + id + "," + y +", "+ a_id +")");
+    public Integer insert(Integer id, Integer y, Integer a_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC (wfc_id, year, address_id) VALUES (" + id.toString() + "," + y.toString() +", "+ a_id.toString() +")");
     }
 
-    public int update(int id, int y, int a_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC SET year = "+ y + ", address_id = " + a_id +" WHERE wfc_id = "+ id + "");
+    public Integer update(Integer id, Integer y, Integer a_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC SET year = "+ y.toString() + ", address_id = " + a_id.toString() +" WHERE wfc_id = "+ id.toString() + "");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
     }
 
-    public WFC wfcDetail(int id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC WHERE wfc_id = " + id +"");
+    public WFC wfcDetail(Integer id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC WHERE wfc_id = " + id.toString() +"");
         var wfc = new WFC();
         while (rs.next()) {
             wfc = new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3));
@@ -43,7 +43,7 @@ public class WFCTable {
         return wfc;
     }
 
-    public void changeWFCAddress(int id, int address_id) {
+    public void changeWFCAddress(Integer id, Integer address_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call changeWFCAddress(?, ?)}");
         ) {

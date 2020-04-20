@@ -19,15 +19,15 @@ public class WFCRepreTable {
         return wfc_repres;
     }
 
-    public int insert(int id, int r, int r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC_REPRE (wfc_id, rank, repre_id) VALUES (" + id + "," + r +", "+ r_id +")");
+    public Integer insert(Integer id, Integer r, Integer r_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC_REPRE (wfc_id, rank, repre_id) VALUES (" + id.toString() + "," + r.toString() +", "+ r_id.toString() +")");
     }
 
-    public int update(int id, int r, int r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC_REPRE SET rank = " + r + " WHERE repre_id = " + r_id +" AND wfc_id = " + id + "");
+    public Integer update(Integer id, Integer r, Integer r_id) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC_REPRE SET rank = " + r.toString() + " WHERE repre_id = " + r_id.toString() +" AND wfc_id = " + id.toString() + "");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE "+ column +"="+ value +"");
     }
 }

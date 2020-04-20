@@ -20,15 +20,15 @@ public class AddressTable {
         return addresses;
     }
 
-    public int insert(int id, String c, String cou, String a) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id + ", " + c + ", "+ cou +", " + a +")");
+    public Integer insert(Integer id, String c, String cou, String a) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id.toString() + ", " + c + ", "+ cou +", " + a +")");
     }
 
-    public int update(int id, String c, String cou, String a) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE ADDRESS SET city = "+ c +", country = " + cou +", address_line = " + a +" WHERE address_id = "+ id +"");
+    public Integer update(Integer id, String c, String cou, String a) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE ADDRESS SET city = "+ c +", country = " + cou +", address_line = " + a +" WHERE address_id = "+ id.toString() +"");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE "+ column +"="+ value +"");
     }
 }

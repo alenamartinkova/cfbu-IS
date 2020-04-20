@@ -20,20 +20,20 @@ public class RepreTable {
         return repres;
     }
 
-    public int insert(int id, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE (repre_id, team_name) VALUES (" + id + ", "+ n +")");
+    public Integer insert(Integer id, String n) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE (repre_id, team_name) VALUES (" + id.toString() + ", "+ n +")");
     }
 
-    public int update(int id, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE team_name = " + n + " WHERE repre_id = " + id + "");
+    public Integer update(Integer id, String n) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE team_name = " + n + " WHERE repre_id = " + id.toString() + "");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE "+ column +"="+ value +"");
     }
 
-    public Repre repreDetail(int id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE WHERE repre_id = "+ id + "");
+    public Repre repreDetail(Integer id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE WHERE repre_id = "+ id.toString() + "");
         var repre = new Repre();
         while (rs.next()) {
             repre = new Repre(rs.getInt(1), rs.getString(2));

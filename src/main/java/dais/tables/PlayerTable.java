@@ -22,20 +22,20 @@ public class PlayerTable {
         return players;
     }
 
-    public int insert(int id, String f_name, String l_name, int a, int g, int a_id, int t_id, int y) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO PLAYER (player_id, first_name, last_name, assists, goals, address_id, team_id, year_born) VALUES (" + id + ", " + f_name + ", "+ l_name +", " + a +", " + g + ", " + a_id + ", " + t_id + ", " + y + " )");
+    public Integer insert(Integer id, String f_name, String l_name, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO PLAYER (player_id, first_name, last_name, assists, goals, address_id, team_id, year_born) VALUES (" + id.toString() + ", " + f_name + ", "+ l_name +", " + a.toString() +", " + g.toString() + ", " + a_id.toString() + ", " + t_id.toString() + ", " + y.toString() + " )");
     }
 
-    public int update(int id, String f_name, String l_name, int a, int g, int a_id, int t_id, int y) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE PLAYER SET first_name = " + f_name +", last_name = "+ l_name +", assists = "+ a +", goals = "+ g +", address_id = " + a_id +", team_id = " + t_id +", year_born = " + y +" WHERE player_id = "+ id +"");
+    public Integer update(Integer id, String f_name, String l_name, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("UPDATE PLAYER SET first_name = " + f_name +", last_name = "+ l_name +", assists = "+ a.toString() +", goals = "+ g.toString() +", address_id = " + a_id.toString() +", team_id = " + t_id.toString() +", year_born = " + y.toString() +" WHERE player_id = "+ id.toString() +"");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM PLAYER WHERE "+ column +"="+ value +"");
     }
 
-    public Player playerDetail(int id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER WHERE player_id = "+ id +"");
+    public Player playerDetail(Integer id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER WHERE player_id = "+ id.toString() +"");
         var player = new Player();
         while (rs.next()) {
             player = new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
@@ -45,7 +45,7 @@ public class PlayerTable {
         return player;
     }
 
-    public void playerTransfer(int player_id, int team_id) {
+    public void playerTransfer(Integer player_id, Integer team_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call playerTransfer(?, ?)}");
         ) {
@@ -59,7 +59,7 @@ public class PlayerTable {
         }
     }
 
-    public List<Player> repreTeammates(int player_id) {
+    public List<Player> repreTeammates(Integer player_id) {
         var players = new ArrayList<Player>();
 
         try (

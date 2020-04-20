@@ -1,12 +1,12 @@
 package dais.entities;
 
 public class Team {
-    int id;
-    int rank;
+    Integer id;
+    Integer rank;
     String name;
-    int league_id;
+    Integer league_id;
 
-    public Team(int id, int r, String n, int l) {
+    public Team(Integer id, Integer r, String n, Integer l) {
         this.id = id;
         this.rank = r;
         this.name = n;
@@ -15,11 +15,11 @@ public class Team {
 
     public Team(){};
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public int getRank() {
+    public Integer getRank() {
         return this.rank;
     }
 
@@ -27,7 +27,7 @@ public class Team {
         return this.name;
     }
 
-    public int getLeagueId() {
+    public Integer getLeagueId() {
         return this.league_id;
     }
 

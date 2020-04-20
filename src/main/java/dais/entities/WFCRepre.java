@@ -1,25 +1,25 @@
 package dais.entities;
 
 public class WFCRepre {
-    int wfc_id;
-    int rank;
-    int repre_id;
+    Integer wfc_id;
+    Integer rank;
+    Integer repre_id;
 
-    public WFCRepre(int wfc_id, int r, int r_id) {
+    public WFCRepre(Integer wfc_id, Integer r, Integer r_id) {
         this.wfc_id = wfc_id;
         this.rank = r;
         this.repre_id = r_id;
     }
 
-    public int getWfcId() {
+    public Integer getWfcId() {
         return this.wfc_id;
     }
 
-    public int getRank() {
+    public Integer getRank() {
         return this.rank;
     }
 
-    public int getRepreId() {
+    public Integer getRepreId() {
         return this.repre_id;
     }
 }

@@ -1,16 +1,16 @@
 package dais.entities;
 
 public class Player {
-    int id;
+    Integer id;
     String first_name;
     String last_name;
-    java.lang.Integer assists;
-    java.lang.Integer goals;
-    int a_id;
-    int t_id;
-    int year_born;
+    Integer assists;
+    Integer goals;
+    Integer a_id;
+    Integer t_id;
+    Integer year_born;
 
-    public Player(int id, String f, String l, java.lang.Integer a, java.lang.Integer g, int a_id, int t_id, int y) {
+    public Player(Integer id, String f, String l, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) {
         this.id = id;
         this.first_name = f;
         this.last_name = l;
@@ -23,7 +23,7 @@ public class Player {
 
     public Player(){};
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
@@ -35,23 +35,23 @@ public class Player {
         return this.last_name;
     }
 
-    public java.lang.Integer getAssists() {
+    public Integer getAssists() {
         return this.assists;
     }
 
-    public java.lang.Integer getGoals() {
+    public Integer getGoals() {
         return this.goals;
     }
 
-    public int getAId() {
+    public Integer getAId() {
         return this.a_id;
     }
 
-    public int getTId() {
+    public Integer getTId() {
         return this.t_id;
     }
 
-    public int getYearBorn() {
+    public Integer getYearBorn() {
         return this.year_born;
     }
 

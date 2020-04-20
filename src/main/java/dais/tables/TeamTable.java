@@ -32,20 +32,20 @@ public class TeamTable {
          return teams;
     }
 
-    public int insert(int id, int r, String n, int l_id) throws SQLException {
-        return conn.createStatement().executeUpdate("INSERT INTO TEAM (team_id, rank, name, league_id) VALUES (" + id + "," + r +", "+ n +", " + l_id +")");
+    public Integer insert(Integer id, Integer r, String n, Integer l_id) throws SQLException {
+        return conn.createStatement().executeUpdate("INSERT INTO TEAM (team_id, rank, name, league_id) VALUES (" + id.toString() + "," + r.toString() +", "+ n +", " + l_id.toString() +")");
     }
 
-    public int update(int id, int r, String n, int l_id) throws SQLException {
-        return conn.createStatement().executeUpdate("UPDATE TEAM SET rank = "+ r +", name = " + n +", league_id = " + l_id +" WHERE team_id = " + id + "");
+    public Integer update(Integer id, Integer r, String n, Integer l_id) throws SQLException {
+        return conn.createStatement().executeUpdate("UPDATE TEAM SET rank = "+ r.toString() +", name = " + n +", league_id = " + l_id.toString()+" WHERE team_id = " + id.toString() + "");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE "+ column +"="+ value +"");
     }
 
-    public Team teamDetail(int id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TEAM WHERE team_id = "+ id +"");
+    public Team teamDetail(Integer id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TEAM WHERE team_id = "+ id.toString() +"");
         var team = new Team();
         while (rs.next()) {
             team = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
@@ -55,7 +55,7 @@ public class TeamTable {
         return team;
     }
 
-    public void teamTransfer(int team_id, int league_id) {
+    public void teamTransfer(Integer team_id, Integer league_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call transferTeam(?, ?)}");
         ) {

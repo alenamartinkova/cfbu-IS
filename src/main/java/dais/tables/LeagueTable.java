@@ -20,20 +20,20 @@ public class LeagueTable {
         return leagues;
     }
 
-    public int insert(int id, int d, String n) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO LEAGUE (league_id, division, name) VALUES (" + id + ", " + d + ", "+ n +")");
+    public Integer insert(Integer id, Integer d, String n) throws SQLException {
+        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO LEAGUE (league_id, division, name) VALUES (" + id.toString() + ", " + d.toString() + ", "+ n +")");
     }
 
-    public int update(int id, int d, String n) throws SQLException {
+    public Integer update(Integer id, Integer d, String n) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("UPDATE LEAGUE SET division = "+ d +", name = " + n + " WHERE league_id = " + id +"");
     }
 
-    public int delete(String column, String value) throws SQLException {
+    public Integer delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE "+ column +"="+ value +"");
     }
 
-    public League leagueDetail(int id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE WHERE league_id = "+ id + "");
+    public League leagueDetail(Integer id) throws SQLException {
+        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE WHERE league_id = "+ id.toString() + "");
         var league = new League();
         while (rs.next()) {
             league = new League(rs.getInt(1), rs.getInt(2), rs.getString(3));
@@ -43,7 +43,7 @@ public class LeagueTable {
         return league;
     }
 
-    public void changeLeague(String name, int division, int old_league_id) {
+    public void changeLeague(String name, Integer division, Integer old_league_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
         ) {

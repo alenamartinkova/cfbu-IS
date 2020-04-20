@@ -1,11 +1,11 @@
 package dais.entities;
 
 public class WFC {
-    int id;
-    int year;
-    int a_id;
+    Integer id;
+    Integer year;
+    Integer a_id;
 
-    public WFC(int id, int y, int a) {
+    public WFC(Integer id, Integer y, Integer a) {
         this.id = id;
         this.year = y;
         this.a_id = a;
@@ -13,15 +13,15 @@ public class WFC {
 
     public WFC(){};
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return this.year;
     }
 
-    public int getAId() {
+    public Integer getAId() {
         return this.a_id;
     }
 }

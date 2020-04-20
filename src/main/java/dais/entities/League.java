@@ -1,11 +1,11 @@
 package dais.entities;
 
 public class League {
-    int id;
-    int division;
+    Integer id;
+    Integer division;
     String name;
 
-    public League(int id, int d, String n) {
+    public League(Integer id, Integer d, String n) {
         this.id = id;
         this.division = d;
         this.name = n;
@@ -13,11 +13,11 @@ public class League {
 
     public League(){};
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
-    public int getDivision() {
+    public Integer getDivision() {
         return this.division;
     }
 
