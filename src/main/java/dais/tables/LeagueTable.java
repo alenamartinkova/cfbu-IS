@@ -28,7 +28,7 @@ public class LeagueTable {
         return TeamTable.conn.createStatement().executeUpdate("UPDATE LEAGUE SET division = "+ d +", name = " + n + " WHERE league_id = " + id +"");
     }
 
-    public int delete(int column, int value) throws SQLException {
+    public int delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE "+ column +"="+ value +"");
     }
 

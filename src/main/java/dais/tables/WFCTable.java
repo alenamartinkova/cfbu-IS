@@ -28,7 +28,7 @@ public class WFCTable {
         return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC SET year = "+ y + ", address_id = " + a_id +" WHERE wfc_id = "+ id + "");
     }
 
-    public int delete(int column, int value) throws SQLException {
+    public int delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
     }
 

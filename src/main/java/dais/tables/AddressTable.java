@@ -28,7 +28,7 @@ public class AddressTable {
         return TeamTable.conn.createStatement().executeUpdate("UPDATE ADDRESS SET city = "+ c +", country = " + cou +", address_line = " + a +" WHERE address_id = "+ id +"");
     }
 
-    public int delete(int column, int value) throws SQLException {
+    public int delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE "+ column +"="+ value +"");
     }
 }

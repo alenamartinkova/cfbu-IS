@@ -28,7 +28,7 @@ public class RepreTable {
         return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE team_name = " + n + " WHERE repre_id = " + id + "");
     }
 
-    public int delete(int column, int value) throws SQLException {
+    public int delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE "+ column +"="+ value +"");
     }
 

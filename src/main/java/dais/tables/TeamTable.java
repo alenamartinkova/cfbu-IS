@@ -40,7 +40,7 @@ public class TeamTable {
         return conn.createStatement().executeUpdate("UPDATE TEAM SET rank = "+ r +", name = " + n +", league_id = " + l_id +" WHERE team_id = " + id + "");
     }
 
-    public int delete(int column, int value) throws SQLException {
+    public int delete(String column, String value) throws SQLException {
         return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE "+ column +"="+ value +"");
     }
 
