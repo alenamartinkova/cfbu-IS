@@ -41,7 +41,7 @@ public class TeamTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM TEAM WHERE "+ column +"="+ value +"");
     }
 
     public Team teamDetail(Integer id) throws SQLException {

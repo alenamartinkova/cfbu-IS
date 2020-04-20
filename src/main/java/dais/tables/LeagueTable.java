@@ -29,7 +29,7 @@ public class LeagueTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM LEAGUE WHERE "+ column +"="+ value +"");
     }
 
     public League leagueDetail(Integer id) throws SQLException {

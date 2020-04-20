@@ -29,7 +29,7 @@ public class RepreTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE WHERE "+ column +"="+ value +"");
     }
 
     public Repre repreDetail(Integer id) throws SQLException {

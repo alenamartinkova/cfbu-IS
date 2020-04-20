@@ -28,6 +28,6 @@ public class WFCRepreTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE "+ column +"="+ value +"");
     }
 }

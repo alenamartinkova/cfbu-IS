@@ -29,7 +29,7 @@ public class WFCTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
     }
 
     public WFC wfcDetail(Integer id) throws SQLException {

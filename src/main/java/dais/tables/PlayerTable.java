@@ -31,7 +31,7 @@ public class PlayerTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM PLAYER WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM PLAYER WHERE "+ column +"="+ value +"");
     }
 
     public Player playerDetail(Integer id) throws SQLException {

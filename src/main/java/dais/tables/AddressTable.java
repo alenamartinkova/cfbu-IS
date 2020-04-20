@@ -29,6 +29,6 @@ public class AddressTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM ADDRESS WHERE "+ column +"="+ value +"");
     }
 }

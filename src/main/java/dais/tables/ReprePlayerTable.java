@@ -28,6 +28,6 @@ public class ReprePlayerTable {
     }
 
     public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE '"+ column +"'='"+ value +"'");
+        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE "+ column +"="+ value +"");
     }
 }
