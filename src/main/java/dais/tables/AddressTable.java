@@ -20,7 +20,21 @@ public class AddressTable {
         return addresses;
     }
 
-    public Integer insert(Integer id, String c, String cou, String a) throws SQLException {
+    public Integer insert(Object ... values) throws SQLException {
+       /* try {
+            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?, ?)");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString((String)o);
+                }
+
+                if (o instanceof Integer ){
+                    insertStatement.setInt((String)o);
+                }
+            }
+        }
+        
+        */
         return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id.toString() + ", '" + c + "', '"+ cou +"', '" + a +"')");
     }
 
