@@ -1,6 +1,7 @@
 package dais.tables;
 
 import dais.entities.Address;
+import dais.entities.League;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +20,46 @@ public class AddressTable {
         rs.close();
         return addresses;
     }
+
+    public List<Address> fetchByAttr(Object ... values) {
+        var addr = new ArrayList<Address>();
+        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+
+        var queryStr = "SELECT * FROM ADDRESS WHERE ";
+        for (int i = 0; i < values.length; i++) {
+            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
+            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
+        }
+
+        try {
+            System.out.println(queryStr);
+            var query = TeamTable.conn.prepareStatement(queryStr);
+            var index = 1;
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+                }
+            }
+
+            var rs = query.executeQuery();
+            while (rs.next()) {
+                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return addr;
+    }
+
 
     public Integer insert(Object ... values) throws SQLException {
        try {
@@ -41,7 +82,6 @@ public class AddressTable {
        }
 
         return 1;
-        //return TeamTable.conn.createStatement().executeUpdate("INSERT INTO ADDRESS (address_id, city, country, address_line) VALUES (" + id.toString() + ", '" + c + "', '"+ cou +"', '" + a +"')");
     }
 
     public Integer update(Integer id, Object ... values) throws SQLException {

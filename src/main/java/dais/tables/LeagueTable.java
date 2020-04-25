@@ -1,4 +1,5 @@
 package dais.tables;
+import dais.entities.Address;
 import dais.entities.League;
 
 import java.sql.CallableStatement;
@@ -41,6 +42,45 @@ public class LeagueTable {
         }
 
         return 1;
+    }
+
+    public List<League> fetchByAttr(Object ... values) {
+        var league = new ArrayList<League>();
+        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+
+        var queryStr = "SELECT * FROM LEAGUE WHERE ";
+        for (int i = 0; i < values.length; i++) {
+            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
+            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
+        }
+
+        try {
+            System.out.println(queryStr);
+            var query = TeamTable.conn.prepareStatement(queryStr);
+            var index = 1;
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+                }
+            }
+
+            var rs = query.executeQuery();
+            while (rs.next()) {
+                league.add(new League(rs.getInt(1), rs.getInt(2), rs.getString(3)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return league;
     }
 
     public Integer update(Integer id, Object ... values) throws SQLException {
@@ -91,7 +131,9 @@ public class LeagueTable {
     }
 
     public League leagueDetail(Integer id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE WHERE league_id = "+ id.toString() + "");
+        var query = TeamTable.conn.prepareStatement("SELECT * FROM LEAGUE WHERE league_id = ?");
+        query.setInt(1, id);
+        var rs = query.executeQuery();
         var league = new League();
         while (rs.next()) {
             league = new League(rs.getInt(1), rs.getInt(2), rs.getString(3));
