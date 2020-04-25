@@ -1,5 +1,6 @@
 package dais.tables;
 
+import dais.entities.League;
 import dais.entities.Repre;
 
 import java.sql.SQLException;
@@ -20,6 +21,44 @@ public class RepreTable {
         return repres;
     }
 
+    public List<Repre> fetchByAttr(Object ... values) {
+        var repre = new ArrayList<Repre>();
+        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+
+        var queryStr = "SELECT * FROM REPRE WHERE ";
+        for (int i = 0; i < values.length; i++) {
+            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
+            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
+        }
+
+        try {
+            var query = TeamTable.conn.prepareStatement(queryStr);
+            var index = 1;
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+                }
+            }
+
+            var rs = query.executeQuery();
+            while (rs.next()) {
+                repre.add(new Repre(rs.getInt(1), rs.getString(2)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return repre;
+    }
+
     public Integer insert(Object ... values) {
         try {
             var index = 1;
@@ -35,13 +74,13 @@ public class RepreTable {
                     index++;
                 }
             }
-            insertStatement.executeUpdate();
+            return insertStatement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public Integer update(Integer id, Object ... values) {
@@ -60,36 +99,24 @@ public class RepreTable {
                 }
             }
             updateStatement.setInt(index, id);
-            updateStatement.executeUpdate();
-
+            return updateStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer delete(Object ... values) {
-        try {
-            var index = 1;
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM REPRE WHERE ? = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    deleteStatement.setString(index, (String)o);
-                    index++;
-                }
 
-                if (o instanceof Integer){
-                    deleteStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            deleteStatement.executeUpdate();
+    public Integer delete(Integer id) {
+        try {
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM REPRE WHERE REPRE_ID = "+ id.toString() +"");
+            return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public Repre repreDetail(Integer id) throws SQLException {

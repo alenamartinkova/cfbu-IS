@@ -1,5 +1,6 @@
 package dais.tables;
 
+import dais.entities.League;
 import dais.entities.Team;
 
 import java.sql.CallableStatement;
@@ -47,12 +48,12 @@ public class TeamTable {
                     index++;
                 }
             }
-            insertStatement.executeUpdate();
+            return insertStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public Integer update(Integer id, Object ... values) {
@@ -71,35 +72,62 @@ public class TeamTable {
                 }
             }
             updateStatement.setInt(index, id);
-            updateStatement.executeUpdate();
+            return updateStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer delete(Object ... values) {
-        try {
-            var index = 1;
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE ? = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    deleteStatement.setString(index, (String)o);
-                    index++;
-                }
+    public List<Team> fetchByAttr(Object ... values) {
+        var team = new ArrayList<Team>();
+        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-                if (o instanceof Integer){
-                    deleteStatement.setInt(index, (Integer)o);
-                    index++;
+        var queryStr = "SELECT * FROM TEAM WHERE ";
+        for (int i = 0; i < values.length; i++) {
+            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
+            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
+        }
+
+        try {
+            var query = conn.prepareStatement(queryStr);
+            var index = 1;
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
                 }
             }
-            deleteStatement.executeUpdate();
+
+            var rs = query.executeQuery();
+            while (rs.next()) {
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+            }
+            rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return team;
+    }
+
+
+    public Integer delete(Integer id) {
+        try {
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE TEAM_ID = "+ id.toString() +"");
+            return deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return -1;
     }
 
     public Team teamDetail(Integer id) throws SQLException {

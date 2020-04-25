@@ -1,7 +1,5 @@
 package dais.tables;
-
 import dais.entities.Address;
-import dais.entities.League;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ public class AddressTable {
         }
 
         try {
-            System.out.println(queryStr);
             var query = TeamTable.conn.prepareStatement(queryStr);
             var index = 1;
             for (int i = 0; i < values.length; i++) {
@@ -61,7 +58,7 @@ public class AddressTable {
     }
 
 
-    public Integer insert(Object ... values) throws SQLException {
+    public Integer insert(Object ... values) {
        try {
             var index = 1;
             var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?, ?)");
@@ -76,15 +73,15 @@ public class AddressTable {
                    index++;
                }
             }
-           insertStatement.executeUpdate();
+           return insertStatement.executeUpdate();
        } catch (SQLException e) {
            System.out.println(e);
        }
 
-        return 1;
+        return -1;
     }
 
-    public Integer update(Integer id, Object ... values) throws SQLException {
+    public Integer update(Integer id, Object ... values) {
         try {
             var index = 1;
             var updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, country = ?, address_line = ? WHERE address_id = ?");
@@ -100,34 +97,22 @@ public class AddressTable {
                 }
             }
             updateStatement.setInt(index, id);
-            updateStatement.executeUpdate();
+            return updateStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer delete(Object ... values) {
+    public Integer delete(Integer id) {
         try {
-            var index = 1;
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRES WHERE ? = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    deleteStatement.setString(index, (String)o);
-                    index++;
-                }
-
-                if (o instanceof Integer){
-                    deleteStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            deleteStatement.executeUpdate();
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRESS WHERE ADDRESS_ID = "+ id.toString() +"");
+            return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 }

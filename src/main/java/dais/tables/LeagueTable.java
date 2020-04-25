@@ -1,5 +1,4 @@
 package dais.tables;
-import dais.entities.Address;
 import dais.entities.League;
 
 import java.sql.CallableStatement;
@@ -21,7 +20,7 @@ public class LeagueTable {
         return leagues;
     }
 
-    public Integer insert(Object ... values) throws SQLException {
+    public Integer insert(Object ... values) {
         try {
             var index = 1;
             var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO LEAGUE VALUES (?, ?, ?)");
@@ -36,12 +35,12 @@ public class LeagueTable {
                     index++;
                 }
             }
-            insertStatement.executeUpdate();
+            return insertStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public List<League> fetchByAttr(Object ... values) {
@@ -55,7 +54,6 @@ public class LeagueTable {
         }
 
         try {
-            System.out.println(queryStr);
             var query = TeamTable.conn.prepareStatement(queryStr);
             var index = 1;
             for (int i = 0; i < values.length; i++) {
@@ -83,7 +81,7 @@ public class LeagueTable {
         return league;
     }
 
-    public Integer update(Integer id, Object ... values) throws SQLException {
+    public Integer update(Integer id, Object ... values) {
         try {
             var index = 1;
             var updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET division = ?, name = ? WHERE league_id = ?");
@@ -99,35 +97,23 @@ public class LeagueTable {
                 }
             }
             updateStatement.setInt(index, id);
-            updateStatement.executeUpdate();
+            return updateStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer delete(Object ... values) throws SQLException {
+    public Integer delete(Integer id) {
         try {
-            var index = 1;
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE ? = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    deleteStatement.setString(index, (String)o);
-                    index++;
-                }
-
-                if (o instanceof Integer){
-                    deleteStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            deleteStatement.executeUpdate();
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE LEAGUE_ID = "+ id.toString() +"");
+            return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public League leagueDetail(Integer id) throws SQLException {

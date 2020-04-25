@@ -20,7 +20,46 @@ public class WFCTable {
         return wfcs;
     }
 
-    public Integer insert(Object ... values) throws SQLException {
+    public List<WFC> fetchByAttr(Object ... values) {
+        var wfc = new ArrayList<WFC>();
+        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+
+        var queryStr = "SELECT * FROM WFC WHERE ";
+        for (int i = 0; i < values.length; i++) {
+            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
+            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
+        }
+
+        try {
+            var query = TeamTable.conn.prepareStatement(queryStr);
+            var index = 1;
+            for (int i = 0; i < values.length; i++) {
+                if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+                }
+            }
+
+            var rs = query.executeQuery();
+            while (rs.next()) {
+                wfc.add(new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return wfc;
+    }
+
+
+    public Integer insert(Object ... values) {
         try {
             var index = 1;
             var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO WFC VALUES (?, ?, ?)");
@@ -36,15 +75,15 @@ public class WFCTable {
                 }
             }
 
-            insertStatement.executeUpdate();
+            return insertStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer update(Integer id, Object ... values) throws SQLException {
+    public Integer update(Integer id, Object ... values) {
         try {
             var index = 1;
             var updateStatement = TeamTable.conn.prepareStatement("UPDATE WFC SET year = ?, address_id = ? WHERE wfc_id = ?");
@@ -60,35 +99,23 @@ public class WFCTable {
                 }
             }
             updateStatement.setInt(index, id);
-            updateStatement.executeUpdate();
+            return updateStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
-    public Integer delete(Object ... values) {
+    public Integer delete(Integer id) {
         try {
-            var index = 1;
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM WFC WHERE ? = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    deleteStatement.setString(index, (String)o);
-                    index++;
-                }
-
-                if (o instanceof Integer){
-                    deleteStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            deleteStatement.executeUpdate();
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM WFC WHERE WFC_ID = "+ id.toString() +"");
+            return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return 1;
+        return -1;
     }
 
     public WFC wfcDetail(Integer id) throws SQLException {
