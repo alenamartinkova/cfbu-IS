@@ -22,16 +22,74 @@ public class PlayerTable {
         return players;
     }
 
-    public Integer insert(Integer id, String f_name, String l_name, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO PLAYER (player_id, first_name, last_name, assists, goals, address_id, team_id, year_born) VALUES (" + id.toString() + ", '" + f_name + "', '"+ l_name +"', " + a.toString() +", " + g.toString() + ", " + a_id.toString() + ", " + t_id.toString() + ", " + y.toString() + " )");
+    public Integer insert(Object ... values) {
+        try {
+            var index = 1;
+            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO PLAYER VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    insertStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer update(Integer id, String f_name, String l_name, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE PLAYER SET first_name = '" + f_name +"', last_name = '"+ l_name +"', assists = "+ a.toString() +", goals = "+ g.toString() +", address_id = " + a_id.toString() +", team_id = " + t_id.toString() +", year_born = " + y.toString() +" WHERE player_id = "+ id.toString() +"");
+    public Integer update(Integer id, Object ... values) {
+        try {
+            var index = 1;
+            var updateStatement = TeamTable.conn.prepareStatement("UPDATE PLAYER SET first_name = ?, last_name = ?, assists = ?, goals = ?, address_id = ?, team_id = ?, year_born = ? WHERE player_id = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    updateStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    updateStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+            }
+            updateStatement.setInt(index, id);
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM PLAYER WHERE "+ column +"="+ value +"");
+    public Integer delete(Object ... values) {
+        try {
+            var index = 1;
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE ? = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    deleteStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer){
+                    deleteStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
     public Player playerDetail(Integer id) throws SQLException {

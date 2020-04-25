@@ -19,15 +19,73 @@ public class ReprePlayerTable {
         return players;
     }
 
-    public Integer insert(Integer y, Integer p_id, Integer r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO REPRE_PLAYER (year, player_id, repre_id) VALUES (" + y.toString() + ", " + p_id.toString() + ", "+ r_id.toString() +")");
+    public Integer insert(Object ... values) throws SQLException {
+        try {
+            var index = 1;
+            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO REPRE_PLAYER VALUES (?, ?, ?)");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    insertStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer update(Integer y, Integer p_id, Integer r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE REPRE_PLAYER SET year = "+ y.toString() +" WHERE player_id = "+ p_id.toString() +" AND repre_id = " + r_id.toString() +"");
+    public Integer update(Integer id, Object ... values) throws SQLException {
+        try {
+            var index = 1;
+            var updateStatement = TeamTable.conn.prepareStatement("UPDATE REPRE_PLAYER SET year = ? WHERE repre_id = ? AND player_id = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                   updateStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    updateStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            updateStatement.setInt(index, id);
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM REPRE_PLAYER WHERE "+ column +"="+ value +"");
+    public Integer delete(Object ... values) throws SQLException {
+        try {
+            var index = 1;
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM REPRE_PLAYER WHERE ? = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    deleteStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer){
+                    deleteStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 }

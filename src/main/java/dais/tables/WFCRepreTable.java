@@ -19,15 +19,63 @@ public class WFCRepreTable {
         return wfc_repres;
     }
 
-    public Integer insert(Integer id, Integer r, Integer r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC_REPRE (wfc_id, rank, repre_id) VALUES (" + id.toString() + "," + r.toString() +", "+ r_id.toString() +")");
+    public Integer insert(Object ... values) {
+        try {
+            var index = 1;
+            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO WFC_REPRE VALUES (?, ?, ?)");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    insertStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+            }
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer update(Integer id, Integer r, Integer r_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC_REPRE SET rank = " + r.toString() + " WHERE repre_id = " + r_id.toString() +" AND wfc_id = " + id.toString() + "");
+    public Integer update(Integer r_id, Integer w_id, Integer rank) {
+        try {
+            var insertStatement = TeamTable.conn.prepareStatement("UPDATE WFC_REPRE SET rank = ? WHERE repre_id = ? AND wfc_id = ?");
+            insertStatement.setInt(1, rank);
+            insertStatement.setInt(2, r_id);
+            insertStatement.setInt(3, w_id);
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC_REPRE WHERE "+ column +"="+ value +"");
+    public Integer delete(Object ... values) {
+        try {
+            var index = 1;
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM WFC_REPRE WHERE ? = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    deleteStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer){
+                    deleteStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 }

@@ -20,20 +20,81 @@ public class WFCTable {
         return wfcs;
     }
 
-    public Integer insert(Integer id, Integer y, Integer a_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("INSERT INTO WFC (wfc_id, year, address_id) VALUES (" + id.toString() + "," + y.toString() +", "+ a_id.toString() +")");
+    public Integer insert(Object ... values) throws SQLException {
+        try {
+            var index = 1;
+            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO WFC VALUES (?, ?, ?)");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    insertStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+            }
+
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer update(Integer id, Integer y, Integer a_id) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("UPDATE WFC SET year = "+ y.toString() + ", address_id = " + a_id.toString() +" WHERE wfc_id = "+ id.toString() + "");
+    public Integer update(Integer id, Object ... values) throws SQLException {
+        try {
+            var index = 1;
+            var updateStatement = TeamTable.conn.prepareStatement("UPDATE WFC SET year = ?, address_id = ? WHERE wfc_id = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    updateStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer ){
+                    updateStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+            }
+            updateStatement.setInt(index, id);
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
-    public Integer delete(String column, String value) throws SQLException {
-        return TeamTable.conn.createStatement().executeUpdate("DELETE FROM WFC WHERE "+ column +"="+ value +"");
+    public Integer delete(Object ... values) {
+        try {
+            var index = 1;
+            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM WFC WHERE ? = ?");
+            for (Object o : values) {
+                if (o instanceof String) {
+                    deleteStatement.setString(index, (String)o);
+                    index++;
+                }
+
+                if (o instanceof Integer){
+                    deleteStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+            }
+            deleteStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return 1;
     }
 
     public WFC wfcDetail(Integer id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC WHERE wfc_id = " + id.toString() +"");
+        var query = TeamTable.conn.prepareStatement("SELECT * FROM WFC WHERE wfc_id = ?");
+        query.setInt(1, id);
+        var rs = query.executeQuery();
         var wfc = new WFC();
         while (rs.next()) {
             wfc = new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3));
