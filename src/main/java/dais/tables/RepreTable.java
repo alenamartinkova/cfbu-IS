@@ -118,15 +118,4 @@ public class RepreTable {
 
         return -1;
     }
-
-    public Repre repreDetail(Integer id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE WHERE repre_id = "+ id.toString() + "");
-        var repre = new Repre();
-        while (rs.next()) {
-            repre = new Repre(rs.getInt(1), rs.getString(2));
-        }
-
-        rs.close();
-        return repre;
-    }
 }

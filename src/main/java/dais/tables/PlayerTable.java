@@ -119,18 +119,6 @@ public class PlayerTable {
         return -1;
     }
 
-
-    public Player playerDetail(Integer id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER WHERE player_id = "+ id.toString() +"");
-        var player = new Player();
-        while (rs.next()) {
-            player = new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
-        }
-
-        rs.close();
-        return player;
-    }
-
     public void playerTransfer(Integer player_id, Integer team_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call playerTransfer(?, ?)}");

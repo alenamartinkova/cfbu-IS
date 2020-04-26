@@ -13,6 +13,7 @@ public class Main {
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
 
+        wt.wfcDetail(2);
        //runTests(at, lt, pt, rt, tt, wt);
     }
 

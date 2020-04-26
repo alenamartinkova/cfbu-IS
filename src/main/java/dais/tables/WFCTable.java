@@ -118,19 +118,6 @@ public class WFCTable {
         return -1;
     }
 
-    public WFC wfcDetail(Integer id) throws SQLException {
-        var query = TeamTable.conn.prepareStatement("SELECT * FROM WFC WHERE wfc_id = ?");
-        query.setInt(1, id);
-        var rs = query.executeQuery();
-        var wfc = new WFC();
-        while (rs.next()) {
-            wfc = new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3));
-        }
-
-        rs.close();
-        return wfc;
-    }
-
     public void changeWFCAddress(Integer id, Integer address_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call changeWFCAddress(?, ?)}");

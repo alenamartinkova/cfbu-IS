@@ -130,17 +130,6 @@ public class TeamTable {
         return -1;
     }
 
-    public Team teamDetail(Integer id) throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TEAM WHERE team_id = "+ id.toString() +"");
-        var team = new Team();
-        while (rs.next()) {
-            team = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
-        }
-
-        rs.close();
-        return team;
-    }
-
     public void teamTransfer(Integer team_id, Integer league_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call transferTeam(?, ?)}");

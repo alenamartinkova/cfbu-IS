@@ -116,19 +116,6 @@ public class LeagueTable {
         return -1;
     }
 
-    public League leagueDetail(Integer id) throws SQLException {
-        var query = TeamTable.conn.prepareStatement("SELECT * FROM LEAGUE WHERE league_id = ?");
-        query.setInt(1, id);
-        var rs = query.executeQuery();
-        var league = new League();
-        while (rs.next()) {
-            league = new League(rs.getInt(1), rs.getInt(2), rs.getString(3));
-        }
-
-        rs.close();
-        return league;
-    }
-
     public void changeLeague(String name, Integer division, Integer old_league_id) {
         try (
                 CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
