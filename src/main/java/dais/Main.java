@@ -13,7 +13,7 @@ public class Main {
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
 
-        wt.wfcDetail(2);
+        tt.teamTransfer(2,2);
        //runTests(at, lt, pt, rt, tt, wt);
     }
 
@@ -55,6 +55,10 @@ public class Main {
         //DELETE
         System.out.println(lt.delete(5));
 
+        //CREATE NEW LEAGUE AND ADD ALL THE TEAMS FROM OLD LEAGUE TO IT
+        lt.changeLeague("TEST", 1, 1);
+
+
         /*
         PLAYER TABLE TESTS
          */
@@ -72,6 +76,9 @@ public class Main {
 
         //DELETE
         System.out.println(pt.delete(61));
+
+        //PLAYER TRANSFER PROCEDURE
+        pt.playerTransfer(1, 1);
 
          /*
         REPRE TABLE TESTS
