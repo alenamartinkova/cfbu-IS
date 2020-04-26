@@ -36,7 +36,7 @@ public class Main {
         // DELETE
         System.out.println(at.delete(42));
 
-        /*
+          /*
         LEAGUE TABLE TESTS
          */
         //SELECT
@@ -53,5 +53,23 @@ public class Main {
 
         //DELETE
         System.out.println(lt.delete(5));
+        
+        /*
+        PLAYER TABLE TESTS
+         */
+        //SELECT
+        System.out.println(pt.fetch());
+        //SELECT BY ATTRIBUTE
+        System.out.println(pt.fetchByAttr("PLAYER_ID", 1));
+        System.out.println(pt.fetchByAttr("ASSISTS", 3, "GOALS", 7));
+
+        //INSERT
+        System.out.println(pt.insert(61, "Test", "Test", 1, 12, 4, 3, 1997));
+
+        //UPDATE
+        System.out.println(pt.update(61, "Test", "Test", 2, 10, 4, 3, 1997));
+
+        //DELETE
+        System.out.println(pt.delete(61));
     }
 }
