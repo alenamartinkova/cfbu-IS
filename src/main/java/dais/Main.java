@@ -17,20 +17,41 @@ public class Main {
     }
 
     private static void runTests(AddressTable at, LeagueTable lt, PlayerTable pt, RepreTable rt, TeamTable tt, WFCTable wt) throws SQLException {
-        // ADDRESS TABLE TESTS
-        //SELECT
+        /*
+         ADDRESS TABLE TESTS
+        */
+
+        // SELECT
         System.out.println(at.fetch());
-        //SELECT BY ATTRIBUTE
+        // SELECT BY ATTRIBUTE
         System.out.println(at.fetchByAttr("ADDRESS_ID", 1));
         System.out.println(at.fetchByAttr("CITY", "Ostrava", "COUNTRY", "Czech Republic"));
 
+        // INSERT
+        System.out.println(at.insert(42, "Banska Bystrica", "Slovakia", "Moskovska 23"));
+
+        // UPDATE
+        System.out.println(at.update(42, "Kosice", "Slovakia", "Kosicka 1"));
+
+        // DELETE
+        System.out.println(at.delete(42));
+
+        /*
+        LEAGUE TABLE TESTS
+         */
+        //SELECT
+        System.out.println(lt.fetch());
+        //SELECT BY ATTRIBUTE
+        System.out.println(lt.fetchByAttr("LEAGUE_ID", 1));
+        System.out.println(lt.fetchByAttr("DIVISION", 2, "NAME", "Prvá liga"));
+
         //INSERT
-        at.insert(42, "Banska Bystrica", "Slovakia", "Moskovska 23");
+        System.out.println(lt.insert(5, 5, "Random liga"));
 
         //UPDATE
-        at.update(42, "Kosice", "Slovakia", "Kosicka 1");
+        System.out.println(lt.update(5, 5, "Update random liga"));
 
         //DELETE
-        at.delete(42);
+        System.out.println(lt.delete(5));
     }
 }
