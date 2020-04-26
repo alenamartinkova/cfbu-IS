@@ -13,7 +13,8 @@ public class Main {
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
 
-        tt.teamTransfer(2,2);
+        pt.repreTeammates(1);
+
        //runTests(at, lt, pt, rt, tt, wt);
     }
 
@@ -114,6 +115,10 @@ public class Main {
         //DELETE
         System.out.println(tt.delete(29));
 
+        //TEAM TRANSFER
+        tt.teamTransfer(2,2);
+
+
         /*
         WFC TABLE TESTS
          */
@@ -128,7 +133,10 @@ public class Main {
         //UPDATE
         System.out.println(wt.update(5, 2021, 5));
 
-        //DELETE
+        // DELETE
         System.out.println(wt.delete(5));
+
+        // CHANGE WFC ADDRESS
+        wt.changeWFCAddress(1,29);
     }
 }
