@@ -12,8 +12,7 @@ public class Main {
         RepreTable rt = new RepreTable();
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
-
-        System.out.println(rt.delete(17));
+        
 
        //runTests(at, lt, pt, rt, tt, wt);
     }
@@ -90,5 +89,22 @@ public class Main {
 
         //DELETE
         System.out.println(rt.delete(17));
+
+         /*
+        TEAM TABLE TESTS
+         */
+        //SELECT
+        System.out.println(tt.fetch());
+        //SELECT BY ATTRIBUTE
+        System.out.println(tt.fetchByAttr("TEAM_ID", 8));
+
+        //INSERT
+        System.out.println(tt.insert(29, 9, "Team test", 3));
+
+        //UPDATE
+        System.out.println(tt.update(29, 9, "Team update test", 3));
+
+        //DELETE
+        System.out.println(tt.delete(29));
     }
 }
