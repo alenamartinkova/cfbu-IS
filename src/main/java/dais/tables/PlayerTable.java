@@ -1,10 +1,13 @@
 package dais.tables;
 
 import dais.entities.Player;
+import oracle.jdbc.OracleType;
+import oracle.jdbc.OracleTypes;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,18 +136,22 @@ public class PlayerTable {
         }
     }
 
-    public List<Player> repreTeammates(Integer player_id) {
+    public List<Player> repreTeammates(Integer p_id) {
         var players = new ArrayList<Player>();
 
         try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {call repreTeammates(?)}");
+                CallableStatement statement = TeamTable.conn.prepareCall("{? = call repreTeammatesFunc(?)}");
         ) {
-            statement.setInt(1, player_id );
+            statement.registerOutParameter(1, Types.REF_CURSOR);
+            statement.setInt(2, p_id );
             ResultSet rs = statement.executeQuery();
+
+            System.out.println(rs);
+           /* System.exit(2);
             while (rs.next()) {
                 players.add(new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
             }
-            statement.close();
+            statement.close();*/
             System.out.println("OK");
         } catch (SQLException e) {
             e.printStackTrace();
