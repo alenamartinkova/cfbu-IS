@@ -13,7 +13,9 @@ public class Main {
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
 
-       runTests(at, lt, pt, rt, tt, wt);
+        System.out.println(rt.delete(17));
+
+       //runTests(at, lt, pt, rt, tt, wt);
     }
 
     private static void runTests(AddressTable at, LeagueTable lt, PlayerTable pt, RepreTable rt, TeamTable tt, WFCTable wt) throws SQLException {
@@ -53,7 +55,7 @@ public class Main {
 
         //DELETE
         System.out.println(lt.delete(5));
-        
+
         /*
         PLAYER TABLE TESTS
          */
@@ -71,5 +73,22 @@ public class Main {
 
         //DELETE
         System.out.println(pt.delete(61));
+
+         /*
+        REPRE TABLE TESTS
+         */
+        //SELECT
+        System.out.println(rt.fetch());
+        //SELECT BY ATTRIBUTE
+        System.out.println(rt.fetchByAttr("REPRE_ID", 8));
+
+        //INSERT
+        System.out.println(rt.insert(17, "Uganda"));
+
+        //UPDATE
+        System.out.println(rt.update(17, "Keňa"));
+
+        //DELETE
+        System.out.println(rt.delete(17));
     }
 }
