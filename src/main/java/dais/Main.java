@@ -12,7 +12,6 @@ public class Main {
         RepreTable rt = new RepreTable();
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
-        
 
        //runTests(at, lt, pt, rt, tt, wt);
     }
@@ -106,5 +105,22 @@ public class Main {
 
         //DELETE
         System.out.println(tt.delete(29));
+
+        /*
+        WFC TABLE TESTS
+         */
+        //SELECT
+        System.out.println(wt.fetch());
+        //SELECT BY ATTRIBUTE
+        System.out.println(wt.fetchByAttr("WFC_ID", 2));
+
+        //INSERT
+        System.out.println(wt.insert(5, 2021, 4));
+
+        //UPDATE
+        System.out.println(wt.update(5, 2021, 5));
+
+        //DELETE
+        System.out.println(wt.delete(5));
     }
 }
