@@ -33,7 +33,7 @@ begin
     FOR i IN p_start..p_end LOOP
         update team
         set rank = rank - 1
-        where rank = i;
+        where rank = i AND LEAGUE_ID = p_old_league_id;
     END LOOP;
     COMMIT;
 Exception
@@ -43,5 +43,4 @@ Exception
         print('Error' || SQLCODE || SQLERRM );
     ROLLBACK;
 end;
-/
 
