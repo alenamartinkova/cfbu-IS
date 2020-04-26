@@ -21,8 +21,8 @@ public class WFCTable {
     }
 
     public List<WFC> fetchByAttr(Object ... values) {
+        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         var wfc = new ArrayList<WFC>();
-        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         var queryStr = "SELECT * FROM WFC WHERE ";
         for (int i = 0; i < values.length; i++) {

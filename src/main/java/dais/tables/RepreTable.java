@@ -22,8 +22,8 @@ public class RepreTable {
     }
 
     public List<Repre> fetchByAttr(Object ... values) {
+        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         var repre = new ArrayList<Repre>();
-        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         var queryStr = "SELECT * FROM REPRE WHERE ";
         for (int i = 0; i < values.length; i++) {

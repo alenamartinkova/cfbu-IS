@@ -24,7 +24,7 @@ public class PlayerTable {
 
     public List<Player> fetchByAttr(Object ... values) {
         var player = new ArrayList<Player>();
-        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         var queryStr = "SELECT * FROM PLAYER WHERE ";
         for (int i = 0; i < values.length; i++) {

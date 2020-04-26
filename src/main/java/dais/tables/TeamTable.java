@@ -81,8 +81,8 @@ public class TeamTable {
     }
 
     public List<Team> fetchByAttr(Object ... values) {
+        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         var team = new ArrayList<Team>();
-        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         var queryStr = "SELECT * FROM TEAM WHERE ";
         for (int i = 0; i < values.length; i++) {

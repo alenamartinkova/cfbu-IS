@@ -21,7 +21,7 @@ public class AddressTable {
 
     public List<Address> fetchByAttr(Object ... values) {
         var addr = new ArrayList<Address>();
-        if (values.length % 2 != 0) throw new IllegalArgumentException("There must be even number of arguments.");
+        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         var queryStr = "SELECT * FROM ADDRESS WHERE ";
         for (int i = 0; i < values.length; i++) {
