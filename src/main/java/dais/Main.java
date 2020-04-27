@@ -12,10 +12,12 @@ public class Main {
         RepreTable rt = new RepreTable();
         TeamTable tt = new TeamTable();
         WFCTable wt = new WFCTable();
-
-        pt.repreTeammates(1);
-
-       //runTests(at, lt, pt, rt, tt, wt);
+        /*
+        Do testov som nedala spojovacie tabulky (WFC_REPRE a REPRE_PLAYER) z dôvodu,
+        že v analýze ich funkcie nie sú,
+        CRUD funkcie som si však vytvorila pre vlastné použitie
+         */
+        runTests(at, lt, pt, rt, tt, wt);
     }
 
     private static void runTests(AddressTable at, LeagueTable lt, PlayerTable pt, RepreTable rt, TeamTable tt, WFCTable wt) throws SQLException {
@@ -80,6 +82,10 @@ public class Main {
 
         //PLAYER TRANSFER PROCEDURE
         pt.playerTransfer(1, 1);
+
+        //REPRE TEAMMATERS FUNCTION
+        //FOR THIS YEAR IT RETURNS []
+        pt.repreTeammates(1);
 
          /*
         REPRE TABLE TESTS
