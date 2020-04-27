@@ -17,6 +17,10 @@ public class Main {
         že v analýze ich funkcie nie sú,
         CRUD funkcie som si však vytvorila pre vlastné použitie
          */
+
+        /*
+        Funkcie fetchByAttr sú vlastne aj funkcie Detail tímu, Detail hráča, apod. keď selectujeme podľa ID
+         */
         runTests(at, lt, pt, rt, tt, wt);
     }
 
@@ -122,7 +126,7 @@ public class Main {
         System.out.println(tt.delete(29));
 
         //TEAM TRANSFER
-        tt.teamTransfer(2,2);
+        tt.teamTransfer(1,2);
 
 
         /*

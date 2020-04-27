@@ -25,17 +25,17 @@ begin
     from TEAM
     WHERE LEAGUE_ID = p_new_league_id;
 
+    select count(*)
+    into p_end
+    from TEAM
+    where LEAGUE_ID = p_old_league_id;
+
     update TEAM
     set LEAGUE_ID = p_new_league_id,
         RANK = p_new_rank
     where team_id = p_id_team;
 
     p_start := p_old_rank + 1;
-
-    select count(*)
-    into p_end
-    from TEAM
-    where LEAGUE_ID = p_old_league_id;
 
     FOR i IN p_start..p_end LOOP
         update team
