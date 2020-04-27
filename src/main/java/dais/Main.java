@@ -21,6 +21,11 @@ public class Main {
         /*
         Funkcie fetchByAttr sú vlastne aj funkcie Detail tímu, Detail hráča, apod. keď selectujeme podľa ID
          */
+
+        /*
+        Autoinkrement IDčiek by som doriešila pri vyvíjaní aplikácie. Do chýb ste mi to nepísali, ale viem,
+        že by bolo fajn to mať naimplementované. 
+         */
         runTests(at, lt, pt, rt, tt, wt);
     }
 
