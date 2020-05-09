@@ -11,7 +11,7 @@ import java.util.List;
 public class RepreTable {
     public RepreTable(){};
 
-    public List<Repre> fetch() throws SQLException {
+    public ArrayList<Repre> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE");
         ArrayList<Repre> repres = new ArrayList<Repre>();
         while (rs.next()) {
@@ -22,7 +22,7 @@ public class RepreTable {
         return repres;
     }
 
-    public List<Repre> fetchByAttr(Object ... values) {
+    public ArrayList<Repre> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<Repre> repre = new ArrayList<Repre>();
 

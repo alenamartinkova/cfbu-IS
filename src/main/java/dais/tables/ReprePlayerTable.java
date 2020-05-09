@@ -11,7 +11,7 @@ import java.util.List;
 public class ReprePlayerTable {
     public ReprePlayerTable(){};
 
-    public List<ReprePlayer> fetch() throws SQLException {
+    public ArrayList<ReprePlayer> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE_PLAYER");
         ArrayList<ReprePlayer> players = new ArrayList<ReprePlayer>();
         while (rs.next()) {

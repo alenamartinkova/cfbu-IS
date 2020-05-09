@@ -10,7 +10,7 @@ import java.util.List;
 public class AddressTable {
     public AddressTable(){};
 
-    public List<Address> fetch() throws SQLException {
+    public ArrayList<Address> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
         ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
@@ -21,7 +21,7 @@ public class AddressTable {
         return addresses;
     }
 
-    public List<Address> fetchByAttr(Object ... values) {
+    public ArrayList<Address> fetchByAttr(Object ... values) {
         ArrayList<Address> addr = new ArrayList<Address>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 

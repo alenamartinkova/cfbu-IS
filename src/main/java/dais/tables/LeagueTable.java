@@ -11,7 +11,7 @@ import java.util.List;
 public class LeagueTable {
     public LeagueTable(){};
 
-    public List<League> fetch() throws SQLException {
+    public ArrayList<League> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
         ArrayList<League> leagues = new ArrayList<League>();
         while (rs.next()) {
@@ -45,7 +45,7 @@ public class LeagueTable {
         return -1;
     }
 
-    public List<League> fetchByAttr(Object ... values) {
+    public ArrayList<League> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<League> league = new ArrayList<League>();
 
@@ -116,21 +116,6 @@ public class LeagueTable {
         }
 
         return -1;
-    }
-
-    public void changeLeague(String name, Integer division, Integer old_league_id) {
-        try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
-        ) {
-            statement.setString(1, name );
-            statement.setInt(2, division );
-            statement.setInt(3, old_league_id );
-            statement.execute();
-            statement.close();
-            System.out.println("OK");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
 

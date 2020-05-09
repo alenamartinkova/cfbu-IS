@@ -9,7 +9,7 @@ import java.util.List;
 public class PlayerTable {
     public PlayerTable(){};
 
-    public List<Player> fetch() throws SQLException {
+    public ArrayList<Player> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
         ArrayList<Player> players = new ArrayList<>();
         while (rs.next()) {
@@ -20,7 +20,7 @@ public class PlayerTable {
         return players;
     }
 
-    public List<Player> fetchByAttr(Object ... values) {
+    public ArrayList<Player> fetchByAttr(Object ... values) {
         ArrayList<Player> player = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -131,7 +131,7 @@ public class PlayerTable {
         }
     }
 
-    public List<Player> repreTeammates(Integer p_id) {
+    public ArrayList<Player> repreTeammates(Integer p_id) {
         ArrayList<Player> players = new ArrayList<>();
 
         try (

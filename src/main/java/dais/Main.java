@@ -47,9 +47,6 @@ public class Main {
         //DELETE
         System.out.println(lt.delete(5));
 
-        //CREATE NEW LEAGUE AND ADD ALL THE TEAMS FROM OLD LEAGUE TO IT
-        lt.changeLeague("TEST", 1, 1);
-
 
         /*
         PLAYER TABLE TESTS
@@ -112,6 +109,9 @@ public class Main {
 
         //TEAM TRANSFER
         tt.teamTransfer(1,2);
+
+        //CREATE NEW LEAGUE AND ADD ALL THE TEAMS FROM OLD LEAGUE TO IT
+        tt.changeLeague("TEST", 1, 1);
 
 
         /*

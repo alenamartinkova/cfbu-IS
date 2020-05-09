@@ -18,7 +18,7 @@ public class TeamTable {
         }
     }
 
-    public List<Team> fetch() throws SQLException {
+    public ArrayList<Team> fetch() throws SQLException {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
@@ -76,7 +76,7 @@ public class TeamTable {
         return -1;
     }
 
-    public List<Team> fetchByAttr(Object ... values) {
+    public ArrayList<Team> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<Team> team = new ArrayList<Team>();
 
@@ -132,6 +132,21 @@ public class TeamTable {
         ) {
             statement.setInt(1, team_id );
             statement.setInt(2, league_id );
+            statement.execute();
+            statement.close();
+            System.out.println("OK");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeLeague(String name, Integer division, Integer old_league_id) {
+        try (
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
+        ) {
+            statement.setString(1, name );
+            statement.setInt(2, division );
+            statement.setInt(3, old_league_id );
             statement.execute();
             statement.close();
             System.out.println("OK");

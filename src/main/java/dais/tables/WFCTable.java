@@ -11,7 +11,7 @@ import java.util.List;
 public class WFCTable {
     public WFCTable(){};
 
-    public List<WFC> fetch() throws SQLException {
+    public ArrayList<WFC> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC");
         ArrayList<WFC> wfcs = new ArrayList<WFC>();
         while (rs.next()) {
@@ -22,7 +22,7 @@ public class WFCTable {
         return wfcs;
     }
 
-    public List<WFC> fetchByAttr(Object ... values) {
+    public ArrayList<WFC> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<WFC> wfc = new ArrayList<WFC>();
 

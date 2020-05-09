@@ -11,7 +11,7 @@ import java.util.List;
 public class WFCRepreTable {
     public WFCRepreTable(){};
 
-    public List<WFCRepre> fetch() throws SQLException {
+    public ArrayList<WFCRepre> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC_REPRE");
         ArrayList<WFCRepre> wfc_repres = new ArrayList<WFCRepre>();
         while (rs.next()) {
