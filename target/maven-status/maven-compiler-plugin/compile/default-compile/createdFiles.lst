@@ -1,0 +1,17 @@
+dais/tables/ReprePlayerTable.class
+dais/entities/Player.class
+dais/tables/TeamTable.class
+dais/entities/Address.class
+dais/entities/WFCRepre.class
+dais/entities/League.class
+dais/tables/AddressTable.class
+dais/tables/PlayerTable.class
+dais/tables/LeagueTable.class
+dais/Main.class
+dais/entities/Repre.class
+dais/entities/WFC.class
+dais/tables/WFCRepreTable.class
+dais/tables/RepreTable.class
+dais/tables/WFCTable.class
+dais/entities/Team.class
+dais/entities/ReprePlayer.class

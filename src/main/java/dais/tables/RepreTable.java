@@ -2,6 +2,7 @@ package dais.tables;
 
 import dais.entities.Repre;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class RepreTable {
 
     public List<Repre> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE");
-        var repres = new ArrayList<Repre>();
+        ArrayList<Repre> repres = new ArrayList<Repre>();
         while (rs.next()) {
             repres.add(new Repre(rs.getInt(1), rs.getString(2)));
         }
@@ -23,17 +24,17 @@ public class RepreTable {
 
     public List<Repre> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-        var repre = new ArrayList<Repre>();
+        ArrayList<Repre> repre = new ArrayList<Repre>();
 
-        var queryStr = "SELECT * FROM REPRE WHERE ";
+        String queryStr = "SELECT * FROM REPRE WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
         }
 
         try {
-            var query = TeamTable.conn.prepareStatement(queryStr);
-            var index = 1;
+            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
                     if (values[i] instanceof String) {
@@ -61,8 +62,8 @@ public class RepreTable {
 
     public Integer insert(Object ... values) {
         try {
-            var index = 1;
-            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO REPRE VALUES (?, ?)");
+            Integer index = 1;
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO REPRE VALUES (?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -85,8 +86,8 @@ public class RepreTable {
 
     public Integer update(Integer id, Object ... values) {
         try {
-            var index = 1;
-            var updateStatement = TeamTable.conn.prepareStatement("UPDATE REPRE SET team_name = ? WHERE repre_id = ?");
+            Integer index = 1;
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE REPRE SET team_name = ? WHERE repre_id = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -110,7 +111,7 @@ public class RepreTable {
 
     public Integer delete(Integer id) {
         try {
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM REPRE WHERE REPRE_ID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM REPRE WHERE REPRE_ID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

@@ -2,6 +2,7 @@ package dais.tables;
 import dais.entities.League;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class LeagueTable {
 
     public List<League> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
-        var leagues = new ArrayList<League>();
+        ArrayList<League> leagues = new ArrayList<League>();
         while (rs.next()) {
             leagues.add(new League(rs.getInt(1), rs.getInt(2), rs.getString(3)));
         }
@@ -23,8 +24,8 @@ public class LeagueTable {
 
     public Integer insert(Object ... values) {
         try {
-            var index = 1;
-            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO LEAGUE VALUES (?, ?, ?)");
+            Integer index = 1;
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO LEAGUE VALUES (?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                    insertStatement.setString(index, (String)o);
@@ -46,17 +47,17 @@ public class LeagueTable {
 
     public List<League> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-        var league = new ArrayList<League>();
+        ArrayList<League> league = new ArrayList<League>();
 
-        var queryStr = "SELECT * FROM LEAGUE WHERE ";
+        String queryStr = "SELECT * FROM LEAGUE WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
         }
 
         try {
-            var query = TeamTable.conn.prepareStatement(queryStr);
-            var index = 1;
+            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
                     if (values[i] instanceof String) {
@@ -84,8 +85,8 @@ public class LeagueTable {
 
     public Integer update(Integer id, Object ... values) {
         try {
-            var index = 1;
-            var updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET division = ?, name = ? WHERE league_id = ?");
+            Integer index = 1;
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET division = ?, name = ? WHERE league_id = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                    updateStatement.setString(index, (String)o);
@@ -108,7 +109,7 @@ public class LeagueTable {
 
     public Integer delete(Integer id) {
         try {
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE LEAGUE_ID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE LEAGUE_ID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

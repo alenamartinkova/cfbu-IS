@@ -1,6 +1,7 @@
 package dais.tables;
 import dais.entities.Address;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class AddressTable {
 
     public List<Address> fetch() throws SQLException {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
-        var addresses = new ArrayList<Address>();
+        ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
             addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
         }
@@ -21,18 +22,18 @@ public class AddressTable {
     }
 
     public List<Address> fetchByAttr(Object ... values) {
-        var addr = new ArrayList<Address>();
+        ArrayList<Address> addr = new ArrayList<Address>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        var queryStr = "SELECT * FROM ADDRESS WHERE ";
+        String queryStr = "SELECT * FROM ADDRESS WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
         }
 
         try {
-            var query = TeamTable.conn.prepareStatement(queryStr);
-            var index = 1;
+            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
                     if (values[i] instanceof String) {
@@ -61,8 +62,8 @@ public class AddressTable {
 
     public Integer insert(Object ... values) {
        try {
-            var index = 1;
-            var insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?, ?)");
+            Integer index = 1;
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?, ?)");
             for (Object o : values) {
                if (o instanceof String) {
                    insertStatement.setString(index, (String)o);
@@ -84,8 +85,8 @@ public class AddressTable {
 
     public Integer update(Integer id, Object ... values) {
         try {
-            var index = 1;
-            var updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, country = ?, address_line = ? WHERE address_id = ?");
+            Integer index = 1;
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, country = ?, address_line = ? WHERE address_id = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -108,7 +109,7 @@ public class AddressTable {
 
     public Integer delete(Integer id) {
         try {
-            var deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRESS WHERE ADDRESS_ID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRESS WHERE ADDRESS_ID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
