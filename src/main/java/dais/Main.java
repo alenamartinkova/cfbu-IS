@@ -6,27 +6,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        AddressTable at = new AddressTable();
-        LeagueTable lt = new LeagueTable();
-        PlayerTable pt = new PlayerTable();
-        RepreTable rt = new RepreTable();
-        TeamTable tt = new TeamTable();
-        WFCTable wt = new WFCTable();
-        /*
-        Do testov som nedala spojovacie tabulky (WFC_REPRE a REPRE_PLAYER) z dôvodu,
-        že v analýze ich funkcie nie sú,
-        CRUD funkcie som si však vytvorila pre vlastné použitie
-         */
 
-        /*
-        Funkcie fetchByAttr sú vlastne aj funkcie Detail tímu, Detail hráča, apod. keď selectujeme podľa ID
-         */
-
-        /*
-        Autoinkrement IDčiek by som doriešila pri vyvíjaní aplikácie. Do chýb ste mi to nepísali, ale viem,
-        že by bolo fajn to mať naimplementované. 
-         */
-        runTests(at, lt, pt, rt, tt, wt);
     }
 
     private static void runTests(AddressTable at, LeagueTable lt, PlayerTable pt, RepreTable rt, TeamTable tt, WFCTable wt) throws SQLException {
