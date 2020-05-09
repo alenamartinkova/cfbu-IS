@@ -8,10 +8,14 @@
 </head>
 <body>
 <header class="header">
-    <h1 style="text-align: center;">Project DAIS</h1>
+    <h1 style="text-align: center;"><a style="text-decoration: none; color: white;" href="index.jsp">Project DAIS</a></h1>
 </header>
 
 <style>
+    main {
+        min-height: 620px;
+    }
+
     body {
         margin: 0;
     }

@@ -1,8 +1,9 @@
 <%@ page import = "java.io.*,java.util.*, dais.tables.*, dais.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ include file="header.jsp" %>
-
-<center>
-    <h2>Team UPDATE</h2>
-</center>
+<main>
+    <center>
+        <h2>Team UPDATE</h2>
+    </center>
+</main>
 <%@ include file="footer.jsp" %>
