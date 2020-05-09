@@ -1,12 +1,8 @@
 package dais.tables;
 
-import dais.entities.League;
 import dais.entities.Team;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +19,7 @@ public class TeamTable {
     }
 
     public List<Team> fetch() throws SQLException {
-        var rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
+        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
         var teams = new ArrayList<Team>();
         while (rs.next()) {
              teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
@@ -106,7 +102,7 @@ public class TeamTable {
                 }
             }
 
-            var rs = query.executeQuery();
+            ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
             }

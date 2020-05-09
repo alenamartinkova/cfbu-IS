@@ -2,6 +2,7 @@ package dais.tables;
 
 import dais.entities.ReprePlayer;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class ReprePlayerTable {
     public ReprePlayerTable(){};
 
     public List<ReprePlayer> fetch() throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE_PLAYER");
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM REPRE_PLAYER");
         var players = new ArrayList<ReprePlayer>();
         while (rs.next()) {
             players.add(new ReprePlayer(rs.getInt(1), rs.getInt(2), rs.getInt(3)));

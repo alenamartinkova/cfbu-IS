@@ -2,6 +2,7 @@ package dais.tables;
 import dais.entities.WFC;
 
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class WFCTable {
     public WFCTable(){};
 
     public List<WFC> fetch() throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC");
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC");
         var wfcs = new ArrayList<WFC>();
         while (rs.next()) {
             wfcs.add(new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
@@ -46,7 +47,7 @@ public class WFCTable {
                 }
             }
 
-            var rs = query.executeQuery();
+            ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 wfc.add(new WFC(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
             }

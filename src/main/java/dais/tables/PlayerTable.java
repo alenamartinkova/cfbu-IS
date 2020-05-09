@@ -1,8 +1,6 @@
 package dais.tables;
 
 import dais.entities.Player;
-import oracle.jdbc.OracleType;
-import oracle.jdbc.OracleTypes;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -15,7 +13,7 @@ public class PlayerTable {
     public PlayerTable(){};
 
     public List<Player> fetch() throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
         var players = new ArrayList<Player>();
         while (rs.next()) {
             players.add(new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
@@ -51,7 +49,7 @@ public class PlayerTable {
                 }
             }
 
-            var rs = query.executeQuery();
+            ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 player.add(new Player(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
             }

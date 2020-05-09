@@ -1,6 +1,7 @@
 package dais.tables;
 import dais.entities.Address;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ public class AddressTable {
     public AddressTable(){};
 
     public List<Address> fetch() throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
         var addresses = new ArrayList<Address>();
         while (rs.next()) {
             addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
@@ -45,7 +46,7 @@ public class AddressTable {
                 }
             }
 
-            var rs = query.executeQuery();
+            ResultSet rs = query.executeQuery();
             while (rs.next()) {
                 addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
             }

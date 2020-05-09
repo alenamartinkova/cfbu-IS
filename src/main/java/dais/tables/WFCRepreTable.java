@@ -2,6 +2,7 @@ package dais.tables;
 
 import dais.entities.WFCRepre;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class WFCRepreTable {
     public WFCRepreTable(){};
 
     public List<WFCRepre> fetch() throws SQLException {
-        var rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC_REPRE");
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM WFC_REPRE");
         var wfc_repres = new ArrayList<WFCRepre>();
         while (rs.next()) {
             wfc_repres.add(new WFCRepre(rs.getInt(1), rs.getInt(2), rs.getInt(3)));
