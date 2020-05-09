@@ -26,6 +26,7 @@
     if (teamId != -1) {
         ArrayList<Team> teams  = table.fetchByAttr("TEAM_ID", teamId);
 
+        // it will always be only one team (because id is unique) , but it returns arraylist so.
         for (Team t : teams) {
             out.println("<p>ID: " + t.getId() + "</p><br>");
             out.println("<p>Name: " + t.getName() + "</p><br>");
