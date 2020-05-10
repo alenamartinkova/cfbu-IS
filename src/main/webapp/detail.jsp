@@ -8,7 +8,7 @@
         String teamIdString = "";
         Enumeration paramNames = request.getParameterNames();
 
-        if (paramNames.hasMoreElements()) {
+        while (paramNames.hasMoreElements()) {
             teamIdString = (String) paramNames.nextElement();
         }
 
