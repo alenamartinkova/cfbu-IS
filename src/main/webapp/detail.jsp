@@ -19,18 +19,23 @@
             teamId = -1;
         }
 
-        TeamTable table = null;
-
-        table = new TeamTable();
+        LeagueTable lt = new LeagueTable();
+        TeamTable table = new TeamTable();
 
         if (teamId != -1) {
             ArrayList<Team> teams  = table.fetchByAttr("TEAM_ID", teamId);
 
+            String l_name = "";
             // it will always be only one team (because id is unique) , but it returns arraylist so.
             for (Team t : teams) {
+                ArrayList<League> league = lt.fetchByAttr("LEAGUE_ID", t.getLeagueId());
+                // not pretty i know
+                for (League l : league) {
+                    l_name = l.getName();
+                }
                 out.println("<p><strong>ID:</strong> " + t.getId() + "</p><br>");
                 out.println("<p><strong>Name:</strong> " + t.getName() + "</p><br>");
-                out.println("<p><strong>League ID:</strong> " + t.getLeagueId() + "</p><br>");
+                out.println("<p><strong>League:</strong> " + t.getLeagueId() + ". "+ l_name +"</p><br>");
                 out.println("<p><strong>Rank: </strong>" + t.getRank() + "</p><br>");
             }
         }
