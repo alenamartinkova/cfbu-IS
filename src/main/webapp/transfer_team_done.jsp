@@ -30,7 +30,6 @@
             }
 
             for (Team t : team) {
-
                 out.println("Team " + t.getName() + " was successfully transfered to league " + league_name);
             }
         %>

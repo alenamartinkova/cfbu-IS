@@ -1,5 +1,4 @@
-<%@ page import = "java.io.*,java.util.*, dais.tables.*, dais.entities.*" %>
-<%@ page import="java.sql.SQLException" %>
+<%@ page import = "java.util.*, dais.tables.*, dais.entities.*" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
