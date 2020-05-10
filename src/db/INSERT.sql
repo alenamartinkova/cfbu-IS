@@ -3,7 +3,7 @@ VALUES
 (1, 1, 'Extraliga'),
 (2, 2, 'Prvá liga'),
 (3, 3, 'Druhá liga'),
-(4, 4, 'Tretia liga')
+(4, 4, 'Tretia liga');
 
 INSERT INTO Team
 VALUES
@@ -34,7 +34,7 @@ VALUES
 (25, 5, 'Orel Rtyne v Podkrkonosí', 3),
 (26, 6, 'Tigers Nehvizdy', 3),
 (27, 7, 'SK BIVOJKY LITVÍNOV', 3),
-(28, 8, 'TEXAS LONGHORNS', 3)
+(28, 8, 'TEXAS LONGHORNS', 3);
 
 INSERT INTO Address
 VALUES
@@ -69,7 +69,7 @@ VALUES
 (29, 'Praha', 'Czech Republic', 'Ceskomoravská 17'),
 (30, 'Bratislava', 'Slovakia', 'Odbojárov 9'),
 (31, 'Stockholm', 'Sweden', 'Arenaslingan 14'),
-(32, 'Neuchatel', 'Switzerland', 'Quai Robert-Comtesse 4')
+(32, 'Neuchatel', 'Switzerland', 'Quai Robert-Comtesse 4');
 
 INSERT INTO Player
 VALUES
@@ -132,7 +132,7 @@ VALUES
 (57, 'Anita', 'Adams', 10, 2, 1, 3, 1996),
 (58, 'Amy', 'Hebert', 3, 13, 2, 3, 1992),
 (59, 'Maisie', 'Mcgrath', 12, 7, 3, 3, 1995),
-(60, 'Kate', 'Rodriguez', 8, 10, 4, 3, 1999)
+(60, 'Kate', 'Rodriguez', 8, 10, 4, 3, 1999);
 
 INSERT INTO Repre
 VALUES
@@ -151,7 +151,7 @@ VALUES
 (13, 'Australia'),
 (14, 'Singapore'),
 (15, 'Estonia'),
-(16, 'Thailand')
+(16, 'Thailand');
 
 INSERT INTO Repre_player
 VALUES
@@ -209,14 +209,14 @@ VALUES
 (2019, 55, 8),
 (2017, 55, 8),
 (2015, 55, 8),
-(2017,44,10)
+(2017,44,10);
 
 INSERT INTO WFC
 VALUES
 (29, 1, 2013),
 (30, 2, 2017),
 (31, 3, 2015),
-(32, 4, 2019)
+(32, 4, 2019);
 
 INSERT INTO Wfc_repre
 VALUES
@@ -283,7 +283,7 @@ VALUES
 (4, 13, 10),
 (4, 14, 13),
 (4, 15, 15),
-(4, 16, 16)
+(4, 16, 16);
 
 
 
