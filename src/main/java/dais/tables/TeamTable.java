@@ -121,6 +121,30 @@ public class TeamTable {
         return team;
     }
 
+    public ArrayList<Team> searchByAttr(String val) {
+        ArrayList<Team> team = new ArrayList<Team>();
+
+        String queryStr = "SELECT * FROM TEAM WHERE TEAM_ID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUE_ID LIKE ?";
+
+        try {
+            PreparedStatement query = conn.prepareStatement(queryStr);
+
+            for (int i = 1; i <= 4; i++) {
+                query.setString(i, "%" + val + "%");
+            }
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return team;
+    }
+
 
     public Integer delete(Integer id) {
         try {
