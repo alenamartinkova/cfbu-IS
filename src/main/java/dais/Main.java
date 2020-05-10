@@ -100,7 +100,7 @@ public class Main {
         System.out.println(tt.fetchByAttr("TEAM_ID", 8));
 
         //INSERT
-        System.out.println(tt.insert(29, 9, "Team test", 3));
+        System.out.println(tt.insert( 9, "Team test", 3));
 
         //UPDATE
         System.out.println(tt.update(29, 9, "Team update test", 3));

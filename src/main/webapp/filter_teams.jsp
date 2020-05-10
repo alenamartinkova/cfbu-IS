@@ -7,7 +7,7 @@
         <form width = "100%" border = "1" align = "center" method="POST" action="detail.jsp">
             <input type="text" name="filter" style="margin-right: 10px;"><input type="submit" value="Filter" formaction="filter_teams.jsp">
             <ul class="list">
-            <%
+                    <%
               try {
                     TeamTable table = new TeamTable();
                     ArrayList<Team> teams  = table.fetch();

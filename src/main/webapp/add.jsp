@@ -16,7 +16,6 @@
             <%
             for (League l : leagues ) {
                 out.println("<li class='list-item'><input class='input' type='checkbox' name='" + l.getId() + "'>" + l.getName()+"</li>");
-                out.println("<input type='hidden' name=\"league_name\" value='" + l.getName() + "'>");
             } %>
                 <input class="btn" type="submit" value="Add">
             </ul>
