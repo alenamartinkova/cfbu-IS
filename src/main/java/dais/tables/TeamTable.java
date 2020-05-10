@@ -30,7 +30,7 @@ public class TeamTable {
     }
 
     public Integer insert(Object ... values) throws SQLException {
-        Integer id = getMaxId() + 1;
+        Integer id = getMaxTeamId() + 1;
 
         if (id == -1) {
             System.out.println("Error");
@@ -157,7 +157,7 @@ public class TeamTable {
         return -1;
     }
 
-    public Integer getMaxId() throws SQLException {
+    public Integer getMaxTeamId() throws SQLException {
         ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(TEAM_ID) FROM TEAM");
         while (rs.next()) {
             return rs.getInt(1);
@@ -203,5 +203,4 @@ public class TeamTable {
             e.printStackTrace();
         }
     }
-
 }
