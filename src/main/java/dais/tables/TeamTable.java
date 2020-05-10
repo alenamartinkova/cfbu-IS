@@ -29,10 +29,17 @@ public class TeamTable {
          return teams;
     }
 
-    public Integer insert(Object ... values) {
+    public Integer insert(Object ... values) throws SQLException {
+        Integer id = getMaxId() + 1;
+
+        if (id == -1) {
+            System.out.println("Error");
+            return -2;
+        }
+
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES ("+id+", ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -121,6 +128,24 @@ public class TeamTable {
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }
+
+        return -1;
+    }
+
+    public Integer getMaxId() throws SQLException {
+        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(TEAM_ID) FROM TEAM");
+        while (rs.next()) {
+            return rs.getInt(1);
+        }
+
+        return -1;
+    }
+
+    public Integer getMaxRank(Integer league_id) throws SQLException {
+        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(RANK) FROM TEAM WHERE LEAGUE_ID = "+league_id+"");
+        while (rs.next()) {
+            return rs.getInt(1);
         }
 
         return -1;

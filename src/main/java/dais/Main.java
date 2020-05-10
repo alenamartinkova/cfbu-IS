@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-
+        TeamTable tt = new TeamTable();
+        tt.getMaxRank(2);
     }
 
     private static void runTests(AddressTable at, LeagueTable lt, PlayerTable pt, RepreTable rt, TeamTable tt, WFCTable wt) throws SQLException {

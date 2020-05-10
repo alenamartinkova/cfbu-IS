@@ -30,4 +30,34 @@
         margin: 0;
         padding: 20px;
     }
+
+    .btn {
+        background-color: #000;
+        border: none;
+        color: #01baff;
+        padding: 15px 25px;
+        border-radius: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .list {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .list-item {
+        list-style: none;
+        position: relative;
+    }
+
+    .input {
+        position: absolute;
+        left: 41%;
+    }
 </style>

@@ -8,10 +8,8 @@
             <input class='btn' type='submit' formaction='add.jsp' value='Add team'/><br>
             <ul class="list">
             <%
-                TeamTable table = null;
-
-                try {
-                    table = new TeamTable();
+              try {
+                    TeamTable table = new TeamTable();
                     ArrayList<Team> teams  = table.fetch();
 
                     for (Team t : teams) {
@@ -31,35 +29,4 @@
     </center>
 </main>
 
-<style>
-    .btn {
-        background-color: #000;
-        border: none;
-        color: #01baff;
-        padding: 15px 25px;
-        border-radius: 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-    }
-
-    .list {
-        width: 100%;
-        padding: 0;
-        margin-bottom: 20px;
-    }
-
-    .list-item {
-        list-style: none;
-        position: relative;
-    }
-
-    .input {
-        position: absolute;
-        left: 41%;
-    }
-</style>
 <%@ include file="footer.jsp" %>
