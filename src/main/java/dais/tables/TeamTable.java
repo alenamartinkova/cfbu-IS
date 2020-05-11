@@ -1,6 +1,8 @@
 package dais.tables;
 
+import dais.entities.Player;
 import dais.entities.Team;
+import oracle.jdbc.OracleType;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -175,18 +177,23 @@ public class TeamTable {
         return -1;
     }
 
-    public void teamTransfer(Integer team_id, Integer league_id) {
+    public boolean teamTransfer(Integer team_id, Integer league_id) {
+        Boolean ret = false;
         try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {call teamTransfer(?, ?)}");
+                CallableStatement statement = TeamTable.conn.prepareCall(" {? = call teamTransferFunc(?, ?)}");
         ) {
-            statement.setInt(1, team_id );
-            statement.setInt(2, league_id );
+            statement.registerOutParameter(1, OracleType.PLSQL_BOOLEAN);
+            statement.setInt(2, team_id );
+            statement.setInt(3, league_id );
             statement.execute();
+            ret = statement.getBoolean(1);
             statement.close();
             System.out.println("OK");
         } catch (SQLException e) {
             e.printStackTrace();
+            ret = false;
         }
+        return ret;
     }
 
     public void changeLeague(String name, Integer division, Integer old_league_id) {

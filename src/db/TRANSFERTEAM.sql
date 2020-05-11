@@ -1,7 +1,8 @@
-create or replace procedure teamTransfer(
+create function teamTransferFunc(
     p_id_team Team.team_id%type,
     p_new_league_id League.league_id%type
 )
+return boolean
 as
     p_old_league_id League.league_id%type;
     p_old_rank Team.rank%type;
@@ -49,10 +50,14 @@ begin
         where rank = i AND LEAGUE_ID = p_old_league_id;
     END LOOP;
     COMMIT;
+    return true;
 Exception
     WHEN p_same_league_exception then
         print('The team is already in this league.');
+        ROLLBACK;
+        return false;
     WHEN others then
         print('Error' || SQLCODE || SQLERRM );
-    ROLLBACK;
+        ROLLBACK;
+        return false;
 end;
