@@ -177,7 +177,7 @@ public class TeamTable {
 
     public void teamTransfer(Integer team_id, Integer league_id) {
         try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {call transferTeam(?, ?)}");
+                CallableStatement statement = TeamTable.conn.prepareCall(" {call teamTransfer(?, ?)}");
         ) {
             statement.setInt(1, team_id );
             statement.setInt(2, league_id );

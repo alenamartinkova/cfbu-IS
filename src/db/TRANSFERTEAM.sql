@@ -1,4 +1,4 @@
-create procedure transferTeam(
+create or replace procedure teamTransfer(
     p_id_team Team.team_id%type,
     p_new_league_id League.league_id%type
 )
@@ -20,10 +20,16 @@ begin
         raise p_same_league_exception;
     end if;
 
-    SELECT MAX(RANK) + 1
+    SELECT MAX(RANK)
     into p_new_rank
     from TEAM
     WHERE LEAGUE_ID = p_new_league_id;
+
+     if (p_new_rank is null) then
+        p_new_rank := 1;
+    else
+        p_new_rank := p_new_rank + 1;
+    end if;
 
     select count(*)
     into p_end
@@ -50,5 +56,3 @@ Exception
         print('Error' || SQLCODE || SQLERRM );
     ROLLBACK;
 end;
-/
-

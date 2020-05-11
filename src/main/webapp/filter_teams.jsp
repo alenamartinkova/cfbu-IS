@@ -24,7 +24,8 @@
             out.println("<input class='btn' type='submit' formaction='delete.jsp' value='Delete team'/>");
             out.println("<input class='btn' type='submit' formaction='update.jsp' value='Update team'/>");
             out.println("<input class='btn' type='submit' formaction='add.jsp' value='Add team'/>");
-
+            out.println("<input class='btn' type='submit' formaction='change_league.jsp' value='Add league'/>");
+            out.println("<input class='btn' type='submit' formaction='transfer_team.jsp' value='Transfer team'/>");
 
             %>
         </form>
