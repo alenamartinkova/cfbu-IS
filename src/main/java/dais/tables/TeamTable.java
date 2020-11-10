@@ -1,12 +1,9 @@
 package dais.tables;
-
-import dais.entities.Player;
 import dais.entities.Team;
-import oracle.jdbc.OracleType;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class TeamTable {
     public TeamTable(){};
@@ -14,7 +11,7 @@ public class TeamTable {
 
     static {
         try {
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@dbsys.cs.vsb.cz:1521:oracle","mar0702", "R5ddxZ4NnO");
+            conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -175,39 +172,5 @@ public class TeamTable {
         }
 
         return -1;
-    }
-
-    public boolean teamTransfer(Integer team_id, Integer league_id) {
-        Boolean ret = false;
-        try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {? = call teamTransferFunc(?, ?)}");
-        ) {
-            statement.registerOutParameter(1, OracleType.PLSQL_BOOLEAN);
-            statement.setInt(2, team_id );
-            statement.setInt(3, league_id );
-            statement.execute();
-            ret = statement.getBoolean(1);
-            statement.close();
-            System.out.println("OK");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            ret = false;
-        }
-        return ret;
-    }
-
-    public void changeLeague(String name, Integer division, Integer old_league_id) {
-        try (
-                CallableStatement statement = TeamTable.conn.prepareCall(" {call changeLeague(?, ?, ?)}");
-        ) {
-            statement.setString(1, name );
-            statement.setInt(2, division );
-            statement.setInt(3, old_league_id );
-            statement.execute();
-            statement.close();
-            System.out.println("OK");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

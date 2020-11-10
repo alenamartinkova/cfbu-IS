@@ -27,9 +27,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.oracle.ojdbc</groupId>
-      <artifactId>ojdbc10</artifactId>
-      <version>19.3.0.0</version>
+      <groupId>com.microsoft.sqlserver</groupId>
+      <artifactId>mssql-jdbc</artifactId>
+      <version>6.1.0.jre8</version>
     </dependency>
   </dependencies>
 
