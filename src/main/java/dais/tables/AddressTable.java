@@ -14,7 +14,7 @@ public class AddressTable {
         ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
         ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
-            addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+            addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
@@ -49,7 +49,7 @@ public class AddressTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {

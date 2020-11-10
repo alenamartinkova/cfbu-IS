@@ -21,7 +21,7 @@ public class TeamTable {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
-             teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+            teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
         }
 
          rs.close();
@@ -38,7 +38,7 @@ public class TeamTable {
 
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES ("+id+", ?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES ("+id+", ?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -47,6 +47,11 @@ public class TeamTable {
 
                 if (o instanceof Integer ){
                     insertStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+
+                if (o instanceof Date ){
+                    insertStatement.setDate(index, (Date)o);
                     index++;
                 }
             }
@@ -61,7 +66,7 @@ public class TeamTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE TEAM SET rank = ?, name = ?, league_id = ? WHERE team_id = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE TEAM SET rank = ?, name = ?, leagueID = ?, covid = ?, qurantinedFrom = ? WHERE teamID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -110,7 +115,7 @@ public class TeamTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -123,7 +128,7 @@ public class TeamTable {
     public ArrayList<Team> searchByAttr(String val) {
         ArrayList<Team> team = new ArrayList<Team>();
 
-        String queryStr = "SELECT * FROM TEAM WHERE TEAM_ID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUE_ID LIKE ?";
+        String queryStr = "SELECT * FROM TEAM WHERE TEAMID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUEID LIKE ?";
 
         try {
             PreparedStatement query = conn.prepareStatement(queryStr);
@@ -134,7 +139,7 @@ public class TeamTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -147,7 +152,7 @@ public class TeamTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE TEAM_ID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE TEAMID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -157,7 +162,7 @@ public class TeamTable {
     }
 
     public Integer getMaxTeamId() throws SQLException {
-        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(TEAM_ID) FROM TEAM");
+        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(TEAMID) FROM TEAM");
         while (rs.next()) {
             return rs.getInt(1);
         }
@@ -166,7 +171,7 @@ public class TeamTable {
     }
 
     public Integer getMaxRank(Integer league_id) throws SQLException {
-        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(RANK) FROM TEAM WHERE LEAGUE_ID = "+league_id+"");
+        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(RANK) FROM TEAM WHERE LEAGUEID = "+league_id+"");
         while (rs.next()) {
             return rs.getInt(1);
         }

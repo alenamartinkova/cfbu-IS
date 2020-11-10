@@ -3,14 +3,14 @@ package dais.entities;
 public class Address {
     Integer id;
     String city;
-    String country;
-    String address_line;
+    String street;
+    Integer streetNumber;
 
-    public Address(Integer id, String c, String cou, String a) {
+    public Address(Integer id, String c, String st, Integer stNum) {
         this.id = id;
         this.city = c;
-        this.country = cou;
-        this.address_line = a;
+        this.street = st;
+        this.streetNumber = stNum;
     }
 
     public Integer getId() {
@@ -21,11 +21,11 @@ public class Address {
         return this.city;
     }
 
-    public String getCountry() {
-        return this.country;
+    public String getStreet() {
+        return this.street;
     }
 
-    public String getAddressLine() {
-        return this.address_line;
+    public Integer getStreetNumber() {
+        return this.streetNumber;
     }
 }

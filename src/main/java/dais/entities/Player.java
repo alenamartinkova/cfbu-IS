@@ -1,24 +1,28 @@
 package dais.entities;
 
+import java.util.Date;
+
 public class Player {
     Integer id;
-    String first_name;
-    String last_name;
-    Integer assists;
-    Integer goals;
-    Integer a_id;
-    Integer t_id;
-    Integer year_born;
+    String name;
+    String sureName;
+    Integer teamID;
+    Date dateOfBirth;
+    Boolean covid;
+    Date quarantinedFrom;
+    String email;
+    Character stick;
 
-    public Player(Integer id, String f, String l, Integer a, Integer g, Integer a_id, Integer t_id, Integer y) {
+    public Player(Integer id, String n, String sn, Integer tID, Date d, Boolean c, Date q, String e, Character s) {
         this.id = id;
-        this.first_name = f;
-        this.last_name = l;
-        this.assists = a;
-        this.goals = g;
-        this.a_id = a_id;
-        this.t_id = t_id;
-        this.year_born = y;
+        this.name = n;
+        this.sureName = sn;
+        this.teamID = tID;
+        this.dateOfBirth = d;
+        this.covid = c;
+        this.quarantinedFrom = q;
+        this.email = e;
+        this.stick = s;
     }
 
     public Player(){};
@@ -27,32 +31,35 @@ public class Player {
         return this.id;
     }
 
-    public String getFirstName() {
-        return this.first_name;
+    public String getName() {
+        return this.name;
     }
 
-    public String getLastName() {
-        return this.last_name;
+    public Boolean getCovid() {
+        return this.covid;
     }
 
-    public Integer getAssists() {
-        return this.assists;
+    public Date getDateOfBirth() {
+        return this.dateOfBirth;
     }
 
-    public Integer getGoals() {
-        return this.goals;
+    public Date getQuarantinedFrom() {
+        return this.quarantinedFrom;
     }
 
-    public Integer getAId() {
-        return this.a_id;
+    public Integer getTeamID() {
+        return this.teamID;
     }
 
-    public Integer getTId() {
-        return this.t_id;
+    public String getSureName() {
+        return this.sureName;
     }
 
-    public Integer getYearBorn() {
-        return this.year_born;
+    public Character getStick() {
+        return this.stick;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
 }
