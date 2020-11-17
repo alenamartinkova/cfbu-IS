@@ -1,9 +1,9 @@
 INSERT INTO League
 VALUES
-(1, 1, 'Extraliga'),
-(2, 2, 'Prvá liga'),
-(3, 3, 'Druhá liga'),
-(4, 4, 'Tretia liga');
+(1, 'Extraliga', 1),
+(2, 'Prvá liga', 2),
+(3, 'Druhá liga', 3),
+(4, 'Tretia liga', 4);
 
 INSERT INTO Team
 VALUES

@@ -1,20 +1,20 @@
 package dais.entities;
 
 public class Address {
-    Integer id;
+    Integer addressID;
     String city;
     String street;
     Integer streetNumber;
 
     public Address(Integer id, String c, String st, Integer stNum) {
-        this.id = id;
+        this.addressID = id;
         this.city = c;
         this.street = st;
         this.streetNumber = stNum;
     }
 
     public Integer getId() {
-        return this.id;
+        return this.addressID;
     }
 
     public String getCity() {

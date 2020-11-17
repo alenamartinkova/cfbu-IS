@@ -2,7 +2,7 @@ package dais.entities;
 
 import java.util.Date;
 
-public class Player {
+public class Coach {
     Integer id;
     String name;
     String sureName;
@@ -11,9 +11,9 @@ public class Player {
     Boolean covid;
     Date quarantinedFrom;
     String email;
-    String stick;
+    String license;
 
-    public Player(Integer id, String n, String sn, Integer tID, Date d, Boolean c, Date q, String e, String s) {
+    public Coach(Integer id, String n, String sn, Integer tID, Date d, Boolean c, Date q, String e, String s) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
@@ -22,7 +22,7 @@ public class Player {
         this.covid = c;
         this.quarantinedFrom = q;
         this.email = e;
-        this.stick = s;
+        this.license = s;
     }
 
     public Integer getId() {
@@ -54,7 +54,7 @@ public class Player {
     }
 
     public String getStick() {
-        return this.stick;
+        return this.license;
     }
 
     public String getEmail() {
