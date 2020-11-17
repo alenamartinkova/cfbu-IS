@@ -86,7 +86,7 @@ public class AddressTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumbwe = ? WHERE addressID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumber = ? WHERE addressID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);

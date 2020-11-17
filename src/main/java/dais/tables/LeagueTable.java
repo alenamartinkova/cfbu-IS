@@ -86,7 +86,7 @@ public class LeagueTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET category = ?, name = ? WHERE leagueID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET name = ?, category = ? WHERE leagueID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                    updateStatement.setString(index, (String)o);

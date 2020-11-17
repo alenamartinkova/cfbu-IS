@@ -94,7 +94,7 @@ public class PlayerTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE PLAYER SET name = ?, sureName = ?, teamID = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, stick = ? WHERE playerID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE PLAYER SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, stick = ? WHERE playerID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);

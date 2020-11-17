@@ -97,7 +97,7 @@ public class RefereeTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Referee SET name = ?, sureName = ?, matchID = ?, dateOfBirth = ?, email = ? WHERE refereeID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Referee SET name = ?, sureName = ?, email = ?, dateOfBirth = ?  WHERE refereeID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
