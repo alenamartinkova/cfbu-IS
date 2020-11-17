@@ -7,10 +7,10 @@ public class Team {
     Integer rank;
     String name;
     Integer leagueID;
-    Boolean covid;
+    Integer covid;
     Date qurantinedFrom;
 
-    public Team(Integer id, Integer r, String n, Integer l, Boolean c, Date q) {
+    public Team(Integer id, Integer l,  String n, Integer r, Integer c, Date q) {
         this.id = id;
         this.rank = r;
         this.name = n;
@@ -37,7 +37,7 @@ public class Team {
         return this.leagueID;
     }
 
-    public Boolean getCovid() {
+    public Integer getCovid() {
         return this.covid;
     }
 

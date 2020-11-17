@@ -7,7 +7,7 @@ public class Statistics {
     Integer goals;
     Integer points;
 
-    Statistics(Integer sID, Integer pID, Integer a, Integer g, Integer p) {
+    public Statistics(Integer sID, Integer pID, Integer a, Integer g, Integer p) {
         this.statsID = sID;
         this.playerID = pID;
         this.assists = a;

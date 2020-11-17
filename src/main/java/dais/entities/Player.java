@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class Player {
     Integer id;
+    Integer teamID;
     String name;
     String sureName;
-    Integer teamID;
     Date dateOfBirth;
-    Boolean covid;
+    Integer covid;
     Date quarantinedFrom;
     String email;
     String stick;
 
-    public Player(Integer id, String n, String sn, Integer tID, Date d, Boolean c, Date q, String e, String s) {
+    public Player(Integer id, Integer tID, String n, String sn, Date d, Integer c, Date q, String e, String s) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
@@ -33,7 +33,7 @@ public class Player {
         return this.name;
     }
 
-    public Boolean getCovid() {
+    public Integer getCovid() {
         return this.covid;
     }
 

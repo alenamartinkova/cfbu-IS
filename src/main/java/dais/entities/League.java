@@ -2,13 +2,13 @@ package dais.entities;
 
 public class League {
     Integer leagueID;
-    Integer category;
     String name;
+    Integer category;
 
-    public League(Integer id, Integer c, String n) {
+    public League(Integer id, String n,  Integer c) {
         this.leagueID = id;
-        this.category = c;
         this.name = n;
+        this.category = c;
     }
 
     public League(){};

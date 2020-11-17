@@ -8,12 +8,12 @@ public class Coach {
     String sureName;
     Integer teamID;
     Date dateOfBirth;
-    Boolean covid;
+    Integer covid;
     Date quarantinedFrom;
     String email;
     String license;
 
-    public Coach(Integer id, String n, String sn, Integer tID, Date d, Boolean c, Date q, String e, String s) {
+    public Coach(Integer id, Integer tID, String n, String sn, Date d, Integer c, Date q, String e, String l) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
@@ -22,7 +22,7 @@ public class Coach {
         this.covid = c;
         this.quarantinedFrom = q;
         this.email = e;
-        this.license = s;
+        this.license = l;
     }
 
     public Integer getId() {
@@ -33,7 +33,7 @@ public class Coach {
         return this.name;
     }
 
-    public Boolean getCovid() {
+    public Integer getCovid() {
         return this.covid;
     }
 

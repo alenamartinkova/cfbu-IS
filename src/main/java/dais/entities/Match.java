@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class Match {
     Integer matchID;
-    Boolean postponed;
+    Integer postponed;
     Date date;
 
-    Match(Integer matchID, Boolean p, Date d) {
+    public Match(Integer matchID, Integer p, Date d) {
         this.matchID = matchID;
         this.postponed = p;
         this.date = d;
     }
 
-    public Boolean getPostponed() {
+    public Integer getPostponed() {
         return this.postponed;
     }
 

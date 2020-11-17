@@ -6,7 +6,7 @@ public class Pitch {
     Integer capacity;
     String name;
 
-    Pitch(Integer pID, Integer aID, Integer c, String n) {
+    public Pitch(Integer pID, Integer aID, Integer c, String n) {
         this.pitchID = pID;
         this.addressID = aID;
         this.capacity = c;

@@ -21,7 +21,7 @@ public class TeamTable {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
-            teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
+            teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
         }
 
          rs.close();
@@ -29,28 +29,21 @@ public class TeamTable {
     }
 
     public Integer insert(Object ... values) throws SQLException {
-        Integer id = getMaxTeamId() + 1;
-
-        if (id == -1) {
-            System.out.println("Error");
-            return -2;
-        }
-
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES ("+id+", ?, ?, ?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
                     index++;
                 }
 
-                if (o instanceof Integer ){
+                if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
                     index++;
                 }
 
-                if (o instanceof Date ){
+                if (o instanceof Date){
                     insertStatement.setDate(index, (Date)o);
                     index++;
                 }
@@ -73,8 +66,13 @@ public class TeamTable {
                     index++;
                 }
 
-                if (o instanceof Integer ){
+                if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+
+                if (o instanceof Date){
+                    updateStatement.setDate(index, (Date)o);
                     index++;
                 }
             }
@@ -110,12 +108,17 @@ public class TeamTable {
                         query.setInt(index, (Integer) values[i]);
                         index++;
                     }
+
+                    if (values[i] instanceof Date){
+                        query.setDate(index, (Date)values[i]);
+                        index++;
+                    }
                 }
             }
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -139,7 +142,7 @@ public class TeamTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5), rs.getDate(6)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -152,28 +155,10 @@ public class TeamTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE TEAMID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE teamID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
-        }
-
-        return -1;
-    }
-
-    public Integer getMaxTeamId() throws SQLException {
-        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(TEAMID) FROM TEAM");
-        while (rs.next()) {
-            return rs.getInt(1);
-        }
-
-        return -1;
-    }
-
-    public Integer getMaxRank(Integer league_id) throws SQLException {
-        ResultSet rs = conn.createStatement().executeQuery("SELECT MAX(RANK) FROM TEAM WHERE LEAGUEID = "+league_id+"");
-        while (rs.next()) {
-            return rs.getInt(1);
         }
 
         return -1;

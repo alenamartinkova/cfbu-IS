@@ -89,6 +89,8 @@ CREATE TABLE TeamMatch (
     matchID INT FOREIGN KEY REFERENCES Match(matchID),
     firstTeamID INT FOREIGN KEY REFERENCES Team(teamID),
     secondTeamID INT FOREIGN KEY REFERENCES Team(teamID),
+    firstRefereeID INT FOREIGN KEY REFERENCES Referee(refereeID),
+    secondRefereeID INT FOREIGN KEY REFERENCES Referee(refereeID),
     firstTeamGoals INT NOT NULL,
     secondTeamGoals INT NOT NULL,
 );

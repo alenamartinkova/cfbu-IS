@@ -9,7 +9,7 @@ public class Referee {
     Date dateOfBirth;
     String email;
 
-    Referee(Integer rID, String n, String sn, Date d, String e) {
+    public Referee(Integer rID, String n, String sn, String e, Date d) {
         this.refereeID = rID;
         this.name = n;
         this.sureName = sn;

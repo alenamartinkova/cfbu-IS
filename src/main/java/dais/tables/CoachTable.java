@@ -1,29 +1,33 @@
 package dais.tables;
 
-import dais.entities.Player;
+import dais.entities.Coach;
+import oracle.sql.DATE;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PlayerTable {
-    public PlayerTable(){};
+public class CoachTable {
+    public CoachTable() {};
 
-    public ArrayList<Player> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
-        ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<Coach> fetch() throws SQLException {
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM COACH");
+        ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
-            players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+            coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
-        return players;
+        return coaches;
     }
 
-    public ArrayList<Player> fetchByAttr(Object ... values) {
-        ArrayList<Player> player = new ArrayList<>();
+    public ArrayList<Coach> fetchByAttr(Object ... values) {
+        ArrayList<Coach> coach = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM PLAYER WHERE ";
+        String queryStr = "SELECT * FROM Coach WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -52,21 +56,20 @@ public class PlayerTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                player.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+                coach.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return player;
+        return coach;
     }
-
 
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO PLAYER VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO Coach VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -94,7 +97,7 @@ public class PlayerTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE PLAYER SET name = ?, sureName = ?, teamID = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, stick = ? WHERE playerID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Coach SET name = ?, sureName = ?, teamID = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, license = ? WHERE playerID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -122,7 +125,7 @@ public class PlayerTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM PLAYER WHERE playerID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
