@@ -1,4 +1,4 @@
-<%@ page import = "java.util.*, dais.tables.*, dais.entities.*" %>
+<%@ page import = "java.util.*, vis.tables.*, vis.entities.*" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>

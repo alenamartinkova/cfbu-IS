@@ -1,32 +1,31 @@
-package dais.tables;
-import dais.entities.Match;
-import dais.entities.Player;
+package vis.tables;
 
-import java.sql.Date;
+import vis.entities.TeamMatch;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MatchTable {
-    public MatchTable(){};
+public class TeamMatchTable {
+    public TeamMatchTable(){};
 
-    public ArrayList<Match> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM Match");
-        ArrayList<Match> matches = new ArrayList<>();
+    public ArrayList<TeamMatch> fetch() throws SQLException {
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");
+        ArrayList<TeamMatch> teamMatches = new ArrayList<>();
         while (rs.next()) {
-            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
+            teamMatches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
         }
 
         rs.close();
-        return matches;
+        return teamMatches;
     }
 
-    public ArrayList<Match> fetchByAttr(Object ... values) {
-        ArrayList<Match> match = new ArrayList<>();
+    public ArrayList<TeamMatch> fetchByAttr(Object ... values) {
+        ArrayList<TeamMatch> teamMatch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM Match WHERE ";
+        String queryStr = "SELECT * FROM TeamMatch WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -41,39 +40,30 @@ public class MatchTable {
                         query.setInt(index, (Integer) values[i]);
                         index++;
                     }
-
-                    if (values[i] instanceof Date) {
-                        query.setDate(index, (Date) values[i]);
-                        index++;
-                    }
                 }
             }
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
+                teamMatch.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return match;
+        return teamMatch;
     }
 
 
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO MATCH VALUES (?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TeamMatch VALUES (?, ?, ?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
                     index++;
                 }
             }
@@ -88,15 +78,10 @@ public class MatchTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE MATCH SET postponed = ?, date = ? WHERE matchID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE TeamMatch SET matchID = ?, firstTeamID = ?, secondTeamID = ?, firstRefereeID = ?, secondRefereeID = ?, firstTeamGoals = ?, secondTeamGoals = ? WHERE teamMatchID = ?");
             for (Object o : values) {
                 if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date) o);
                     index++;
                 }
             }
@@ -111,7 +96,7 @@ public class MatchTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TeamMatch WHERE teamMatchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

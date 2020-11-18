@@ -1,6 +1,6 @@
-package dais.tables;
+package vis.tables;
 
-import dais.entities.Player;
+import vis.entities.Player;
 
 import java.sql.*;
 import java.util.ArrayList;

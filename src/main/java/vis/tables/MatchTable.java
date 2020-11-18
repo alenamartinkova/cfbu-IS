@@ -1,6 +1,5 @@
-package dais.tables;
-
-import dais.entities.Pitch;
+package vis.tables;
+import vis.entities.Match;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,25 +7,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class PitchTable {
-    public PitchTable(){};
+public class MatchTable {
+    public MatchTable(){};
 
-    public ArrayList<Pitch> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM Pitch");
-        ArrayList<Pitch> pitches = new ArrayList<>();
+    public ArrayList<Match> fetch() throws SQLException {
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM Match");
+        ArrayList<Match> matches = new ArrayList<>();
         while (rs.next()) {
-            pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
         }
 
         rs.close();
-        return pitches;
+        return matches;
     }
 
-    public ArrayList<Pitch> fetchByAttr(Object ... values) {
-        ArrayList<Pitch> pitch = new ArrayList<>();
+    public ArrayList<Match> fetchByAttr(Object ... values) {
+        ArrayList<Match> match = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM Pitch WHERE ";
+        String queryStr = "SELECT * FROM Match WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -42,8 +41,8 @@ public class PitchTable {
                         index++;
                     }
 
-                    if (values[i] instanceof String) {
-                        query.setString(index, (String) values[i]);
+                    if (values[i] instanceof Date) {
+                        query.setDate(index, (Date) values[i]);
                         index++;
                     }
                 }
@@ -51,29 +50,29 @@ public class PitchTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                pitch.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return pitch;
+        return match;
     }
 
 
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO PITCH VALUES (?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO MATCH VALUES (?, ?)");
             for (Object o : values) {
                 if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
                     index++;
                 }
 
-                if (o instanceof String){
-                    insertStatement.setString(index, (String) o);
+                if (o instanceof Date){
+                    insertStatement.setDate(index, (Date)o);
                     index++;
                 }
             }
@@ -88,15 +87,15 @@ public class PitchTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Pitch SET addressID = ?, capacity = ?, name = ? WHERE pitchID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE MATCH SET postponed = ?, date = ? WHERE matchID = ?");
             for (Object o : values) {
                 if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
                     index++;
                 }
 
-                if (o instanceof String){
-                    updateStatement.setString(index, (String) o);
+                if (o instanceof Date){
+                    updateStatement.setDate(index, (Date) o);
                     index++;
                 }
             }
@@ -111,7 +110,7 @@ public class PitchTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

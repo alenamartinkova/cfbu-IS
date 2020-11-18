@@ -1,55 +1,30 @@
-package dais.tables;
-import dais.entities.League;
+package vis.tables;
+import vis.entities.Address;
 
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-public class LeagueTable {
-    public LeagueTable(){};
+public class AddressTable {
+    public AddressTable(){};
 
-    public ArrayList<League> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
-        ArrayList<League> leagues = new ArrayList<League>();
+    public ArrayList<Address> fetch() throws SQLException {
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
+        ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
-            leagues.add(new League(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+            addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
-        return leagues;
+        return addresses;
     }
 
-    public Integer insert(Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO LEAGUE VALUES (?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                   insertStatement.setString(index, (String)o);
-                    index++;
-                }
-
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            return insertStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return -1;
-    }
-
-    public ArrayList<League> fetchByAttr(Object ... values) {
+    public ArrayList<Address> fetchByAttr(Object ... values) {
+        ArrayList<Address> addr = new ArrayList<Address>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-        ArrayList<League> league = new ArrayList<League>();
 
-        String queryStr = "SELECT * FROM LEAGUE WHERE ";
+        String queryStr = "SELECT * FROM ADDRESS WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -73,24 +48,48 @@ public class LeagueTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                league.add(new League(rs.getInt(1), rs.getString(2), rs.getInt(3)));
+                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return league;
+        return addr;
+    }
+
+
+    public Integer insert(Object ... values) {
+       try {
+            Integer index = 1;
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?)");
+            for (Object o : values) {
+               if (o instanceof String) {
+                   insertStatement.setString(index, (String)o);
+                   index++;
+                }
+
+               if (o instanceof Integer){
+                   insertStatement.setInt(index, (Integer)o);
+                   index++;
+               }
+            }
+           return insertStatement.executeUpdate();
+       } catch (SQLException e) {
+           System.out.println(e);
+       }
+
+        return -1;
     }
 
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE LEAGUE SET name = ?, category = ? WHERE leagueID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumber = ? WHERE addressID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
-                   updateStatement.setString(index, (String)o);
-                   index++;
+                    updateStatement.setString(index, (String)o);
+                    index++;
                 }
 
                 if (o instanceof Integer){
@@ -109,7 +108,7 @@ public class LeagueTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM LEAGUE WHERE leagueID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -118,4 +117,3 @@ public class LeagueTable {
         return -1;
     }
 }
-

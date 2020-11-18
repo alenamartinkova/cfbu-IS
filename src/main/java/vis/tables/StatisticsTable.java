@@ -1,9 +1,7 @@
-package dais.tables;
+package vis.tables;
 
-import dais.entities.Referee;
-import dais.entities.Statistics;
+import vis.entities.Statistics;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

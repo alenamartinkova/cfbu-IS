@@ -1,6 +1,4 @@
-package dais;
-
-import dais.tables.*;
+package vis;
 
 import java.sql.SQLException;
 

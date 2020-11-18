@@ -1,5 +1,5 @@
-package dais.tables;
-import dais.entities.Team;
+package vis.tables;
+import vis.entities.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class TeamTable {
          return teams;
     }
 
-    public Integer insert(Object ... values) throws SQLException {
+    public Integer insert(Object ... values) {
         try {
             Integer index = 1;
             PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?, ?)");

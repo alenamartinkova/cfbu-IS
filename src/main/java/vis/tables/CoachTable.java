@@ -1,33 +1,32 @@
-package dais.tables;
+package vis.tables;
 
-import dais.entities.Statistics;
-import dais.entities.Team;
-import dais.entities.TeamMatch;
+import vis.entities.Coach;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TeamMatchTable {
-    public TeamMatchTable(){};
+public class CoachTable {
+    public CoachTable() {};
 
-    public ArrayList<TeamMatch> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");
-        ArrayList<TeamMatch> teamMatches = new ArrayList<>();
+    public ArrayList<Coach> fetch() throws SQLException {
+        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM COACH");
+        ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
-            teamMatches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+            coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
-        return teamMatches;
+        return coaches;
     }
 
-    public ArrayList<TeamMatch> fetchByAttr(Object ... values) {
-        ArrayList<TeamMatch> teamMatch = new ArrayList<>();
+    public ArrayList<Coach> fetchByAttr(Object ... values) {
+        ArrayList<Coach> coach = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM TeamMatch WHERE ";
+        String queryStr = "SELECT * FROM Coach WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -38,8 +37,17 @@ public class TeamMatchTable {
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
+                        index++;
+                    }
                     if (values[i] instanceof Integer) {
                         query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+
+                    if (values[i] instanceof Date) {
+                        query.setDate(index, (Date) values[i]);
                         index++;
                     }
                 }
@@ -47,25 +55,33 @@ public class TeamMatchTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                teamMatch.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
-
+                coach.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return teamMatch;
+        return coach;
     }
-
 
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TeamMatch VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO Coach VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             for (Object o : values) {
+                if (o instanceof String) {
+                    insertStatement.setString(index, (String)o);
+                    index++;
+                }
+
                 if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
+                    index++;
+                }
+
+                if (o instanceof Date){
+                    insertStatement.setDate(index, (Date)o);
                     index++;
                 }
             }
@@ -80,10 +96,20 @@ public class TeamMatchTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE TeamMatch SET matchID = ?, firstTeamID = ?, secondTeamID = ?, firstRefereeID = ?, secondRefereeID = ?, firstTeamGoals = ?, secondTeamGoals = ? WHERE teamMatchID = ?");
+            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Coach SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, license = ? WHERE coachID = ?");
             for (Object o : values) {
+                if (o instanceof String) {
+                    updateStatement.setString(index, (String)o);
+                    index++;
+                }
+
                 if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
+                    index++;
+                }
+
+                if (o instanceof Date){
+                    updateStatement.setDate(index, (Date) o);
                     index++;
                 }
             }
@@ -98,7 +124,7 @@ public class TeamMatchTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TeamMatch WHERE teamMatchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
