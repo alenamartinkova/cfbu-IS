@@ -1,4 +1,4 @@
-package dais.entities;
+package vis.entities;
 
 public class Statistics {
     Integer statsID;
