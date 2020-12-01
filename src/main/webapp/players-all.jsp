@@ -3,15 +3,14 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <div class="detail-wrapper">
-            <div class="row">
-                <div>List of Players</div>
-                <div><input type="text" placeholder="Search"></div>
-            </div>
-        </div>
-
         <form width="100%" border="1" align="center" method="POST" action="detail.jsp">
-            <ul class="checkbox-list">
+            <div class="detail-wrapper">
+                <div class="row">
+                    <div>List of Players</div>
+                    <div><input type="text" name="filter" placeholder="Search" style="margin-right: 10px;"><input type="submit" value="Filter" formaction="filter_players.jsp"></div>
+                </div>
+            </div>
+
             <%
               try {
                     PlayerTable pt = new PlayerTable();

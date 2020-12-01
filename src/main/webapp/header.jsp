@@ -136,6 +136,7 @@
 
     .detail-wrapper {
         max-width: 800px;
+        margin: 0 auto;
     }
 
     .row {

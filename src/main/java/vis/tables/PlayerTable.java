@@ -142,4 +142,28 @@ public class PlayerTable extends Table {
 
         return -1;
     }
+
+    public ArrayList<Player> searchByAttr(String val) {
+        ArrayList<Player> players = new ArrayList<Player>();
+
+        String queryStr = "SELECT * FROM Player WHERE memberID LIKE ? OR name LIKE ? OR sureName LIKE ? OR email LIKE ?";
+
+        try {
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
+
+            for (int i = 1; i <= 4; i++) {
+                query.setString(i, "%" + val + "%");
+            }
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return players;
+    }
 }
