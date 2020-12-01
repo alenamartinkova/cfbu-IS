@@ -1,4 +1,5 @@
 package vis.tables;
+
 import vis.entities.Team;
 
 import java.sql.*;
@@ -11,7 +12,7 @@ public class TeamTable extends Table {
         super("Team");
 
         this.columns = new ArrayList<>(
-                Arrays.asList("user_id", "username", "password", "first_name", "surname", "phone", "email")
+                Arrays.asList("teamID", "leagueID", "name", "rank", "covid", "quarantinedFrom")
         );
     };
 
@@ -19,69 +20,70 @@ public class TeamTable extends Table {
         ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
-            teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
+            teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
         }
 
          rs.close();
          return teams;
     }
 
-    public Integer insert(Object ... values) {
+    public Integer insert(Team team) {
+        String query = this.buildInsert(5, 1);
+
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    insertStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, team.getLeagueID());
+            preparedQuery.setString(2, team.getName());
+            preparedQuery.setInt(3, team.getRank());
+            preparedQuery.setInt(4, team.getCovid());
+            preparedQuery.setTimestamp(5, team.getQurantinedFrom());
 
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+            output = preparedQuery.executeUpdate();
 
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
-                    index++;
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating team failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(Team team) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE TEAM SET leagueID = ?, name = ?, rank = ?, covid = ?, qurantinedFrom = ? WHERE teamID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    updateStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, team.getLeagueID());
+            preparedQuery.setString(2, team.getName());
+            preparedQuery.setInt(3, team.getRank());
+            preparedQuery.setInt(4, team.getCovid());
+            preparedQuery.setTimestamp(5, team.getQurantinedFrom());
+            preparedQuery.setInt(6, team.getId());
 
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date)o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
+
 
     public ArrayList<Team> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
@@ -116,7 +118,7 @@ public class TeamTable extends Table {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -140,7 +142,7 @@ public class TeamTable extends Table {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
+                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
             }
             rs.close();
         } catch (SQLException e) {

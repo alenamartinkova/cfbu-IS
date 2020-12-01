@@ -1,6 +1,6 @@
 package vis.entities;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Team {
     Integer id;
@@ -8,15 +8,19 @@ public class Team {
     String name;
     Integer leagueID;
     Integer covid;
-    Date qurantinedFrom;
+    Timestamp quarantinedFrom;
 
-    public Team(Integer id, Integer l,  String n, Integer r, Integer c, Date q) {
+    public Team(Integer id, Integer l,  String n, Integer r, Integer c, String q) {
         this.id = id;
         this.rank = r;
         this.name = n;
         this.leagueID = l;
         this.covid = c;
-        this.qurantinedFrom = q;
+        try {
+            this.quarantinedFrom = Timestamp.valueOf(q);
+        } catch (IllegalArgumentException ex) {
+            this.quarantinedFrom = null;
+        }
     }
 
     public Team(){};
@@ -41,7 +45,7 @@ public class Team {
         return this.covid;
     }
 
-    public Date getQurantinedFrom() {
-        return this.qurantinedFrom;
+    public Timestamp getQurantinedFrom() {
+        return this.quarantinedFrom;
     }
 }
