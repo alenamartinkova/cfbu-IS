@@ -1,10 +1,12 @@
 package vis.tables;
 
 import vis.entities.Pitch;
+import vis.entities.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -68,51 +70,57 @@ public class PitchTable extends Table {
     }
 
 
-    public Integer insert(Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO PITCH VALUES (?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+    public Integer insert(Pitch pitch) {
+        String query = this.buildInsert(3, 1);
 
-                if (o instanceof String){
-                    insertStatement.setString(index, (String) o);
-                    index++;
+        PreparedStatement preparedQuery = null;
+        int output = 0;
+        try {
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, pitch.getAddressID());
+            preparedQuery.setInt(2, pitch.getCapacity());
+            preparedQuery.setString(3, pitch.getName());
+
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating pitch failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Pitch SET addressID = ?, capacity = ?, name = ? WHERE pitchID = ?");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
+    public int update(Pitch pitch) {
+        int output = 0;
 
-                if (o instanceof String){
-                    updateStatement.setString(index, (String) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
+        try {
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, pitch.getAddressID());
+            preparedQuery.setInt(2, pitch.getCapacity());
+            preparedQuery.setString(3, pitch.getName());
+            preparedQuery.setInt(4, pitch.getPitchID());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {

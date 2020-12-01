@@ -109,7 +109,7 @@ public class AddressTable extends Table {
             preparedQuery.setString(1, address.getCity());
             preparedQuery.setString(2, address.getStreet());
             preparedQuery.setInt(3, address.getStreetNumber());
-            preparedQuery.setInt(9, address.getId());
+            preparedQuery.setInt(4, address.getId());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();

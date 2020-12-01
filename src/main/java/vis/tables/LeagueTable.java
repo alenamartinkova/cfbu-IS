@@ -1,9 +1,11 @@
 package vis.tables;
 import vis.entities.League;
+import vis.entities.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -27,27 +29,55 @@ public class LeagueTable extends Table{
         return leagues;
     }
 
-    public Integer insert(Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO LEAGUE VALUES (?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                   insertStatement.setString(index, (String)o);
-                    index++;
-                }
+    public Integer insert(League league) {
+        String query = this.buildInsert(2, 1);
 
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
+        PreparedStatement preparedQuery = null;
+        int output = 0;
+        try {
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setString(1, league.getName());
+            preparedQuery.setInt(2, league.getCategory());
+
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating league failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
+    }
+
+    public int update(League league) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
+        try {
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setString(1, league.getName());
+            preparedQuery.setInt(2, league.getCategory());
+            preparedQuery.setInt(3, league.getId());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return output;
     }
 
     public ArrayList<League> fetchByAttr(Object ... values) {
@@ -86,30 +116,6 @@ public class LeagueTable extends Table{
         }
 
         return league;
-    }
-
-    public Integer update(Integer id, Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE LEAGUE SET name = ?, category = ? WHERE leagueID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                   updateStatement.setString(index, (String)o);
-                   index++;
-                }
-
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer)o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return -1;
     }
 
     public Integer delete(Integer id) {

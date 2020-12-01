@@ -22,7 +22,11 @@ public class Player {
         this.teamID = tID;
         this.dateOfBirth = Timestamp.valueOf(d);
         this.covid = c;
-        this.quarantinedFrom = Timestamp.valueOf(q);
+        try {
+            this.quarantinedFrom = Timestamp.valueOf(q);
+        } catch (IllegalArgumentException ex) {
+            this.quarantinedFrom = null;
+        }
         this.email = e;
         this.stick = s;
     }

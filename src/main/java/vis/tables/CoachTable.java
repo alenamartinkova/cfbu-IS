@@ -2,10 +2,7 @@ package vis.tables;
 
 import vis.entities.Coach;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +19,7 @@ public class CoachTable extends Table{
         ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM COACH");
         ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
-            coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+            coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
@@ -62,7 +59,7 @@ public class CoachTable extends Table{
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                coach.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+                coach.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -72,61 +69,67 @@ public class CoachTable extends Table{
         return coach;
     }
 
-    public Integer insert(Object ... values) {
+    public Integer insert(Coach coach) {
+        String query = this.buildInsert(8, 1);
+
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO Coach VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    insertStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, coach.getTeamID());
+            preparedQuery.setString(2, coach.getName());
+            preparedQuery.setString(3, coach.getSureName());
+            preparedQuery.setTimestamp(4, coach.getDateOfBirth());
+            preparedQuery.setInt(5, coach.getCovid());
+            preparedQuery.setTimestamp(6, coach.getQuarantinedFrom());
+            preparedQuery.setString(7, coach.getEmail());
+            preparedQuery.setString(8, coach.getLicense());
 
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+            output = preparedQuery.executeUpdate();
 
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
-                    index++;
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating coach failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(Coach coach) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Coach SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, license = ? WHERE coachID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    updateStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, coach.getTeamID());
+            preparedQuery.setString(2, coach.getName());
+            preparedQuery.setString(3, coach.getSureName());
+            preparedQuery.setTimestamp(4, coach.getDateOfBirth());
+            preparedQuery.setInt(5, coach.getCovid());
+            preparedQuery.setTimestamp(6, coach.getQuarantinedFrom());
+            preparedQuery.setString(7, coach.getEmail());
+            preparedQuery.setString(8, coach.getLicense());
+            preparedQuery.setInt(9, coach.getId());
 
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {

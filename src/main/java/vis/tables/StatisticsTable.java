@@ -5,6 +5,7 @@ import vis.entities.Statistics;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -63,42 +64,61 @@ public class StatisticsTable extends Table {
     }
 
 
-    public Integer insert(Object ... values) {
+    public Integer insert(Statistics stats) {
+        String query = this.buildInsert(4, 1);
+
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO Stats VALUES (?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, stats.getPlayerID());
+            preparedQuery.setInt(2, stats.getAssists());
+            preparedQuery.setInt(3, stats.getGoals());
+            preparedQuery.setInt(4, stats.getPoints());
+
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating stats failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(Statistics stats) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Stats SET playerID = ?, assists = ?, goals = ?, points = ? WHERE statsID = ?");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, stats.getPlayerID());
+            preparedQuery.setInt(2, stats.getAssists());
+            preparedQuery.setInt(3, stats.getGoals());
+            preparedQuery.setInt(4, stats.getPoints());
+            preparedQuery.setInt(5, stats.getStatsID());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
+
 
     public Integer delete(Integer id) {
         try {

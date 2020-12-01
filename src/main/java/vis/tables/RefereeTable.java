@@ -2,10 +2,7 @@ package vis.tables;
 
 import vis.entities.Referee;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,7 +19,7 @@ public class RefereeTable extends Table {
         ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Referee");
         ArrayList<Referee> referees = new ArrayList<>();
         while (rs.next()) {
-            referees.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5)));
+            referees.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
         }
 
         rs.close();
@@ -62,7 +59,7 @@ public class RefereeTable extends Table {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                referee.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5)));
+                referee.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -72,62 +69,59 @@ public class RefereeTable extends Table {
         return referee;
     }
 
+    public Integer insert(Referee referee) {
+        String query = this.buildInsert(4, 1);
 
-    public Integer insert(Object ... values) {
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO Referee VALUES (?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    insertStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setString(1, referee.getName());
+            preparedQuery.setString(2, referee.getSureName());
+            preparedQuery.setString(3, referee.getEmail());
+            preparedQuery.setTimestamp(4, referee.getDateOfBirth());
 
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+            output = preparedQuery.executeUpdate();
 
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
-                    index++;
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating referee failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(Referee referee) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Referee SET name = ?, sureName = ?, email = ?, dateOfBirth = ?  WHERE refereeID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    updateStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setString(1, referee.getName());
+            preparedQuery.setString(2, referee.getSureName());
+            preparedQuery.setString(3, referee.getEmail());
+            preparedQuery.setTimestamp(4, referee.getDateOfBirth());
+            preparedQuery.setInt(5, referee.getRefereeID());
 
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {

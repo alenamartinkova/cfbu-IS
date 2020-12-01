@@ -1,19 +1,20 @@
 package vis.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Referee {
     Integer refereeID;
     String name;
     String sureName;
-    Date dateOfBirth;
     String email;
+    Timestamp dateOfBirth;
 
-    public Referee(Integer rID, String n, String sn, String e, Date d) {
+    public Referee(Integer rID, String n, String sn, String e, String d) {
         this.refereeID = rID;
         this.name = n;
         this.sureName = sn;
-        this.dateOfBirth = d;
+        this.dateOfBirth = Timestamp.valueOf(d);
         this.email = e;
     }
 
@@ -21,7 +22,7 @@ public class Referee {
         return this.name;
     }
 
-    public Date getDateOfBirth() {
+    public Timestamp getDateOfBirth() {
         return this.dateOfBirth;
     }
 

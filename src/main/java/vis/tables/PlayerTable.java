@@ -69,7 +69,6 @@ public class PlayerTable extends Table {
         return player;
     }
 
-
     public Integer insert(Player player) {
         String query = this.buildInsert(8, 1);
 

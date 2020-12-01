@@ -1,10 +1,8 @@
 package vis.tables;
 import vis.entities.Match;
+import vis.entities.Player;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,7 +11,7 @@ public class MatchTable extends Table {
         super("Match");
 
         this.columns = new ArrayList<>(
-                Arrays.asList("matchID", "postponed", "date")
+                Arrays.asList("matchID", "postponed", "date", "pitchID")
         );
     };
 
@@ -21,7 +19,7 @@ public class MatchTable extends Table {
         ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Match");
         ArrayList<Match> matches = new ArrayList<>();
         while (rs.next()) {
-            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
+            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
@@ -57,7 +55,7 @@ public class MatchTable extends Table {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
+                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -68,51 +66,57 @@ public class MatchTable extends Table {
     }
 
 
-    public Integer insert(Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO MATCH VALUES (?, ?)");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+    public Integer insert(Match match) {
+        String query = this.buildInsert(3, 1);
 
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
-                    index++;
+        PreparedStatement preparedQuery = null;
+        int output = 0;
+        try {
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, match.getPostponed());
+            preparedQuery.setTimestamp(2, match.getDate());
+            preparedQuery.setInt(3, match.getPitchID());
+
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating match failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
-        try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE MATCH SET postponed = ?, date = ? WHERE matchID = ?");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
+    public int update(Match match) {
+        int output = 0;
 
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
+        try {
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, match.getPostponed());
+            preparedQuery.setTimestamp(2, match.getDate());
+            preparedQuery.setInt(3, match.getPitchID());
+            preparedQuery.setInt(4, match.getMatchID());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {

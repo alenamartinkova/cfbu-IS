@@ -1,5 +1,6 @@
 package vis.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Coach {
@@ -7,20 +8,24 @@ public class Coach {
     String name;
     String sureName;
     Integer teamID;
-    Date dateOfBirth;
+    Timestamp dateOfBirth;
     Integer covid;
-    Date quarantinedFrom;
+    Timestamp quarantinedFrom;
     String email;
     String license;
 
-    public Coach(Integer id, Integer tID, String n, String sn, Date d, Integer c, Date q, String e, String l) {
+    public Coach(Integer id, Integer tID, String n, String sn, String d, Integer c, String q, String e, String l) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
         this.teamID = tID;
-        this.dateOfBirth = d;
+        this.dateOfBirth = Timestamp.valueOf(d);
         this.covid = c;
-        this.quarantinedFrom = q;
+        try {
+            this.quarantinedFrom = Timestamp.valueOf(q);
+        } catch (IllegalArgumentException ex) {
+            this.quarantinedFrom = null;
+        }
         this.email = e;
         this.license = l;
     }
@@ -37,11 +42,11 @@ public class Coach {
         return this.covid;
     }
 
-    public Date getDateOfBirth() {
+    public Timestamp getDateOfBirth() {
         return this.dateOfBirth;
     }
 
-    public Date getQuarantinedFrom() {
+    public Timestamp getQuarantinedFrom() {
         return this.quarantinedFrom;
     }
 
@@ -53,7 +58,7 @@ public class Coach {
         return this.sureName;
     }
 
-    public String getStick() {
+    public String getLicense() {
         return this.license;
     }
 

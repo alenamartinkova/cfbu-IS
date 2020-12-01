@@ -5,6 +5,7 @@ import vis.entities.TeamMatch;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -64,41 +65,65 @@ public class TeamMatchTable extends Table {
     }
 
 
-    public Integer insert(Object ... values) {
+    public Integer insert(TeamMatch teamMatch) {
+        String query = this.buildInsert(7, 1);
+
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO TeamMatch VALUES (?, ?, ?, ?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, teamMatch.getMatchID());
+            preparedQuery.setInt(2, teamMatch.getFirstTeamID());
+            preparedQuery.setInt(3, teamMatch.getSecondTeamID());
+            preparedQuery.setInt(4, teamMatch.getFirstRefereeID());
+            preparedQuery.setInt(5, teamMatch.getSecondRefereeID());
+            preparedQuery.setInt(6, teamMatch.getFirstTeamGoals());
+            preparedQuery.setInt(7, teamMatch.getSecondTeamGoals());
+
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating team match conn failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(TeamMatch teamMatch) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE TeamMatch SET matchID = ?, firstTeamID = ?, secondTeamID = ?, firstRefereeID = ?, secondRefereeID = ?, firstTeamGoals = ?, secondTeamGoals = ? WHERE teamMatchID = ?");
-            for (Object o : values) {
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, teamMatch.getMatchID());
+            preparedQuery.setInt(2, teamMatch.getFirstTeamID());
+            preparedQuery.setInt(3, teamMatch.getSecondTeamID());
+            preparedQuery.setInt(4, teamMatch.getFirstRefereeID());
+            preparedQuery.setInt(5, teamMatch.getSecondRefereeID());
+            preparedQuery.setInt(6, teamMatch.getFirstTeamGoals());
+            preparedQuery.setInt(7, teamMatch.getSecondTeamGoals());
+            preparedQuery.setInt(9, teamMatch.getTeamMatchID());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {
