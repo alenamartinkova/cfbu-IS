@@ -7,8 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<header class="header">
-    <h1 style="text-align: center;"><a style="text-decoration: none; color: white;" href="index.jsp">Project DAIS</a></h1>
+<header>
+    <div class="header">
+        <div>
+            <h1><a href="index.jsp">Project VIS</a></h1>
+        </div>
+
+        <div>
+            <nav>
+                <ul class="list">
+                    <li class="list-item">
+                        <a href="#">TEAMS</a>
+                    </li>
+                    <li class="list-item">
+                        <a href="players-all.jsp">PLAYERS</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </header>
 
 <style>
@@ -20,10 +37,19 @@
         margin: 0;
     }
 
-    .header {
+    header {
         width: 100%;
-        background-color: #01baff;
-        color: white;
+        border-bottom: 1px solid darkred;
+        position: fixed;
+        top: 0;
+        background: white;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
     .header h1 {
@@ -34,7 +60,7 @@
     .btn {
         background-color: #000;
         border: none;
-        color: #01baff;
+        color: darkred;
         padding: 15px 25px;
         border-radius: 10px;
         text-align: center;
@@ -47,17 +73,43 @@
 
     .list {
         width: 100%;
-        padding: 0;
-        margin-bottom: 20px;
+        margin: 20px 0 0 0;
+    }
+
+    .checkbox-list {
+        padding-left: 0;
     }
 
     .list-item {
         list-style: none;
         position: relative;
+        display: inline-block;
+        padding: 10px;
     }
 
-    .input {
-        position: absolute;
-        left: 41%;
+    main {
+        margin-top: 150px;
+    }
+
+    .main-index h1 {
+        color: darkred;
+    }
+
+    .main-index a {
+        font-size: 24px;
+        padding: 20px;
+    }
+
+    a {
+        color: black;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: darkred;
+    }
+
+    li {
+        list-style: none;
     }
 </style>

@@ -3,40 +3,39 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Team Detail</h2>
+        <h2>Player Detail</h2>
         <%
-        String teamIdString = "";
+        String playerIDString = "";
         Enumeration paramNames = request.getParameterNames();
 
         while (paramNames.hasMoreElements()) {
-            teamIdString = (String) paramNames.nextElement();
+            playerIDString = (String) paramNames.nextElement();
         }
 
-        Integer teamId;
+        Integer playerID;
         try {
-            teamId = Integer.parseInt(teamIdString);
+            playerID = Integer.parseInt(playerIDString);
         } catch (NumberFormatException e) {
-            teamId = -1;
+            playerID = -1;
         }
 
-        LeagueTable lt = new LeagueTable();
-        TeamTable table = new TeamTable();
+        PlayerTable pt = new PlayerTable();
 
-        if (teamId != -1) {
-            ArrayList<Team> teams  = table.fetchByAttr("TEAM_ID", teamId);
+        if (playerID != -1) {
+            ArrayList<Player> player  = pt.fetchByAttr("memberID", playerID);
 
-            String l_name = "";
             // it will always be only one team (because id is unique) , but it returns arraylist so.
-            for (Team t : teams) {
-                ArrayList<League> league = lt.fetchByAttr("LEAGUE_ID", t.getLeagueId());
-                // not pretty i know
-                for (League l : league) {
-                    l_name = l.getName();
-                }
-                out.println("<p><strong>ID:</strong> " + t.getId() + "</p><br>");
-                out.println("<p><strong>Name:</strong> " + t.getName() + "</p><br>");
-                out.println("<p><strong>League:</strong> " + t.getLeagueId() + ". "+ l_name +"</p><br>");
-                out.println("<p><strong>Rank: </strong>" + t.getRank() + "</p><br>");
+            for (Player p : player) {
+                out.println("<p><strong>ID:</strong> " + p.getId() + "</p><br>");
+                out.println("<p><strong>Name:</strong> " + p.getName() + "</p><br>");
+                out.println("<p><strong>Sure Name:</strong> " + p.getSureName() +"</p><br>");
+                out.println("<p><strong>Email: </strong>" + p.getEmail() + "</p><br>");
+                out.println("<p><strong>Covid: </strong>" + p.getCovid() + "</p><br>");
+                out.println("<p><strong>Date of birth: </strong>" + p.getDateOfBirth() + "</p><br>");
+                out.println("<p><strong>Quarantined from: </strong>" + p.getQuarantinedFrom() + "</p><br>");
+                out.println("<p><strong>Stick: </strong>" + p.getStick() + "</p><br>");
+                out.println("<p><strong>Team: </strong>" + p.getTeamID() + "</p><br>");
+                out.println("<button class='btn'>Submit</button><br>");
             }
         }
         %>

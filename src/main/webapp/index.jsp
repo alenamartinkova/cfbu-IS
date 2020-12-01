@@ -1,34 +1,13 @@
 <%@ page import = "java.io.*,java.util.*, vis.tables.*, vis.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ include file="header.jsp" %>
-<main>
+<main class="main-index">
     <center>
-        <h2>Teams</h2>
-        <form width = "100%" border = "1" align = "center" method="POST" action="detail.jsp">
-            <input type="text" name="filter" style="margin-right: 10px;"><input type="submit" value="Filter" formaction="filter_teams.jsp">
-            <ul class="list">
-            <%
-              try {
-                    TeamTable table = new TeamTable();
-                    ArrayList<Team> teams  = table.fetch();
-
-                    for (Team t : teams) {
-                        out.println("<li class='list-item'><input class='input' type='checkbox' name='" + t.getId() + "'/>" + t.getId() + ". " + t.getName() + "</li><br>");
-                    }
-
-                    out.println("</ul>");
-                    out.println("<input class='btn' type='submit' value='Team detail'/>");
-                    out.println("<input class='btn' type='submit' formaction='delete.jsp' value='Delete team'/>");
-                    out.println("<input class='btn' type='submit' formaction='update.jsp' value='Update team'/>");
-                    out.println("<input class='btn' type='submit' formaction='add.jsp' value='Add team'/>");
-                    out.println("<input class='btn' type='submit' formaction='change_league.jsp' value='Add league'/>");
-                    out.println("<input class='btn' type='submit' formaction='transfer_team.jsp' value='Transfer team'/>");
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            %>
-        </form>
+        <h1>PLEASE CHOOSE WHAT ENTITY DO YOU WANT TO EDIT</h1>
+        <div>
+            <a href="#">TEAMS</a>
+            <a href="players-all.jsp">PLAYERS</a>
+        </div>
     </center>
 </main>
 

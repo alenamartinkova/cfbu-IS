@@ -6,9 +6,8 @@
 
 <style>
     .footer {
+        border-top: 1px solid darkred;
         width: 100%;
-        background-color: #01baff;
-        color: white;
         margin-top: 20px;
     }
 
