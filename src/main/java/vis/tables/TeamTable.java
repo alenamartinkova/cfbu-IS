@@ -3,22 +3,20 @@ import vis.entities.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
-public class TeamTable {
-    public TeamTable(){};
-    public static Connection conn;
+public class TeamTable extends Table {
+    public TeamTable() throws SQLException {
+        super("Team");
 
-    static {
-        try {
-            conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+        this.columns = new ArrayList<>(
+                Arrays.asList("user_id", "username", "password", "first_name", "surname", "phone", "email")
+        );
+    };
 
     public ArrayList<Team> fetch() throws SQLException {
-        ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM TEAM");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
             teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDate(6)));
@@ -31,7 +29,7 @@ public class TeamTable {
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO TEAM VALUES (?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -59,7 +57,7 @@ public class TeamTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE TEAM SET leagueID = ?, name = ?, rank = ?, covid = ?, qurantinedFrom = ? WHERE teamID = ?");
+            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE TEAM SET leagueID = ?, name = ?, rank = ?, covid = ?, qurantinedFrom = ? WHERE teamID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -134,7 +132,7 @@ public class TeamTable {
         String queryStr = "SELECT * FROM TEAM WHERE TEAMID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUEID LIKE ?";
 
         try {
-            PreparedStatement query = conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
 
             for (int i = 1; i <= 4; i++) {
                 query.setString(i, "%" + val + "%");
@@ -155,7 +153,7 @@ public class TeamTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM TEAM WHERE teamID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM TEAM WHERE teamID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

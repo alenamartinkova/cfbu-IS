@@ -1,5 +1,7 @@
 package vis.entities;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Player {
@@ -7,20 +9,20 @@ public class Player {
     Integer teamID;
     String name;
     String sureName;
-    Date dateOfBirth;
+    Timestamp dateOfBirth;
     Integer covid;
-    Date quarantinedFrom;
+    Timestamp quarantinedFrom;
     String email;
     String stick;
 
-    public Player(Integer id, Integer tID, String n, String sn, Date d, Integer c, Date q, String e, String s) {
+    public Player(Integer id, Integer tID, String n, String sn, String d, Integer c, String q, String e, String s) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
         this.teamID = tID;
-        this.dateOfBirth = d;
+        this.dateOfBirth = Timestamp.valueOf(d);
         this.covid = c;
-        this.quarantinedFrom = q;
+        this.quarantinedFrom = Timestamp.valueOf(q);
         this.email = e;
         this.stick = s;
     }
@@ -37,11 +39,11 @@ public class Player {
         return this.covid;
     }
 
-    public Date getDateOfBirth() {
+    public Timestamp getDateOfBirth() {
         return this.dateOfBirth;
     }
 
-    public Date getQuarantinedFrom() {
+    public Timestamp getQuarantinedFrom() {
         return this.quarantinedFrom;
     }
 

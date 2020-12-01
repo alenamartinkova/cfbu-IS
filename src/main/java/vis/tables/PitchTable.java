@@ -6,12 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class PitchTable {
-    public PitchTable(){};
+public class PitchTable extends Table {
+    public PitchTable() throws SQLException {
+        super("Pitch");
+
+        this.columns = new ArrayList<>(
+                Arrays.asList("pitchID", "addressID", "capacity", "name")
+        );
+    };
 
     public ArrayList<Pitch> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM Pitch");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Pitch");
         ArrayList<Pitch> pitches = new ArrayList<>();
         while (rs.next()) {
             pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
@@ -32,7 +39,7 @@ public class PitchTable {
         }
 
         try {
-            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -64,7 +71,7 @@ public class PitchTable {
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO PITCH VALUES (?, ?, ?)");
+            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO PITCH VALUES (?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
@@ -87,7 +94,7 @@ public class PitchTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Pitch SET addressID = ?, capacity = ?, name = ? WHERE pitchID = ?");
+            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Pitch SET addressID = ?, capacity = ?, name = ? WHERE pitchID = ?");
             for (Object o : values) {
                 if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
@@ -110,7 +117,7 @@ public class PitchTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

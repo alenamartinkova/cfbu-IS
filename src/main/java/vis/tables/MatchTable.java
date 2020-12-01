@@ -6,12 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class MatchTable {
-    public MatchTable(){};
+public class MatchTable extends Table {
+    public MatchTable() throws SQLException {
+        super("Match");
+
+        this.columns = new ArrayList<>(
+                Arrays.asList("matchID", "postponed", "date")
+        );
+    };
 
     public ArrayList<Match> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM Match");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Match");
         ArrayList<Match> matches = new ArrayList<>();
         while (rs.next()) {
             matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getDate(3)));
@@ -32,7 +39,7 @@ public class MatchTable {
         }
 
         try {
-            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -64,7 +71,7 @@ public class MatchTable {
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO MATCH VALUES (?, ?)");
+            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO MATCH VALUES (?, ?)");
             for (Object o : values) {
                 if (o instanceof Integer){
                     insertStatement.setInt(index, (Integer)o);
@@ -87,7 +94,7 @@ public class MatchTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE MATCH SET postponed = ?, date = ? WHERE matchID = ?");
+            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE MATCH SET postponed = ?, date = ? WHERE matchID = ?");
             for (Object o : values) {
                 if (o instanceof Integer){
                     updateStatement.setInt(index, (Integer) o);
@@ -110,7 +117,7 @@ public class MatchTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

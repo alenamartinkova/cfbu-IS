@@ -5,12 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class AddressTable {
-    public AddressTable(){};
+public class AddressTable extends Table {
+    public AddressTable() throws SQLException {
+        super("Address");
+
+        this.columns = new ArrayList<>(
+                Arrays.asList("addressID", "city", "street", "streetNumber")
+        );
+    };
 
     public ArrayList<Address> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
         ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
             addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
@@ -31,7 +38,7 @@ public class AddressTable {
         }
 
         try {
-            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -62,7 +69,7 @@ public class AddressTable {
     public Integer insert(Object ... values) {
        try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?)");
+            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?)");
             for (Object o : values) {
                if (o instanceof String) {
                    insertStatement.setString(index, (String)o);
@@ -85,7 +92,7 @@ public class AddressTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumber = ? WHERE addressID = ?");
+            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumber = ? WHERE addressID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -108,7 +115,7 @@ public class AddressTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

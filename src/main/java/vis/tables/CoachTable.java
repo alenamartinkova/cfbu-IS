@@ -7,12 +7,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class CoachTable {
-    public CoachTable() {};
+public class CoachTable extends Table{
+    public CoachTable() throws SQLException {
+        super("Coach");
+
+        this.columns = new ArrayList<>(
+                Arrays.asList("memberID", "teamID", "name", "sureName", "dateOfBirth", "covid", "quarantinedFrom", "email", "license")
+        );
+    };
 
     public ArrayList<Coach> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM COACH");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM COACH");
         ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
             coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
@@ -33,7 +40,7 @@ public class CoachTable {
         }
 
         try {
-            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -68,7 +75,7 @@ public class CoachTable {
     public Integer insert(Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO Coach VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO Coach VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             for (Object o : values) {
                 if (o instanceof String) {
                     insertStatement.setString(index, (String)o);
@@ -96,7 +103,7 @@ public class CoachTable {
     public Integer update(Integer id, Object ... values) {
         try {
             Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE Coach SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, license = ? WHERE coachID = ?");
+            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE Coach SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, license = ? WHERE coachID = ?");
             for (Object o : values) {
                 if (o instanceof String) {
                     updateStatement.setString(index, (String)o);
@@ -124,7 +131,7 @@ public class CoachTable {
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

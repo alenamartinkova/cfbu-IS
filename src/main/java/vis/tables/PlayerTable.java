@@ -4,15 +4,22 @@ import vis.entities.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class PlayerTable {
-    public PlayerTable(){};
+public class PlayerTable extends Table {
+    public PlayerTable() throws SQLException {
+        super("Player");
+
+        this.columns = new ArrayList<>(
+                Arrays.asList("memberID", "teamID", "name", "sureName", "dateOfBirth", "covid", "quarantinedFrom", "email", "stick")
+        );
+    };
 
     public ArrayList<Player> fetch() throws SQLException {
-        ResultSet rs = TeamTable.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
+        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
         ArrayList<Player> players = new ArrayList<>();
         while (rs.next()) {
-            players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+            players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
@@ -30,7 +37,7 @@ public class PlayerTable {
         }
 
         try {
-            PreparedStatement query = TeamTable.conn.prepareStatement(queryStr);
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -43,8 +50,8 @@ public class PlayerTable {
                         index++;
                     }
 
-                    if (values[i] instanceof Date) {
-                        query.setDate(index, (Date) values[i]);
+                    if (values[i] instanceof Timestamp) {
+                        query.setTimestamp(index, (Timestamp) values[i]);
                         index++;
                     }
                 }
@@ -52,7 +59,7 @@ public class PlayerTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                player.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getDate(5), rs.getInt(6), rs.getDate(7), rs.getString(8), rs.getString(9)));
+                player.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -63,66 +70,72 @@ public class PlayerTable {
     }
 
 
-    public Integer insert(Object ... values) {
+    public Integer insert(Player player) {
+        String query = this.buildInsert(8, 1);
+
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement insertStatement = TeamTable.conn.prepareStatement("INSERT INTO PLAYER VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    insertStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setInt(1, player.getTeamID());
+            preparedQuery.setString(2, player.getName());
+            preparedQuery.setString(3, player.getSureName());
+            preparedQuery.setTimestamp(4, player.getDateOfBirth());
+            preparedQuery.setInt(5, player.getCovid());
+            preparedQuery.setTimestamp(6, player.getQuarantinedFrom());
+            preparedQuery.setString(7, player.getEmail());
+            preparedQuery.setString(8, player.getStick());
 
-                if (o instanceof Integer){
-                    insertStatement.setInt(index, (Integer)o);
-                    index++;
-                }
+            output = preparedQuery.executeUpdate();
 
-                if (o instanceof Date){
-                    insertStatement.setDate(index, (Date)o);
-                    index++;
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating player failed, no ID obtained.");
                 }
             }
-            return insertStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
-    public Integer update(Integer id, Object ... values) {
+    public int update(Player player) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = TeamTable.conn.prepareStatement("UPDATE PLAYER SET teamID = ?, name = ?, sureName = ?, dateOfBirth = ?, covid = ?, quarantinedFrom = ?, email = ?, stick = ? WHERE playerID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    updateStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setInt(1, player.getTeamID());
+            preparedQuery.setString(2, player.getName());
+            preparedQuery.setString(3, player.getSureName());
+            preparedQuery.setTimestamp(4, player.getDateOfBirth());
+            preparedQuery.setInt(5, player.getCovid());
+            preparedQuery.setTimestamp(6, player.getQuarantinedFrom());
+            preparedQuery.setString(7, player.getEmail());
+            preparedQuery.setString(8, player.getStick());
+            preparedQuery.setInt(9, player.getId());
 
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer) o);
-                    index++;
-                }
-
-                if (o instanceof Date){
-                    updateStatement.setDate(index, (Date) o);
-                    index++;
-                }
-            }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
     }
 
     public Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = TeamTable.conn.prepareStatement("DELETE FROM PLAYER WHERE playerID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM PLAYER WHERE playerID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
