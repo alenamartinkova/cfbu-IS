@@ -4,6 +4,7 @@ import vis.entities.Address;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -66,51 +67,57 @@ public class AddressTable extends Table {
     }
 
 
-    public Integer insert(Object ... values) {
-       try {
-            Integer index = 1;
-            PreparedStatement insertStatement = this.conn.prepareStatement("INSERT INTO ADDRESS VALUES (?, ?, ?)");
-            for (Object o : values) {
-               if (o instanceof String) {
-                   insertStatement.setString(index, (String)o);
-                   index++;
-                }
+    public Integer insert(Address address) {
+        String query = this.buildInsert(3, 1);
 
-               if (o instanceof Integer){
-                   insertStatement.setInt(index, (Integer)o);
-                   index++;
-               }
-            }
-           return insertStatement.executeUpdate();
-       } catch (SQLException e) {
-           System.out.println(e);
-       }
-
-        return -1;
-    }
-
-    public Integer update(Integer id, Object ... values) {
+        PreparedStatement preparedQuery = null;
+        int output = 0;
         try {
-            Integer index = 1;
-            PreparedStatement updateStatement = this.conn.prepareStatement("UPDATE ADDRESS SET city = ?, street = ?, streetNumber = ? WHERE addressID = ?");
-            for (Object o : values) {
-                if (o instanceof String) {
-                    updateStatement.setString(index, (String)o);
-                    index++;
-                }
+            preparedQuery = this.conn.prepareStatement(query,
+                    Statement.RETURN_GENERATED_KEYS);
+            preparedQuery.setString(1, address.getCity());
+            preparedQuery.setString(2, address.getStreet());
+            preparedQuery.setInt(3, address.getStreetNumber());
 
-                if (o instanceof Integer){
-                    updateStatement.setInt(index, (Integer)o);
-                    index++;
+            output = preparedQuery.executeUpdate();
+
+            try (ResultSet generatedKeys = preparedQuery.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    output = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating address failed, no ID obtained.");
                 }
             }
-            updateStatement.setInt(index, id);
-            return updateStatement.executeUpdate();
+
+            preparedQuery.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
-        return -1;
+        return output;
+    }
+
+    public int update(Address address) {
+        int output = 0;
+
+        String query = this.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
+        try {
+            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery.setString(1, address.getCity());
+            preparedQuery.setString(2, address.getStreet());
+            preparedQuery.setInt(3, address.getStreetNumber());
+            preparedQuery.setInt(9, address.getId());
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return output;
     }
 
     public Integer delete(Integer id) {
