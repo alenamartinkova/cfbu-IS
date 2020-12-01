@@ -35,6 +35,7 @@ CREATE TABLE Match (
     matchID INT PRIMARY KEY IDENTITY (1,1),
     postponed TINYINT NOT NULL,
     date DATETIME NOT NULL
+    pitchID INT FOREIGN KEY REFERENCES Pitch(pitchID)
 );
 
 CREATE TABLE League (
