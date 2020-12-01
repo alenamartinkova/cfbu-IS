@@ -29,6 +29,10 @@
 </header>
 
 <style>
+    * {
+        font-family: Open-Sans, sans-serif;
+    }
+
     main {
         min-height: 620px;
     }
@@ -60,14 +64,14 @@
     .btn {
         background-color: #000;
         border: none;
-        color: darkred;
+        color: white;
         padding: 15px 25px;
         border-radius: 10px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
+        margin: 10px 0 30px 0;
         cursor: pointer;
     }
 
@@ -116,4 +120,27 @@
     .row p {
         display: inline-block;
     }
+
+    table, th, td {
+        margin: 0 auto;
+        border: 1px solid darkred;
+    }
+
+    th, td {
+        padding: 3px 10px;
+    }
+
+    .gray-bg {
+        background: #e6e6e6;
+    }
+
+    .detail-wrapper {
+        max-width: 800px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+
 </style>

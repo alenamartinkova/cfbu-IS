@@ -26,17 +26,20 @@
             out.println("<form method='POST' action='update_done.jsp'>");
             // it will always be only one team (because id is unique) , but it returns arraylist so.
             for (Player p : player) {
-                out.println("<h2>Player no. "+ p.getId() +"</h2>");
-                out.println("<div class='row'><strong>Name:</strong><input type='text' name='newname' value='" + p.getName() + "'>");
-                out.println("<strong>Sure name: </strong><input type='text' name='newsurename' value='" + p.getSureName() + "'></div>");
-                out.println("<div class='row'><strong>Email: </strong><input type='text' name='newemail' value='" + p.getEmail() + "'>");
-                out.println("<strong>Covid: </strong><input type='text' name='newcovid' value='" + p.getCovid() + "'></div>");
-                out.println("<div class='row'><strong>Date of birth: </strong>" + p.getDateOfBirth() + "</p>");
+                out.println("<h2>Player no. "+ p.getId() +"</h2><div class='detail-wrapper'>");
+                out.println("<div class='row'><p><strong>Name: </strong><input type='text' name='newname' value='" + p.getName() + "'></p>");
+                out.println("<p><strong>Sure name: </strong><input type='text' name='newsurename' value='" + p.getSureName() + "'></p></div>");
+                out.println("<div class='row'><p><strong>Email: </strong><input type='text' name='newemail' value='" + p.getEmail() + "'></p>");
+                out.println("<p><strong>Covid: </strong><input type='text' name='newcovid' value='" + p.getCovid() + "'></p></div>");
+                out.println("<div class='row'><p><strong>Date of birth: </strong>" + p.getDateOfBirth()+"</p>");
                 out.println("<p><strong>Quarantined from: </strong><input type='text' name='newquarantinedfrom' value='" + p.getQuarantinedFrom() + "'></div>");
                 out.println("<div class='row'><p><strong>Stick: </strong>" + p.getStick() + "</p>");
-                out.println("<p><strong>Team: </strong>" + p.getTeamID() + "</p></div>");
+                out.println("<p><strong>Team: </strong>" + p.getTeamID() + "</p></div></div>");
                 out.println("<button class='btn'>Submit</button><br>");
                 out.println("<input type='hidden' name='id' value='" + p.getId() + "'>");
+                out.println("<input type='hidden' name='teamid' value='" + p.getTeamID() + "'>");
+                out.println("<input type='hidden' name='date' value='" + p.getDateOfBirth() + "'>");
+                out.println("<input type='hidden' name='stick' value='" + p.getStick() + "'>");
             }
         }
         %>
