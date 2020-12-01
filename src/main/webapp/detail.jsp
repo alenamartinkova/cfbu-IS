@@ -3,7 +3,6 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Player Detail</h2>
         <%
         String playerIDString = "";
         Enumeration paramNames = request.getParameterNames();
@@ -24,18 +23,20 @@
         if (playerID != -1) {
             ArrayList<Player> player  = pt.fetchByAttr("memberID", playerID);
 
+            out.println("<form method='POST' action='update_done.jsp'>");
             // it will always be only one team (because id is unique) , but it returns arraylist so.
             for (Player p : player) {
-                out.println("<p><strong>ID:</strong> " + p.getId() + "</p><br>");
-                out.println("<p><strong>Name:</strong> " + p.getName() + "</p><br>");
-                out.println("<p><strong>Sure Name:</strong> " + p.getSureName() +"</p><br>");
-                out.println("<p><strong>Email: </strong>" + p.getEmail() + "</p><br>");
-                out.println("<p><strong>Covid: </strong>" + p.getCovid() + "</p><br>");
-                out.println("<p><strong>Date of birth: </strong>" + p.getDateOfBirth() + "</p><br>");
-                out.println("<p><strong>Quarantined from: </strong>" + p.getQuarantinedFrom() + "</p><br>");
-                out.println("<p><strong>Stick: </strong>" + p.getStick() + "</p><br>");
-                out.println("<p><strong>Team: </strong>" + p.getTeamID() + "</p><br>");
+                out.println("<h2>Player no. "+ p.getId() +"</h2>");
+                out.println("<div class='row'><strong>Name:</strong><input type='text' name='newname' value='" + p.getName() + "'>");
+                out.println("<strong>Sure name: </strong><input type='text' name='newsurename' value='" + p.getSureName() + "'></div>");
+                out.println("<div class='row'><strong>Email: </strong><input type='text' name='newemail' value='" + p.getEmail() + "'>");
+                out.println("<strong>Covid: </strong><input type='text' name='newcovid' value='" + p.getCovid() + "'></div>");
+                out.println("<div class='row'><strong>Date of birth: </strong>" + p.getDateOfBirth() + "</p>");
+                out.println("<p><strong>Quarantined from: </strong><input type='text' name='newquarantinedfrom' value='" + p.getQuarantinedFrom() + "'></div>");
+                out.println("<div class='row'><p><strong>Stick: </strong>" + p.getStick() + "</p>");
+                out.println("<p><strong>Team: </strong>" + p.getTeamID() + "</p></div>");
                 out.println("<button class='btn'>Submit</button><br>");
+                out.println("<input type='hidden' name='id' value='" + p.getId() + "'>");
             }
         }
         %>

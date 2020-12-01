@@ -82,3 +82,17 @@
 0:0:0:0:0:0:0:1 - - [01/Dec/2020:11:55:13 +0100] "GET /index/players-all.jsp HTTP/1.1" 200 7575 http-bio-8080-exec-4 333
 0:0:0:0:0:0:0:1 - - [01/Dec/2020:11:55:13 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-4 0
 0:0:0:0:0:0:0:1 - - [01/Dec/2020:11:55:17 +0100] "POST /index/detail.jsp HTTP/1.1" 200 2878 http-bio-8080-exec-4 443
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:30:19 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3017 http-bio-8080-exec-5 428
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:30:19 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:30:28 +0100] "POST /index/detail.jsp HTTP/1.1" 200 2986 http-bio-8080-exec-5 291
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:30:28 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:31:01 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3034 http-bio-8080-exec-5 291
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:31:01 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:31:28 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3085 http-bio-8080-exec-5 500
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:31:28 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-5 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:34:04 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3136 http-bio-8080-exec-3 377
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:34:04 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-3 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:35:46 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3207 http-bio-8080-exec-9 281
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:35:47 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-9 0
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:36:01 +0100] "POST /index/detail.jsp HTTP/1.1" 200 3185 http-bio-8080-exec-9 274
+0:0:0:0:0:0:0:1 - - [01/Dec/2020:12:36:02 +0100] "GET /favicon.ico HTTP/1.1" 404 - http-bio-8080-exec-9 0

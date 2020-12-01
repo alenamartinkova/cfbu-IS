@@ -3,17 +3,12 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Team UPDATE DONE</h2>
+        <h2>Player UPDATE DONE</h2>
         <%
-            String name = request.getParameter("newval");
+            String name = request.getParameter("newname");
             String id = request.getParameter("id");
-            String rank = request.getParameter("rank");
-            String league_id = request.getParameter("league");
 
-            TeamTable tt = new TeamTable();
-            tt.update(Integer.parseInt(id), Integer.parseInt(rank), name, Integer.parseInt(league_id));
-
-            out.println("Team " + name + " was successfully updated.");
+            out.println("Player " + name + " was successfully updated.");
         %>
 
     </center>

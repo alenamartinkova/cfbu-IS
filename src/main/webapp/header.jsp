@@ -112,4 +112,8 @@
     li {
         list-style: none;
     }
+
+    .row p {
+        display: inline-block;
+    }
 </style>
