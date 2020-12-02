@@ -12,4 +12,5 @@ public interface TeamInterface {
     ArrayList<Team> fetch() throws SQLException;
     ArrayList<Team> fetchByAttr(Object ... values);
     ArrayList<Team> searchByAttr(String val);
+    Team fetchByID(Integer id);
 }

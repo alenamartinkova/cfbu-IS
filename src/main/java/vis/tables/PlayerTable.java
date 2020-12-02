@@ -167,4 +167,24 @@ public class PlayerTable extends Table implements PlayerInterface {
 
         return players;
     }
+
+    public Player fetchByID(Integer id) {
+        String queryStr = "SELECT * FROM Player WHERE memberID = ?";
+        String val = id.toString();
+        Player player = new Player();
+        try {
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                player = new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return player;
+    }
 }

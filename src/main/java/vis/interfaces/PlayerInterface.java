@@ -12,4 +12,5 @@ public interface PlayerInterface {
     ArrayList<Player> searchByAttr(String val);
     ArrayList<Player> fetch() throws SQLException;
     ArrayList<Player> fetchByAttr(Object ... values);
+    Player fetchByID(Integer id);
 }

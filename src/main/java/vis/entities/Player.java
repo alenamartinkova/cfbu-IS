@@ -15,6 +15,7 @@ public class Player {
     String email;
     String stick;
 
+    public Player(){};
     public Player(Integer id, Integer tID, String n, String sn, String d, Integer c, String q, String e, String s) {
         this.id = id;
         this.name = n;

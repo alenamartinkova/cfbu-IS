@@ -1,5 +1,6 @@
 package vis.tables;
 
+import vis.entities.Player;
 import vis.entities.Team;
 import vis.interfaces.TeamInterface;
 
@@ -163,5 +164,25 @@ public class TeamTable extends Table implements TeamInterface {
         }
 
         return -1;
+    }
+
+    public Team fetchByID(Integer id) {
+        String queryStr = "SELECT * FROM Team WHERE teamID = ?";
+        String val = id.toString();
+        Team team = new Team();
+        try {
+            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                team = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return team;
     }
 }
