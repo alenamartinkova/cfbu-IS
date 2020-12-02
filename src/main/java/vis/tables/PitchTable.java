@@ -1,7 +1,7 @@
 package vis.tables;
 
 import vis.entities.Pitch;
-import vis.entities.Player;
+import vis.interfaces.PitchInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PitchTable extends Table {
+public class PitchTable extends Table implements PitchInterface {
     public PitchTable() throws SQLException {
         super("Pitch");
 
@@ -101,7 +101,7 @@ public class PitchTable extends Table {
         return output;
     }
 
-    public int update(Pitch pitch) {
+    public Integer update(Pitch pitch) {
         int output = 0;
 
         String query = this.buildUpdate(1);

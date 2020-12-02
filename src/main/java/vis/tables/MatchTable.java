@@ -1,12 +1,12 @@
 package vis.tables;
 import vis.entities.Match;
-import vis.entities.Player;
+import vis.interfaces.MatchInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MatchTable extends Table {
+public class MatchTable extends Table implements MatchInterface {
     public MatchTable() throws SQLException {
         super("Match");
 
@@ -97,7 +97,7 @@ public class MatchTable extends Table {
         return output;
     }
 
-    public int update(Match match) {
+    public Integer update(Match match) {
         int output = 0;
 
         String query = this.buildUpdate(1);

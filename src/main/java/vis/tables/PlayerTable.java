@@ -1,12 +1,13 @@
 package vis.tables;
 
 import vis.entities.Player;
+import vis.interfaces.PlayerInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PlayerTable extends Table {
+public class PlayerTable extends Table implements PlayerInterface {
     public PlayerTable() throws SQLException {
         super("Player");
 
@@ -105,7 +106,7 @@ public class PlayerTable extends Table {
         return output;
     }
 
-    public int update(Player player) {
+    public Integer update(Player player) {
         int output = 0;
 
         String query = this.buildUpdate(1);

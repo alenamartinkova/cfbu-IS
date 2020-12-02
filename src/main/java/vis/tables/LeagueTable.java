@@ -1,6 +1,7 @@
 package vis.tables;
 import vis.entities.League;
 import vis.entities.Player;
+import vis.interfaces.LeagueInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LeagueTable extends Table{
+public class LeagueTable extends Table implements LeagueInterface {
     public LeagueTable() throws SQLException {
         super("League");
 
@@ -59,7 +60,7 @@ public class LeagueTable extends Table{
         return output;
     }
 
-    public int update(League league) {
+    public Integer update(League league) {
         int output = 0;
 
         String query = this.buildUpdate(1);

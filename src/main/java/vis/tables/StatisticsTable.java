@@ -1,6 +1,7 @@
 package vis.tables;
 
 import vis.entities.Statistics;
+import vis.interfaces.StatisticsInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StatisticsTable extends Table {
+public class StatisticsTable extends Table implements StatisticsInterface {
     public StatisticsTable() throws SQLException {
         super("Stats");
 
@@ -96,7 +97,7 @@ public class StatisticsTable extends Table {
         return output;
     }
 
-    public int update(Statistics stats) {
+    public Integer update(Statistics stats) {
         int output = 0;
 
         String query = this.buildUpdate(1);

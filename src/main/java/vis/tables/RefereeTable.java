@@ -1,12 +1,13 @@
 package vis.tables;
 
 import vis.entities.Referee;
+import vis.interfaces.RefereeInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RefereeTable extends Table {
+public class RefereeTable extends Table implements RefereeInterface {
     public RefereeTable() throws SQLException {
         super("Referee");
 
@@ -101,7 +102,7 @@ public class RefereeTable extends Table {
         return output;
     }
 
-    public int update(Referee referee) {
+    public Integer update(Referee referee) {
         int output = 0;
 
         String query = this.buildUpdate(1);

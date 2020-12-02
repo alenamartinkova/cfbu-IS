@@ -1,6 +1,7 @@
 package vis.tables;
 
 import vis.entities.User;
+import vis.interfaces.UserInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class UserTable extends Table {
+public class UserTable extends Table implements UserInterface {
 
     public UserTable() throws SQLException {
         super("MyUser");
@@ -65,7 +66,7 @@ public class UserTable extends Table {
         return output;
     }
 
-    public int update(User user) {
+    public Integer update(User user) {
         int output = 0;
 
         String query = this.buildUpdate(1);

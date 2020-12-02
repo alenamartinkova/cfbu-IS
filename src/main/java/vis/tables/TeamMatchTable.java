@@ -1,6 +1,7 @@
 package vis.tables;
 
 import vis.entities.TeamMatch;
+import vis.interfaces.TeamMatchInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TeamMatchTable extends Table {
+public class TeamMatchTable extends Table implements TeamMatchInterface {
     public TeamMatchTable() throws SQLException {
         super("TeamMatch");
 
@@ -100,7 +101,7 @@ public class TeamMatchTable extends Table {
         return output;
     }
 
-    public int update(TeamMatch teamMatch) {
+    public Integer update(TeamMatch teamMatch) {
         int output = 0;
 
         String query = this.buildUpdate(1);
