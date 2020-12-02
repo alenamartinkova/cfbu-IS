@@ -6,7 +6,7 @@
         <h1>PLEASE CHOOSE WHAT ENTITY DO YOU WANT TO EDIT</h1>
         <div>
             <a href="#">TEAMS</a>
-            <a href="players-all.jsp">PLAYERS</a>
+            <a href="players_all.jsp">PLAYERS</a>
         </div>
     </center>
 </main>

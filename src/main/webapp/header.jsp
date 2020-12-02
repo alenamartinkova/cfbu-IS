@@ -20,7 +20,7 @@
                         <a href="#">TEAMS</a>
                     </li>
                     <li class="list-item">
-                        <a href="players-all.jsp">PLAYERS</a>
+                        <a href="players_all.jsp">PLAYERS</a>
                     </li>
                 </ul>
             </nav>

@@ -1,6 +1,6 @@
-<%@ page import = "java.util.*, vis.tables.*, vis.entities.*" %>
+<%@ page import = "vis.entities.Player, vis.interfaces.PlayerInterface, vis.tables.PlayerTable" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="vis.interfaces.PlayerInterface" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
