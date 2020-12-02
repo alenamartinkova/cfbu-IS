@@ -144,4 +144,8 @@
         justify-content: space-between;
     }
 
+    select {
+        margin-right: 20px;
+    }
+
 </style>
