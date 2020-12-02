@@ -1,5 +1,6 @@
 <%@ page import = "java.io.*,java.util.*, vis.tables.*, vis.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="vis.interfaces.PlayerInterface" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -18,7 +19,7 @@
             playerID = -1;
         }
 
-        PlayerTable pt = new PlayerTable();
+        final PlayerInterface pt = new PlayerTable();
 
         if (playerID != -1) {
             ArrayList<Player> player  = pt.fetchByAttr("memberID", playerID);

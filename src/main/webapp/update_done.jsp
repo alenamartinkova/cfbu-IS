@@ -1,5 +1,6 @@
-<%@ page import = "java.io.*,java.util.*, vis.tables.*, vis.entities.*" %>
+<%@ page import = "vis.tables.*, vis.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="vis.interfaces.PlayerInterface" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -17,7 +18,7 @@
             String id = request.getParameter("id");
 
             try {
-                PlayerTable pt = new PlayerTable();
+                final PlayerInterface pt = new PlayerTable();
                 Integer covidNumber = Integer.parseInt(covid);
                 Integer teamNumber = Integer.parseInt(team);
                 Integer idNumber = Integer.parseInt(id);
