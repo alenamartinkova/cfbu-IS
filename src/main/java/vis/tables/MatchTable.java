@@ -1,12 +1,11 @@
 package vis.tables;
 import vis.entities.Match;
-import vis.interfaces.MatchInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MatchTable extends Table implements MatchInterface {
+public class MatchTable extends Table {
     public MatchTable() throws SQLException {
         super("Match");
 

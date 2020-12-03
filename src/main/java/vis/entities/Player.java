@@ -1,6 +1,5 @@
 package vis.entities;
 
-import vis.interfaces.PlayerInterface;
 import vis.tables.PlayerTable;
 
 import java.sql.SQLException;
@@ -71,7 +70,10 @@ public class Player {
     }
 
     public void update() throws SQLException {
-        final PlayerInterface pi = new PlayerTable();
-        pi.update(this);
+        PlayerTable.update(this);
+    }
+
+    public void insert() throws SQLException {
+        PlayerTable.insert(this);
     }
 }

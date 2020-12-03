@@ -1,13 +1,12 @@
 package vis.tables;
 
 import vis.entities.Coach;
-import vis.interfaces.CoachInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CoachTable extends Table implements CoachInterface {
+public class CoachTable extends Table {
     public CoachTable() throws SQLException {
         super("Coach");
 

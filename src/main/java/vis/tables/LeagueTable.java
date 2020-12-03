@@ -1,7 +1,5 @@
 package vis.tables;
 import vis.entities.League;
-import vis.entities.Player;
-import vis.interfaces.LeagueInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LeagueTable extends Table implements LeagueInterface {
+public class LeagueTable extends Table  {
     public LeagueTable() throws SQLException {
         super("League");
 

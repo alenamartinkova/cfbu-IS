@@ -1,13 +1,12 @@
 package vis.tables;
 
 import vis.entities.Referee;
-import vis.interfaces.RefereeInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RefereeTable extends Table implements RefereeInterface {
+public class RefereeTable extends Table  {
     public RefereeTable() throws SQLException {
         super("Referee");
 

@@ -1,7 +1,6 @@
 package vis.tables;
 
 import vis.entities.Statistics;
-import vis.interfaces.StatisticsInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StatisticsTable extends Table implements StatisticsInterface {
+public class StatisticsTable extends Table  {
     public StatisticsTable() throws SQLException {
         super("Stats");
 

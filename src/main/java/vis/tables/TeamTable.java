@@ -2,14 +2,13 @@ package vis.tables;
 
 import vis.entities.Player;
 import vis.entities.Team;
-import vis.interfaces.TeamInterface;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class TeamTable extends Table implements TeamInterface {
+public class TeamTable extends Table  {
     public TeamTable() throws SQLException {
         super("Team");
 

@@ -1,6 +1,5 @@
 package vis.tables;
 import vis.entities.Address;
-import vis.interfaces.AddressInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddressTable extends Table implements AddressInterface {
+public class AddressTable extends Table {
     public AddressTable() throws SQLException {
         super("Address");
 

@@ -6,16 +6,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Table {
-    protected String tableName;
-    protected Connection conn;
-    protected ArrayList<String> columns;
+    public static String tableName;
+    public static Connection conn;
+    public static ArrayList<String> columns;
 
-    public Table(String tableName) throws SQLException {
-        conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
+    public Table(String tableName) {};
+    public Table(String tableName, ArrayList columns) throws SQLException {
         this.tableName = tableName;
+        this.columns = columns;
+        conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
     }
 
-    protected String buildInsert(int valuesCount, int from_column) {
+    public String buildInsert(int valuesCount, int from_column) {
         String query = "INSERT INTO " + this.tableName + "(";
 
         query += String.join(", ", this.columns.subList(from_column, this.columns.size()));
@@ -34,7 +36,7 @@ public class Table {
         return query;
     }
 
-    protected String buildUpdate(int from_column) {
+    public String buildUpdate(int from_column) {
         String query = "UPDATE " + this.tableName + " SET ";
 
         for(int i = from_column; i < this.columns.size(); i++) {
