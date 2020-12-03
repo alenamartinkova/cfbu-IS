@@ -1,5 +1,3 @@
-<%@ page import = "java.io.*,java.util.*, vis.tables.*, vis.entities.*" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ include file="header.jsp" %>
 <main class="main-index">
     <center>

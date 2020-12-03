@@ -1,6 +1,5 @@
-<%@ page import = "vis.tables.*, vis.entities.*" %>
+<%@ page import = "vis.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="vis.interfaces.PlayerInterface" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -18,13 +17,11 @@
             String id = request.getParameter("id");
 
             try {
-                final PlayerInterface pt = new PlayerTable();
                 Integer covidNumber = Integer.parseInt(covid);
                 Integer teamNumber = Integer.parseInt(team);
                 Integer idNumber = Integer.parseInt(id);
                 Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
-
-                pt.update(p);
+                p.update();
 
                 out.println("Player with id " + id + " was successfully updated.");
             } catch (NumberFormatException e) {

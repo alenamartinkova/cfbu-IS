@@ -14,6 +14,7 @@
 
             <%
               try {
+                  /*PREROB DO BUSINESS */
                     final PlayerInterface pt = new PlayerTable();
                     ArrayList<Player> players  = pt.fetch();
 

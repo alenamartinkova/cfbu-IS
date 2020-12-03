@@ -1,8 +1,10 @@
 package vis.entities;
 
-import java.sql.Time;
+import vis.interfaces.PlayerInterface;
+import vis.tables.PlayerTable;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Player {
     Integer id;
@@ -66,5 +68,10 @@ public class Player {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public void update() throws SQLException {
+        final PlayerInterface pi = new PlayerTable();
+        pi.update(this);
     }
 }

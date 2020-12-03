@@ -15,7 +15,7 @@
             <%
 
             String search = request.getParameter("filter");
-
+                /* PREROB DO BUSINESS */
             final PlayerInterface pt = new PlayerTable();
             ArrayList<Player> players  = pt.searchByAttr(search);
 
