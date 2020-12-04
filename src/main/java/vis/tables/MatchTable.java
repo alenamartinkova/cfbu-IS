@@ -5,17 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MatchTable extends Table {
-    public MatchTable() throws SQLException {
-        super("Match");
+public class MatchTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("matchID", "postponed", "date", "pitchID")
+    );
+    public MatchTable() {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("matchID", "postponed", "date", "pitchID")
-        );
-    };
-
-    public ArrayList<Match> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Match");
+    public static ArrayList<Match> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Match");
         ArrayList<Match> matches = new ArrayList<>();
         while (rs.next()) {
             matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
@@ -25,7 +22,7 @@ public class MatchTable extends Table {
         return matches;
     }
 
-    public ArrayList<Match> fetchByAttr(Object ... values) {
+    public static ArrayList<Match> fetchByAttr(Object ... values) {
         ArrayList<Match> match = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -36,7 +33,7 @@ public class MatchTable extends Table {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -65,13 +62,14 @@ public class MatchTable extends Table {
     }
 
 
-    public Integer insert(Match match) {
-        String query = this.buildInsert(3, 1);
+    public static Integer insert(Match match) throws SQLException {
+        Table t = new Table("Match", columns);
+        String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, match.getPostponed());
             preparedQuery.setTimestamp(2, match.getDate());
@@ -96,14 +94,14 @@ public class MatchTable extends Table {
         return output;
     }
 
-    public Integer update(Match match) {
+    public static Integer update(Match match) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("Match", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, match.getPostponed());
             preparedQuery.setTimestamp(2, match.getDate());
             preparedQuery.setInt(3, match.getPitchID());
@@ -118,9 +116,9 @@ public class MatchTable extends Table {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

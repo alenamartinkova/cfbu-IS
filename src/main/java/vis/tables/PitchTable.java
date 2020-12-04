@@ -9,17 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PitchTable extends Table {
-    public PitchTable() throws SQLException {
-        super("Pitch");
+public class PitchTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("pitchID", "addressID", "capacity", "name")
+    );
+    public PitchTable()  {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("pitchID", "addressID", "capacity", "name")
-        );
-    };
-
-    public ArrayList<Pitch> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Pitch");
+    public static ArrayList<Pitch> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Pitch");
         ArrayList<Pitch> pitches = new ArrayList<>();
         while (rs.next()) {
             pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
@@ -29,7 +26,7 @@ public class PitchTable extends Table {
         return pitches;
     }
 
-    public ArrayList<Pitch> fetchByAttr(Object ... values) {
+    public static ArrayList<Pitch> fetchByAttr(Object ... values) {
         ArrayList<Pitch> pitch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -40,7 +37,7 @@ public class PitchTable extends Table {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -69,13 +66,14 @@ public class PitchTable extends Table {
     }
 
 
-    public Integer insert(Pitch pitch) {
-        String query = this.buildInsert(3, 1);
+    public static Integer insert(Pitch pitch) throws SQLException {
+        Table t = new Table("Pitch", columns);
+        String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, pitch.getAddressID());
             preparedQuery.setInt(2, pitch.getCapacity());
@@ -100,14 +98,15 @@ public class PitchTable extends Table {
         return output;
     }
 
-    public Integer update(Pitch pitch) {
+    public static Integer update(Pitch pitch) throws SQLException {
         int output = 0;
 
-        String query = this.buildUpdate(1);
+        Table t = new Table("Pitch", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, pitch.getAddressID());
             preparedQuery.setInt(2, pitch.getCapacity());
             preparedQuery.setString(3, pitch.getName());
@@ -122,9 +121,9 @@ public class PitchTable extends Table {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

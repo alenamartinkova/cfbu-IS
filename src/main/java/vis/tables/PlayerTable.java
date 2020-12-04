@@ -12,7 +12,7 @@ public class PlayerTable {
     );
     public PlayerTable() { };
 
-    public ArrayList<Player> fetch() throws SQLException {
+    public static ArrayList<Player> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
         ArrayList<Player> players = new ArrayList<>();
         while (rs.next()) {
@@ -23,7 +23,7 @@ public class PlayerTable {
         return players;
     }
 
-    public ArrayList<Player> fetchByAttr(Object ... values) {
+    public static ArrayList<Player> fetchByAttr(Object ... values) {
         ArrayList<Player> player = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -131,7 +131,7 @@ public class PlayerTable {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
             PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM PLAYER WHERE playerID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
@@ -142,7 +142,7 @@ public class PlayerTable {
         return -1;
     }
 
-    public ArrayList<Player> searchByAttr(String val) {
+    public static ArrayList<Player> searchByAttr(String val) {
         ArrayList<Player> players = new ArrayList<Player>();
 
         String queryStr = "SELECT * FROM Player WHERE memberID LIKE ? OR name LIKE ? OR sureName LIKE ? OR email LIKE ?";
@@ -166,7 +166,7 @@ public class PlayerTable {
         return players;
     }
 
-    public Player fetchByID(Integer id) {
+    public static Player fetchByID(Integer id) {
         String queryStr = "SELECT * FROM Player WHERE memberID = ?";
         String val = id.toString();
         Player player = new Player();

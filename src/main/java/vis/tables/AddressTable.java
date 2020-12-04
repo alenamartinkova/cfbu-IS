@@ -8,17 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddressTable extends Table {
-    public AddressTable() throws SQLException {
-        super("Address");
+public class AddressTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("addressID", "city", "street", "streetNumber")
+    );
+    
+    public AddressTable() {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("addressID", "city", "street", "streetNumber")
-        );
-    };
-
-    public ArrayList<Address> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
+    public static ArrayList<Address> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
         ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
             addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
@@ -28,7 +26,7 @@ public class AddressTable extends Table {
         return addresses;
     }
 
-    public ArrayList<Address> fetchByAttr(Object ... values) {
+    public static ArrayList<Address> fetchByAttr(Object ... values) {
         ArrayList<Address> addr = new ArrayList<Address>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -39,7 +37,7 @@ public class AddressTable extends Table {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -67,13 +65,14 @@ public class AddressTable extends Table {
     }
 
 
-    public Integer insert(Address address) {
-        String query = this.buildInsert(3, 1);
+    public static Integer insert(Address address) throws SQLException {
+        Table t = new Table("Address", columns);
+        String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setString(1, address.getCity());
             preparedQuery.setString(2, address.getStreet());
@@ -98,14 +97,15 @@ public class AddressTable extends Table {
         return output;
     }
 
-    public Integer update(Address address) {
+    public static Integer update(Address address) throws SQLException {
         int output = 0;
 
-        String query = this.buildUpdate(1);
+        Table t = new Table("Address", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setString(1, address.getCity());
             preparedQuery.setString(2, address.getStreet());
             preparedQuery.setInt(3, address.getStreetNumber());
@@ -120,9 +120,9 @@ public class AddressTable extends Table {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

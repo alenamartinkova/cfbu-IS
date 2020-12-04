@@ -1,6 +1,5 @@
 package vis.tables;
 
-import vis.entities.Player;
 import vis.entities.Team;
 
 import java.sql.*;
@@ -8,17 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class TeamTable extends Table  {
-    public TeamTable() throws SQLException {
-        super("Team");
+public class TeamTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("teamID", "leagueID", "name", "rank", "covid", "quarantinedFrom")
+    );
+    public TeamTable() {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("teamID", "leagueID", "name", "rank", "covid", "quarantinedFrom")
-        );
-    };
-
-    public ArrayList<Team> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM TEAM");
+    public static ArrayList<Team> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TEAM");
         ArrayList<Team> teams = new ArrayList<Team>();
         while (rs.next()) {
             teams.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
@@ -28,13 +24,14 @@ public class TeamTable extends Table  {
          return teams;
     }
 
-    public Integer insert(Team team) {
-        String query = this.buildInsert(5, 1);
+    public static Integer insert(Team team) throws SQLException {
+        Table t = new Table("Team", columns);
+        String query = t.buildInsert(5, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, team.getLeagueID());
             preparedQuery.setString(2, team.getName());
@@ -61,14 +58,14 @@ public class TeamTable extends Table  {
         return output;
     }
 
-    public Integer update(Team team) {
+    public static Integer update(Team team) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("Team", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, team.getLeagueID());
             preparedQuery.setString(2, team.getName());
             preparedQuery.setInt(3, team.getRank());
@@ -86,7 +83,7 @@ public class TeamTable extends Table  {
     }
 
 
-    public ArrayList<Team> fetchByAttr(Object ... values) {
+    public static ArrayList<Team> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<Team> team = new ArrayList<Team>();
 
@@ -97,7 +94,7 @@ public class TeamTable extends Table  {
         }
 
         try {
-            PreparedStatement query = conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -129,13 +126,13 @@ public class TeamTable extends Table  {
         return team;
     }
 
-    public ArrayList<Team> searchByAttr(String val) {
+    public static ArrayList<Team> searchByAttr(String val) {
         ArrayList<Team> team = new ArrayList<Team>();
 
         String queryStr = "SELECT * FROM TEAM WHERE TEAMID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUEID LIKE ?";
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
 
             for (int i = 1; i <= 4; i++) {
                 query.setString(i, "%" + val + "%");
@@ -154,9 +151,9 @@ public class TeamTable extends Table  {
     }
 
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM TEAM WHERE teamID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM TEAM WHERE teamID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -165,12 +162,12 @@ public class TeamTable extends Table  {
         return -1;
     }
 
-    public Team fetchByID(Integer id) {
+    public static Team fetchByID(Integer id) {
         String queryStr = "SELECT * FROM Team WHERE teamID = ?";
         String val = id.toString();
         Team team = new Team();
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();

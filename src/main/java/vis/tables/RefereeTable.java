@@ -6,17 +6,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RefereeTable extends Table  {
-    public RefereeTable() throws SQLException {
-        super("Referee");
+public class RefereeTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("refereeID", "name", "sureName", "email", "dateOfBirth")
+    );
+    public RefereeTable() {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("refereeID", "name", "sureName", "email", "dateOfBirth")
-        );
-    };
-
-    public ArrayList<Referee> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Referee");
+    public static ArrayList<Referee> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Referee");
         ArrayList<Referee> referees = new ArrayList<>();
         while (rs.next()) {
             referees.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
@@ -26,7 +23,7 @@ public class RefereeTable extends Table  {
         return referees;
     }
 
-    public ArrayList<Referee> fetchByAttr(Object ... values) {
+    public static ArrayList<Referee> fetchByAttr(Object ... values) {
         ArrayList<Referee> referee = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -37,7 +34,7 @@ public class RefereeTable extends Table  {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -69,13 +66,14 @@ public class RefereeTable extends Table  {
         return referee;
     }
 
-    public Integer insert(Referee referee) {
-        String query = this.buildInsert(4, 1);
+    public static Integer insert(Referee referee) throws SQLException {
+        Table t = new Table("Referee", columns);
+        String query = t.buildInsert(4, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setString(1, referee.getName());
             preparedQuery.setString(2, referee.getSureName());
@@ -101,14 +99,14 @@ public class RefereeTable extends Table  {
         return output;
     }
 
-    public Integer update(Referee referee) {
+    public static Integer update(Referee referee) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("Referee", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setString(1, referee.getName());
             preparedQuery.setString(2, referee.getSureName());
             preparedQuery.setString(3, referee.getEmail());
@@ -124,9 +122,9 @@ public class RefereeTable extends Table  {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Referee WHERE refereeID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Referee WHERE refereeID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

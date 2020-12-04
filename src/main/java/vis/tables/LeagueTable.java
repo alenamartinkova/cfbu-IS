@@ -8,17 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LeagueTable extends Table  {
-    public LeagueTable() throws SQLException {
-        super("League");
+public class LeagueTable  {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("leagueID", "name", "category")
+    );
+    public LeagueTable(){};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("leagueID", "name", "category")
-        );
-    };
-
-    public ArrayList<League> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
+    public static ArrayList<League> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");
         ArrayList<League> leagues = new ArrayList<League>();
         while (rs.next()) {
             leagues.add(new League(rs.getInt(1), rs.getString(2), rs.getInt(3)));
@@ -28,13 +25,14 @@ public class LeagueTable extends Table  {
         return leagues;
     }
 
-    public Integer insert(League league) {
-        String query = this.buildInsert(2, 1);
+    public static Integer insert(League league) throws SQLException {
+        Table t = new Table("League", columns);
+        String query = t.buildInsert(2, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setString(1, league.getName());
             preparedQuery.setInt(2, league.getCategory());
@@ -58,14 +56,14 @@ public class LeagueTable extends Table  {
         return output;
     }
 
-    public Integer update(League league) {
+    public static Integer update(League league) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("League", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setString(1, league.getName());
             preparedQuery.setInt(2, league.getCategory());
             preparedQuery.setInt(3, league.getId());
@@ -79,7 +77,7 @@ public class LeagueTable extends Table  {
         return output;
     }
 
-    public ArrayList<League> fetchByAttr(Object ... values) {
+    public static ArrayList<League> fetchByAttr(Object ... values) {
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
         ArrayList<League> league = new ArrayList<League>();
 
@@ -90,7 +88,7 @@ public class LeagueTable extends Table  {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -117,9 +115,9 @@ public class LeagueTable extends Table  {
         return league;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM LEAGUE WHERE leagueID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM LEAGUE WHERE leagueID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

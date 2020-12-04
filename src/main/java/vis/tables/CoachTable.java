@@ -6,17 +6,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CoachTable extends Table {
-    public CoachTable() throws SQLException {
-        super("Coach");
+public class CoachTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("memberID", "teamID", "name", "sureName", "dateOfBirth", "covid", "quarantinedFrom", "email", "license")
+    );
+    
+    public CoachTable(){};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("memberID", "teamID", "name", "sureName", "dateOfBirth", "covid", "quarantinedFrom", "email", "license")
-        );
-    };
-
-    public ArrayList<Coach> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM COACH");
+    public static ArrayList<Coach> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM COACH");
         ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
             coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
@@ -26,7 +24,7 @@ public class CoachTable extends Table {
         return coaches;
     }
 
-    public ArrayList<Coach> fetchByAttr(Object ... values) {
+    public static ArrayList<Coach> fetchByAttr(Object ... values) {
         ArrayList<Coach> coach = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -37,7 +35,7 @@ public class CoachTable extends Table {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -69,13 +67,14 @@ public class CoachTable extends Table {
         return coach;
     }
 
-    public Integer insert(Coach coach) {
-        String query = this.buildInsert(8, 1);
+    public static Integer insert(Coach coach) throws SQLException {
+        Table t = new Table("Coach", columns);
+        String query = t.buildInsert(8, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, coach.getTeamID());
             preparedQuery.setString(2, coach.getName());
@@ -105,14 +104,14 @@ public class CoachTable extends Table {
         return output;
     }
 
-    public Integer update(Coach coach) {
+    public static Integer update(Coach coach) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("Coach", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, coach.getTeamID());
             preparedQuery.setString(2, coach.getName());
             preparedQuery.setString(3, coach.getSureName());
@@ -132,9 +131,9 @@ public class CoachTable extends Table {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

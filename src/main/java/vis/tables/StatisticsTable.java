@@ -9,17 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StatisticsTable extends Table  {
-    public StatisticsTable() throws SQLException {
-        super("Stats");
+public class StatisticsTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("statsID", "playerID", "assists", "goals", "points")
+    );
+    public StatisticsTable() {};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("statsID", "playerID", "assists", "goals", "points")
-        );
-    };
-
-    public ArrayList<Statistics> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM Stats");
+    public static ArrayList<Statistics> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Stats");
         ArrayList<Statistics> stats = new ArrayList<>();
         while (rs.next()) {
             stats.add(new Statistics(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
@@ -29,7 +26,7 @@ public class StatisticsTable extends Table  {
         return stats;
     }
 
-    public ArrayList<Statistics> fetchByAttr(Object ... values) {
+    public static ArrayList<Statistics> fetchByAttr(Object ... values) {
         ArrayList<Statistics> stats = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -40,7 +37,7 @@ public class StatisticsTable extends Table  {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -64,13 +61,14 @@ public class StatisticsTable extends Table  {
     }
 
 
-    public Integer insert(Statistics stats) {
-        String query = this.buildInsert(4, 1);
+    public static Integer insert(Statistics stats) throws SQLException {
+        Table t = new Table("Statistics", columns);
+        String query = t.buildInsert(4, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, stats.getPlayerID());
             preparedQuery.setInt(2, stats.getAssists());
@@ -96,14 +94,14 @@ public class StatisticsTable extends Table  {
         return output;
     }
 
-    public Integer update(Statistics stats) {
+    public static Integer update(Statistics stats) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("Statistics", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, stats.getPlayerID());
             preparedQuery.setInt(2, stats.getAssists());
             preparedQuery.setInt(3, stats.getGoals());
@@ -120,9 +118,9 @@ public class StatisticsTable extends Table  {
     }
 
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM Stats WHERE statsID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Stats WHERE statsID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

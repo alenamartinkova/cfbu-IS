@@ -9,17 +9,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TeamMatchTable extends Table  {
-    public TeamMatchTable() throws SQLException {
-        super("TeamMatch");
+public class TeamMatchTable {
+    static final ArrayList columns = new ArrayList<>(
+            Arrays.asList("teamMatchID", "matchID", "firstTeamID", "secondTeamID", "firstRefereeID", "secondRefereeID", "firstTeamGoals", "secondTeamGoals")
+    );
+    public TeamMatchTable(){};
 
-        this.columns = new ArrayList<>(
-                Arrays.asList("teamMatchID", "matchID", "firstTeamID", "secondTeamID", "firstRefereeID", "secondRefereeID", "firstTeamGoals", "secondTeamGoals")
-        );
-    };
-
-    public ArrayList<TeamMatch> fetch() throws SQLException {
-        ResultSet rs = this.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");
+    public static ArrayList<TeamMatch> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");
         ArrayList<TeamMatch> teamMatches = new ArrayList<>();
         while (rs.next()) {
             teamMatches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
@@ -29,7 +26,7 @@ public class TeamMatchTable extends Table  {
         return teamMatches;
     }
 
-    public ArrayList<TeamMatch> fetchByAttr(Object ... values) {
+    public static ArrayList<TeamMatch> fetchByAttr(Object ... values) {
         ArrayList<TeamMatch> teamMatch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
@@ -40,7 +37,7 @@ public class TeamMatchTable extends Table  {
         }
 
         try {
-            PreparedStatement query = this.conn.prepareStatement(queryStr);
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
@@ -65,13 +62,14 @@ public class TeamMatchTable extends Table  {
     }
 
 
-    public Integer insert(TeamMatch teamMatch) {
-        String query = this.buildInsert(7, 1);
+    public static Integer insert(TeamMatch teamMatch) throws SQLException {
+        Table t = new Table("TeamMatch", columns);
+        String query = t.buildInsert(7, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
-            preparedQuery = this.conn.prepareStatement(query,
+            preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
             preparedQuery.setInt(1, teamMatch.getMatchID());
             preparedQuery.setInt(2, teamMatch.getFirstTeamID());
@@ -100,14 +98,14 @@ public class TeamMatchTable extends Table  {
         return output;
     }
 
-    public Integer update(TeamMatch teamMatch) {
+    public static Integer update(TeamMatch teamMatch) throws SQLException {
         int output = 0;
-
-        String query = this.buildUpdate(1);
+        Table t = new Table("TeamMatch", columns);
+        String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
-            preparedQuery = this.conn.prepareStatement(query);
+            preparedQuery = Table.conn.prepareStatement(query);
             preparedQuery.setInt(1, teamMatch.getMatchID());
             preparedQuery.setInt(2, teamMatch.getFirstTeamID());
             preparedQuery.setInt(3, teamMatch.getSecondTeamID());
@@ -126,9 +124,9 @@ public class TeamMatchTable extends Table  {
         return output;
     }
 
-    public Integer delete(Integer id) {
+    public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = this.conn.prepareStatement("DELETE FROM TeamMatch WHERE teamMatchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM TeamMatch WHERE teamMatchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
