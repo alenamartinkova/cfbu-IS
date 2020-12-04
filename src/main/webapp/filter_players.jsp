@@ -1,4 +1,4 @@
-<%@ page import = "java.io.*,java.util.*, vis.tables.*, vis.entities.*" %>
+<%@ page import = "java.io.*,java.util.*, vis.gateways.*, vis.entities.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="vis.interfaces.PlayerInterface" %>
 <%@ include file="header.jsp" %>
@@ -16,7 +16,7 @@
 
             String search = request.getParameter("filter");
                 /* PREROB DO BUSINESS */
-            final PlayerInterface pt = new PlayerTable();
+            final PlayerInterface pt = new PlayerGateway();
             ArrayList<Player> players  = pt.searchByAttr(search);
 
             out.println("<p>Searching for: " + search + "</p>");

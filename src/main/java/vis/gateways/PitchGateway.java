@@ -1,32 +1,36 @@
-package vis.tables;
-import vis.entities.Match;
+package vis.gateways;
 
-import java.sql.*;
+import vis.entities.Pitch;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MatchTable {
+public class PitchGateway {
     static final ArrayList columns = new ArrayList<>(
-            Arrays.asList("matchID", "postponed", "date", "pitchID")
+            Arrays.asList("pitchID", "addressID", "capacity", "name")
     );
-    public MatchTable() {};
+    public PitchGateway()  {};
 
-    public static ArrayList<Match> fetch() throws SQLException {
-        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Match");
-        ArrayList<Match> matches = new ArrayList<>();
+    public static ArrayList<Pitch> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Pitch");
+        ArrayList<Pitch> pitches = new ArrayList<>();
         while (rs.next()) {
-            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+            pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
         }
 
         rs.close();
-        return matches;
+        return pitches;
     }
 
-    public static ArrayList<Match> fetchByAttr(Object ... values) {
-        ArrayList<Match> match = new ArrayList<>();
+    public static ArrayList<Pitch> fetchByAttr(Object ... values) {
+        ArrayList<Pitch> pitch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM Match WHERE ";
+        String queryStr = "SELECT * FROM Pitch WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -42,8 +46,8 @@ public class MatchTable {
                         index++;
                     }
 
-                    if (values[i] instanceof Date) {
-                        query.setDate(index, (Date) values[i]);
+                    if (values[i] instanceof String) {
+                        query.setString(index, (String) values[i]);
                         index++;
                     }
                 }
@@ -51,19 +55,19 @@ public class MatchTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+                pitch.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return match;
+        return pitch;
     }
 
 
-    public static Integer insert(Match match) throws SQLException {
-        Table t = new Table("Match", columns);
+    public static Integer insert(Pitch pitch) throws SQLException {
+        Table t = new Table("Pitch", columns);
         String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
@@ -71,9 +75,9 @@ public class MatchTable {
         try {
             preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedQuery.setInt(1, match.getPostponed());
-            preparedQuery.setTimestamp(2, match.getDate());
-            preparedQuery.setInt(3, match.getPitchID());
+            preparedQuery.setInt(1, pitch.getAddressID());
+            preparedQuery.setInt(2, pitch.getCapacity());
+            preparedQuery.setString(3, pitch.getName());
 
             output = preparedQuery.executeUpdate();
 
@@ -82,7 +86,7 @@ public class MatchTable {
                     output = (int) generatedKeys.getLong(1);
                 }
                 else {
-                    throw new SQLException("Creating match failed, no ID obtained.");
+                    throw new SQLException("Creating pitch failed, no ID obtained.");
                 }
             }
 
@@ -94,18 +98,19 @@ public class MatchTable {
         return output;
     }
 
-    public static Integer update(Match match) throws SQLException {
+    public static Integer update(Pitch pitch) throws SQLException {
         int output = 0;
-        Table t = new Table("Match", columns);
+
+        Table t = new Table("Pitch", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
             preparedQuery = Table.conn.prepareStatement(query);
-            preparedQuery.setInt(1, match.getPostponed());
-            preparedQuery.setTimestamp(2, match.getDate());
-            preparedQuery.setInt(3, match.getPitchID());
-            preparedQuery.setInt(4, match.getMatchID());
+            preparedQuery.setInt(1, pitch.getAddressID());
+            preparedQuery.setInt(2, pitch.getCapacity());
+            preparedQuery.setString(3, pitch.getName());
+            preparedQuery.setInt(4, pitch.getPitchID());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();
@@ -118,7 +123,7 @@ public class MatchTable {
 
     public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

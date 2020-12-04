@@ -1,4 +1,4 @@
-<%@ page import = "vis.entities.Player, vis.interfaces.PlayerInterface, vis.tables.PlayerTable" %>
+<%@ page import = "vis.entities.Player, vis.interfaces.PlayerInterface, vis.gateways.PlayerGateway" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ include file="header.jsp" %>
@@ -15,7 +15,7 @@
             <%
               try {
                   /*PREROB DO BUSINESS */
-                    final PlayerInterface pt = new PlayerTable();
+                    final PlayerInterface pt = new PlayerGateway();
                     ArrayList<Player> players  = pt.fetch();
 
                     out.println("<input class='btn' type='submit' value='Player detail'/>");

@@ -1,33 +1,34 @@
-package vis.tables;
+package vis.gateways;
 
-import vis.entities.Referee;
+import vis.entities.Coach;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RefereeTable {
+public class CoachGateway {
     static final ArrayList columns = new ArrayList<>(
-            Arrays.asList("refereeID", "name", "sureName", "email", "dateOfBirth")
+            Arrays.asList("memberID", "teamID", "name", "sureName", "dateOfBirth", "covid", "quarantinedFrom", "email", "license")
     );
-    public RefereeTable() {};
+    
+    public CoachGateway(){};
 
-    public static ArrayList<Referee> fetch() throws SQLException {
-        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Referee");
-        ArrayList<Referee> referees = new ArrayList<>();
+    public static ArrayList<Coach> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM COACH");
+        ArrayList<Coach> coaches = new ArrayList<>();
         while (rs.next()) {
-            referees.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+            coaches.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
-        return referees;
+        return coaches;
     }
 
-    public static ArrayList<Referee> fetchByAttr(Object ... values) {
-        ArrayList<Referee> referee = new ArrayList<>();
+    public static ArrayList<Coach> fetchByAttr(Object ... values) {
+        ArrayList<Coach> coach = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM Referee WHERE ";
+        String queryStr = "SELECT * FROM Coach WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -56,29 +57,33 @@ public class RefereeTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                referee.add(new Referee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5)));
+                coach.add(new Coach(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return referee;
+        return coach;
     }
 
-    public static Integer insert(Referee referee) throws SQLException {
-        Table t = new Table("Referee", columns);
-        String query = t.buildInsert(4, 1);
+    public static Integer insert(Coach coach) throws SQLException {
+        Table t = new Table("Coach", columns);
+        String query = t.buildInsert(8, 1);
 
         PreparedStatement preparedQuery = null;
         int output = 0;
         try {
             preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedQuery.setString(1, referee.getName());
-            preparedQuery.setString(2, referee.getSureName());
-            preparedQuery.setString(3, referee.getEmail());
-            preparedQuery.setTimestamp(4, referee.getDateOfBirth());
+            preparedQuery.setInt(1, coach.getTeamID());
+            preparedQuery.setString(2, coach.getName());
+            preparedQuery.setString(3, coach.getSureName());
+            preparedQuery.setTimestamp(4, coach.getDateOfBirth());
+            preparedQuery.setInt(5, coach.getCovid());
+            preparedQuery.setTimestamp(6, coach.getQuarantinedFrom());
+            preparedQuery.setString(7, coach.getEmail());
+            preparedQuery.setString(8, coach.getLicense());
 
             output = preparedQuery.executeUpdate();
 
@@ -87,7 +92,7 @@ public class RefereeTable {
                     output = (int) generatedKeys.getLong(1);
                 }
                 else {
-                    throw new SQLException("Creating referee failed, no ID obtained.");
+                    throw new SQLException("Creating coach failed, no ID obtained.");
                 }
             }
 
@@ -99,19 +104,23 @@ public class RefereeTable {
         return output;
     }
 
-    public static Integer update(Referee referee) throws SQLException {
+    public static Integer update(Coach coach) throws SQLException {
         int output = 0;
-        Table t = new Table("Referee", columns);
+        Table t = new Table("Coach", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
             preparedQuery = Table.conn.prepareStatement(query);
-            preparedQuery.setString(1, referee.getName());
-            preparedQuery.setString(2, referee.getSureName());
-            preparedQuery.setString(3, referee.getEmail());
-            preparedQuery.setTimestamp(4, referee.getDateOfBirth());
-            preparedQuery.setInt(5, referee.getRefereeID());
+            preparedQuery.setInt(1, coach.getTeamID());
+            preparedQuery.setString(2, coach.getName());
+            preparedQuery.setString(3, coach.getSureName());
+            preparedQuery.setTimestamp(4, coach.getDateOfBirth());
+            preparedQuery.setInt(5, coach.getCovid());
+            preparedQuery.setTimestamp(6, coach.getQuarantinedFrom());
+            preparedQuery.setString(7, coach.getEmail());
+            preparedQuery.setString(8, coach.getLicense());
+            preparedQuery.setInt(9, coach.getId());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();
@@ -124,7 +133,7 @@ public class RefereeTable {
 
     public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Referee WHERE refereeID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Coach WHERE coachID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

@@ -1,6 +1,5 @@
-package vis.tables;
-
-import vis.entities.Pitch;
+package vis.gateways;
+import vis.entities.Address;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,28 +8,29 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class PitchTable {
+public class AddressGateway {
     static final ArrayList columns = new ArrayList<>(
-            Arrays.asList("pitchID", "addressID", "capacity", "name")
+            Arrays.asList("addressID", "city", "street", "streetNumber")
     );
-    public PitchTable()  {};
+    
+    public AddressGateway() {};
 
-    public static ArrayList<Pitch> fetch() throws SQLException {
-        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Pitch");
-        ArrayList<Pitch> pitches = new ArrayList<>();
+    public static ArrayList<Address> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
+        ArrayList<Address> addresses = new ArrayList<Address>();
         while (rs.next()) {
-            pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+            addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
-        return pitches;
+        return addresses;
     }
 
-    public static ArrayList<Pitch> fetchByAttr(Object ... values) {
-        ArrayList<Pitch> pitch = new ArrayList<>();
+    public static ArrayList<Address> fetchByAttr(Object ... values) {
+        ArrayList<Address> addr = new ArrayList<Address>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM Pitch WHERE ";
+        String queryStr = "SELECT * FROM ADDRESS WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -41,13 +41,12 @@ public class PitchTable {
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-
                     if (values[i] instanceof String) {
                         query.setString(index, (String) values[i]);
+                        index++;
+                    }
+                    if (values[i] instanceof Integer) {
+                        query.setInt(index, (Integer) values[i]);
                         index++;
                     }
                 }
@@ -55,19 +54,19 @@ public class PitchTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                pitch.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return pitch;
+        return addr;
     }
 
 
-    public static Integer insert(Pitch pitch) throws SQLException {
-        Table t = new Table("Pitch", columns);
+    public static Integer insert(Address address) throws SQLException {
+        Table t = new Table("Address", columns);
         String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
@@ -75,9 +74,9 @@ public class PitchTable {
         try {
             preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedQuery.setInt(1, pitch.getAddressID());
-            preparedQuery.setInt(2, pitch.getCapacity());
-            preparedQuery.setString(3, pitch.getName());
+            preparedQuery.setString(1, address.getCity());
+            preparedQuery.setString(2, address.getStreet());
+            preparedQuery.setInt(3, address.getStreetNumber());
 
             output = preparedQuery.executeUpdate();
 
@@ -86,7 +85,7 @@ public class PitchTable {
                     output = (int) generatedKeys.getLong(1);
                 }
                 else {
-                    throw new SQLException("Creating pitch failed, no ID obtained.");
+                    throw new SQLException("Creating address failed, no ID obtained.");
                 }
             }
 
@@ -98,19 +97,19 @@ public class PitchTable {
         return output;
     }
 
-    public static Integer update(Pitch pitch) throws SQLException {
+    public static Integer update(Address address) throws SQLException {
         int output = 0;
 
-        Table t = new Table("Pitch", columns);
+        Table t = new Table("Address", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
             preparedQuery = Table.conn.prepareStatement(query);
-            preparedQuery.setInt(1, pitch.getAddressID());
-            preparedQuery.setInt(2, pitch.getCapacity());
-            preparedQuery.setString(3, pitch.getName());
-            preparedQuery.setInt(4, pitch.getPitchID());
+            preparedQuery.setString(1, address.getCity());
+            preparedQuery.setString(2, address.getStreet());
+            preparedQuery.setInt(3, address.getStreetNumber());
+            preparedQuery.setInt(4, address.getId());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();
@@ -123,7 +122,7 @@ public class PitchTable {
 
     public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM Pitch WHERE pitchID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 
 import vis.entities.Team;
 
@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class TeamTable {
+public class TeamGateway {
     static final ArrayList columns = new ArrayList<>(
             Arrays.asList("teamID", "leagueID", "name", "rank", "covid", "quarantinedFrom")
     );
-    public TeamTable() {};
+    public TeamGateway() {};
 
     public static ArrayList<Team> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TEAM");

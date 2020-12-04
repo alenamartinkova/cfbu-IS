@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 import vis.entities.League;
 
 import java.sql.PreparedStatement;
@@ -8,11 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class LeagueTable  {
+public class LeagueGateway {
     static final ArrayList columns = new ArrayList<>(
             Arrays.asList("leagueID", "name", "category")
     );
-    public LeagueTable(){};
+    public LeagueGateway(){};
 
     public static ArrayList<League> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM LEAGUE");

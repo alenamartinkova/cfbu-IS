@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 
 import vis.entities.TeamMatch;
 
@@ -9,11 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TeamMatchTable {
+public class TeamMatchGateway {
     static final ArrayList columns = new ArrayList<>(
             Arrays.asList("teamMatchID", "matchID", "firstTeamID", "secondTeamID", "firstRefereeID", "secondRefereeID", "firstTeamGoals", "secondTeamGoals")
     );
-    public TeamMatchTable(){};
+    public TeamMatchGateway(){};
 
     public static ArrayList<TeamMatch> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");

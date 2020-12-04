@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 
 import vis.entities.Statistics;
 
@@ -9,11 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StatisticsTable {
+public class StatisticsGateway {
     static final ArrayList columns = new ArrayList<>(
             Arrays.asList("statsID", "playerID", "assists", "goals", "points")
     );
-    public StatisticsTable() {};
+    public StatisticsGateway() {};
 
     public static ArrayList<Statistics> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Stats");

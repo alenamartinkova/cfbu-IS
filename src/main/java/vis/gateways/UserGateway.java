@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 
 import vis.entities.User;
 
@@ -9,11 +9,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class UserTable {
+public class UserGateway {
     static final ArrayList columns = new ArrayList<>(
             Arrays.asList("userID", "name", "sureName", "email", "login", "password", "isAdmin", "createdAt")
     );
-    public UserTable() {};
+    public UserGateway() {};
 
     public static ArrayList<User> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM MyUser");

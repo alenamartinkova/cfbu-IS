@@ -1,6 +1,10 @@
 package vis.entities;
 
+import vis.gateways.TeamGateway;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Team {
     Integer id;
@@ -47,5 +51,13 @@ public class Team {
 
     public Timestamp getQurantinedFrom() {
         return this.quarantinedFrom;
+    }
+
+    public Team fetchByID(Integer tID) {
+        return TeamGateway.fetchByID(tID);
+    }
+
+    public ArrayList<Team> fetch() throws SQLException {
+        return TeamGateway.fetch();
     }
 }

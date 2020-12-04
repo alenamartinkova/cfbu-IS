@@ -1,4 +1,4 @@
-package vis.tables;
+package vis.gateways;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,36 +1,32 @@
-package vis.tables;
-import vis.entities.Address;
+package vis.gateways;
+import vis.entities.Match;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AddressTable {
+public class MatchGateway {
     static final ArrayList columns = new ArrayList<>(
-            Arrays.asList("addressID", "city", "street", "streetNumber")
+            Arrays.asList("matchID", "postponed", "date", "pitchID")
     );
-    
-    public AddressTable() {};
+    public MatchGateway() {};
 
-    public static ArrayList<Address> fetch() throws SQLException {
-        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM ADDRESS");
-        ArrayList<Address> addresses = new ArrayList<Address>();
+    public static ArrayList<Match> fetch() throws SQLException {
+        ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Match");
+        ArrayList<Match> matches = new ArrayList<>();
         while (rs.next()) {
-            addresses.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
+            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
-        return addresses;
+        return matches;
     }
 
-    public static ArrayList<Address> fetchByAttr(Object ... values) {
-        ArrayList<Address> addr = new ArrayList<Address>();
+    public static ArrayList<Match> fetchByAttr(Object ... values) {
+        ArrayList<Match> match = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
-        String queryStr = "SELECT * FROM ADDRESS WHERE ";
+        String queryStr = "SELECT * FROM Match WHERE ";
         for (int i = 0; i < values.length; i++) {
             if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
             else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
@@ -41,12 +37,13 @@ public class AddressTable {
             Integer index = 1;
             for (int i = 0; i < values.length; i++) {
                 if (i % 2 != 0) {
-                    if (values[i] instanceof String) {
-                        query.setString(index, (String) values[i]);
-                        index++;
-                    }
                     if (values[i] instanceof Integer) {
                         query.setInt(index, (Integer) values[i]);
+                        index++;
+                    }
+
+                    if (values[i] instanceof Date) {
+                        query.setDate(index, (Date) values[i]);
                         index++;
                     }
                 }
@@ -54,19 +51,19 @@ public class AddressTable {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                addr.add(new Address(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
+                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return addr;
+        return match;
     }
 
 
-    public static Integer insert(Address address) throws SQLException {
-        Table t = new Table("Address", columns);
+    public static Integer insert(Match match) throws SQLException {
+        Table t = new Table("Match", columns);
         String query = t.buildInsert(3, 1);
 
         PreparedStatement preparedQuery = null;
@@ -74,9 +71,9 @@ public class AddressTable {
         try {
             preparedQuery = Table.conn.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedQuery.setString(1, address.getCity());
-            preparedQuery.setString(2, address.getStreet());
-            preparedQuery.setInt(3, address.getStreetNumber());
+            preparedQuery.setInt(1, match.getPostponed());
+            preparedQuery.setTimestamp(2, match.getDate());
+            preparedQuery.setInt(3, match.getPitchID());
 
             output = preparedQuery.executeUpdate();
 
@@ -85,7 +82,7 @@ public class AddressTable {
                     output = (int) generatedKeys.getLong(1);
                 }
                 else {
-                    throw new SQLException("Creating address failed, no ID obtained.");
+                    throw new SQLException("Creating match failed, no ID obtained.");
                 }
             }
 
@@ -97,19 +94,18 @@ public class AddressTable {
         return output;
     }
 
-    public static Integer update(Address address) throws SQLException {
+    public static Integer update(Match match) throws SQLException {
         int output = 0;
-
-        Table t = new Table("Address", columns);
+        Table t = new Table("Match", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
         try {
             preparedQuery = Table.conn.prepareStatement(query);
-            preparedQuery.setString(1, address.getCity());
-            preparedQuery.setString(2, address.getStreet());
-            preparedQuery.setInt(3, address.getStreetNumber());
-            preparedQuery.setInt(4, address.getId());
+            preparedQuery.setInt(1, match.getPostponed());
+            preparedQuery.setTimestamp(2, match.getDate());
+            preparedQuery.setInt(3, match.getPitchID());
+            preparedQuery.setInt(4, match.getMatchID());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();
@@ -122,7 +118,7 @@ public class AddressTable {
 
     public static Integer delete(Integer id) {
         try {
-            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM ADDRESS WHERE addressID = "+ id.toString() +"");
+            PreparedStatement deleteStatement = Table.conn.prepareStatement("DELETE FROM MATCH WHERE matchID = "+ id.toString() +"");
             return deleteStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

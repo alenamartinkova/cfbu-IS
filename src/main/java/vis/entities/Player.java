@@ -1,9 +1,10 @@
 package vis.entities;
 
-import vis.tables.PlayerTable;
+import vis.gateways.PlayerGateway;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Player {
     Integer id;
@@ -70,10 +71,18 @@ public class Player {
     }
 
     public void update() throws SQLException {
-        PlayerTable.update(this);
+        PlayerGateway.update(this);
     }
 
     public void insert() throws SQLException {
-        PlayerTable.insert(this);
+        PlayerGateway.insert(this);
+    }
+
+    public Player fetchByID(Integer pID) {
+        return PlayerGateway.fetchByID(pID);
+    }
+
+    public ArrayList<Player> fetch() throws SQLException {
+        return PlayerGateway.fetch();
     }
 }
