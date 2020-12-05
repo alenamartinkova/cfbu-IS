@@ -63,7 +63,7 @@ public class StatisticsGateway {
 
 
     public static Integer insert(Statistics stats) throws SQLException {
-        Table t = new Table("Statistics", columns);
+        Table t = new Table("Stats", columns);
         String query = t.buildInsert(4, 1);
 
         PreparedStatement preparedQuery = null;
@@ -97,7 +97,7 @@ public class StatisticsGateway {
 
     public static Integer update(Statistics stats) throws SQLException {
         int output = 0;
-        Table t = new Table("Statistics", columns);
+        Table t = new Table("Stats", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;
@@ -152,7 +152,7 @@ public class StatisticsGateway {
 
     public static Integer updateBasedOnPlayerID(Integer pID, Integer sID) throws SQLException {
         int output = 0;
-        Table t = new Table("Statistics", columns);
+        Table t = new Table("Stats", columns);
         String query = t.buildUpdate(1);
 
         PreparedStatement preparedQuery = null;

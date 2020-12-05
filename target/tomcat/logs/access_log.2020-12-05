@@ -116,3 +116,14 @@
 0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:49:03 +0100] "POST /index/update_done.jsp HTTP/1.1" 200 2996 http-bio-8080-exec-9 132
 0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:49:06 +0100] "GET /index/players_all.jsp HTTP/1.1" 200 11392 http-bio-8080-exec-10 164
 0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:49:08 +0100] "POST /index/detail.jsp HTTP/1.1" 200 8737 http-bio-8080-exec-10 101
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:50:18 +0100] "POST /index/update_done.jsp HTTP/1.1" 200 2996 http-bio-8080-exec-4 226
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:51:36 +0100] "GET /index HTTP/1.1" 302 - http-bio-8080-exec-1 0
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:51:36 +0100] "GET /index/ HTTP/1.1" 200 3091 http-bio-8080-exec-3 51
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:51:40 +0100] "GET /index/players_all.jsp HTTP/1.1" 200 11391 http-bio-8080-exec-4 941
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:51:42 +0100] "POST /index/detail.jsp HTTP/1.1" 200 8738 http-bio-8080-exec-5 160
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:51:48 +0100] "POST /index/update_done.jsp HTTP/1.1" 200 2996 http-bio-8080-exec-6 155
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:53:48 +0100] "GET /index/index.jsp HTTP/1.1" 200 3091 http-bio-8080-exec-1 60
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:53:49 +0100] "GET /index/players_all.jsp HTTP/1.1" 200 11392 http-bio-8080-exec-3 639
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:53:52 +0100] "POST /index/detail.jsp HTTP/1.1" 200 8749 http-bio-8080-exec-4 475
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:53:55 +0100] "POST /index/update_done.jsp HTTP/1.1" 200 2996 http-bio-8080-exec-5 158
+0:0:0:0:0:0:0:1 - - [05/Dec/2020:12:53:57 +0100] "GET /index/index.jsp HTTP/1.1" 200 3091 http-bio-8080-exec-6 4
