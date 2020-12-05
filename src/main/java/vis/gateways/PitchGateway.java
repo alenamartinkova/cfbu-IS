@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.Pitch;
+import vis.business.Pitch;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

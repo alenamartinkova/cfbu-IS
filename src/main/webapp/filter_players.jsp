@@ -1,4 +1,4 @@
-<%@ page import = "java.io.*,java.util.*, vis.gateways.*, vis.entities.*" %>
+<%@ page import = "java.io.*,java.util.*, vis.gateways.*, vis.business.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="vis.interfaces.PlayerInterface" %>
 <%@ include file="header.jsp" %>

@@ -1,7 +1,6 @@
-package vis.entities;
+package vis.business;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Referee {
     Integer refereeID;

@@ -1,5 +1,5 @@
 package vis.gateways;
-import vis.entities.League;
+import vis.business.League;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

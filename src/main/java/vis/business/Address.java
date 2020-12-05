@@ -1,4 +1,4 @@
-package vis.entities;
+package vis.business;
 
 public class Address {
     Integer addressID;

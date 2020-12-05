@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.Coach;
+import vis.business.Coach;
 
 import java.sql.*;
 import java.util.ArrayList;

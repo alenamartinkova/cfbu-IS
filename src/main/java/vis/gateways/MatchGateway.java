@@ -1,5 +1,5 @@
 package vis.gateways;
-import vis.entities.Match;
+import vis.business.Match;
 
 import java.sql.*;
 import java.util.ArrayList;

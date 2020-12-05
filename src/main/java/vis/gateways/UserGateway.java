@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.User;
+import vis.business.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.Referee;
+import vis.business.Referee;
 
 import java.sql.*;
 import java.util.ArrayList;

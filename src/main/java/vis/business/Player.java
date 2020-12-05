@@ -1,20 +1,24 @@
-package vis.entities;
+package vis.business;
 
+import vis.gateways.PlayerGateway;
+
+import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 
-public class Coach {
+public class Player {
     Integer id;
+    Integer teamID;
     String name;
     String sureName;
-    Integer teamID;
     Timestamp dateOfBirth;
     Integer covid;
     Timestamp quarantinedFrom;
     String email;
-    String license;
+    String stick;
 
-    public Coach(Integer id, Integer tID, String n, String sn, String d, Integer c, String q, String e, String l) {
+    public Player(){};
+    public Player(Integer id, Integer tID, String n, String sn, String d, Integer c, String q, String e, String s) {
         this.id = id;
         this.name = n;
         this.sureName = sn;
@@ -27,7 +31,7 @@ public class Coach {
             this.quarantinedFrom = null;
         }
         this.email = e;
-        this.license = l;
+        this.stick = s;
     }
 
     public Integer getId() {
@@ -58,11 +62,27 @@ public class Coach {
         return this.sureName;
     }
 
-    public String getLicense() {
-        return this.license;
+    public String getStick() {
+        return this.stick;
     }
 
     public String getEmail() {
         return this.email;
+    }
+
+    public void update() throws SQLException {
+        PlayerGateway.update(this);
+    }
+
+    public void insert() throws SQLException {
+        PlayerGateway.insert(this);
+    }
+
+    public Player fetchByID(Integer pID) {
+        return PlayerGateway.fetchByID(pID);
+    }
+
+    public ArrayList<Player> fetch() throws SQLException {
+        return PlayerGateway.fetch();
     }
 }

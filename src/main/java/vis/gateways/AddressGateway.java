@@ -1,5 +1,5 @@
 package vis.gateways;
-import vis.entities.Address;
+import vis.business.Address;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

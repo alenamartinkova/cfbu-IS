@@ -1,4 +1,4 @@
-package vis.entities;
+package vis.business;
 
 import java.sql.Timestamp;
 

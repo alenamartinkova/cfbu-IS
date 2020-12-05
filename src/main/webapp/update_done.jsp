@@ -1,4 +1,4 @@
-<%@ page import = "vis.entities.*" %>
+<%@ page import = "vis.business.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ include file="header.jsp" %>
 <main>

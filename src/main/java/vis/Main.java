@@ -1,5 +1,5 @@
 package vis;
-import vis.entities.Player;
+import vis.business.Player;
 
 import java.sql.SQLException;
 

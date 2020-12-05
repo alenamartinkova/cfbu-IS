@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.TeamMatch;
+import vis.business.TeamMatch;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

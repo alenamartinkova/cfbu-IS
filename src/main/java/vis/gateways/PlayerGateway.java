@@ -1,6 +1,6 @@
 package vis.gateways;
 
-import vis.entities.Player;
+import vis.business.Player;
 
 import java.sql.*;
 import java.util.ArrayList;
