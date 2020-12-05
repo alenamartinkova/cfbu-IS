@@ -3,8 +3,8 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Player UPDATE DONE</h2>
         <%
+            String declined = request.getParameter("declined");
             String name = request.getParameter("newname");
             String sureName = request.getParameter("newsurename");
             String email = request.getParameter("newemail");
@@ -13,17 +13,36 @@
             String stick = request.getParameter("stick");
             String dateBirth = request.getParameter("date");
             String team = request.getParameter("teamid");
-
+            String changeLeague = request.getParameter("changeleague");
             String id = request.getParameter("id");
 
             try {
-                Integer covidNumber = Integer.parseInt(covid);
-                Integer teamNumber = Integer.parseInt(team);
-                Integer idNumber = Integer.parseInt(id);
-                Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
-                Player.update(p);
+                Integer declinedNumber = Integer.parseInt(declined);
 
-                out.println("Player with id " + id + " was successfully updated.");
+                if(declinedNumber == 1) {
+                    out.println("<h2>Player UPDATE CANCELED</h2>");
+                    System.out.print("Update was canceled because team was in another league");
+                    out.println("<p>Update was canceled because team was in another league</p>");
+                } else {
+                    Integer covidNumber = Integer.parseInt(covid);
+                    Integer teamNumber = Integer.parseInt(team);
+                    Integer idNumber = Integer.parseInt(id);
+                    Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
+                    Statistics s = Statistics.fetchByPlayerID(p.getId());
+                    Integer changeLeagueNumber = Integer.parseInt(changeLeague);
+                    if(changeLeagueNumber == 1) {
+                        Player.updateAndResetStats(p, s.getStatsID());
+
+                        out.println("<h2>Player UPDATE DONE</h2>");
+                        out.println("Player with id " + id + " was successfully updated and stats reseted.");
+                    } else {
+                        Player.update(p);
+
+                        out.println("<h2>Player UPDATE DONE</h2>");
+                        out.println("Player with id " + id + " was successfully updated.");
+                    }
+
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

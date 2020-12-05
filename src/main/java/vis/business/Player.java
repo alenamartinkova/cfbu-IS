@@ -74,6 +74,10 @@ public class Player {
         PlayerGateway.update(p);
     }
 
+    public static void updateAndResetStats(Player p, Integer sID) throws SQLException {
+        PlayerGateway.updateAndResetStats(p, sID);
+    }
+
     public static void insert(Player p) throws SQLException {
         PlayerGateway.insert(p);
     }

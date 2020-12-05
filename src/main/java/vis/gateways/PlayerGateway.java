@@ -185,4 +185,12 @@ public class PlayerGateway {
 
         return player;
     }
+
+    public static Integer updateAndResetStats(Player player, Integer sID) throws SQLException {
+        int output = 0;
+        output = PlayerGateway.update(player);
+        output = StatisticsGateway.updateBasedOnPlayerID(player.getId(), sID);
+
+        return output;
+    }
 }

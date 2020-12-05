@@ -1,5 +1,7 @@
 package vis.business;
 
+import vis.gateways.StatisticsGateway;
+
 public class Statistics {
     Integer statsID;
     Integer playerID;
@@ -7,6 +9,7 @@ public class Statistics {
     Integer goals;
     Integer points;
 
+    public Statistics(){};
     public Statistics(Integer sID, Integer pID, Integer a, Integer g, Integer p) {
         this.statsID = sID;
         this.playerID = pID;
@@ -33,5 +36,9 @@ public class Statistics {
 
     public Integer getStatsID() {
         return this.statsID;
+    }
+
+    public static Statistics fetchByPlayerID(Integer playerID) {
+        return StatisticsGateway.fetchByPlayerID(playerID);
     }
 }

@@ -1,5 +1,6 @@
 package vis.gateways;
 
+import vis.business.Player;
 import vis.business.Statistics;
 
 import java.sql.PreparedStatement;
@@ -128,4 +129,48 @@ public class StatisticsGateway {
 
         return -1;
     }
+
+    public static Statistics fetchByPlayerID(Integer pID) {
+        String queryStr = "SELECT * FROM Stats WHERE playerID = ?";
+        String val = pID.toString();
+        Statistics statistics = new Statistics();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                statistics = new Statistics(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return statistics;
+    }
+
+    public static Integer updateBasedOnPlayerID(Integer pID, Integer sID) throws SQLException {
+        int output = 0;
+        Table t = new Table("Statistics", columns);
+        String query = t.buildUpdate(1);
+
+        PreparedStatement preparedQuery = null;
+        try {
+            preparedQuery = Table.conn.prepareStatement(query);
+            preparedQuery.setInt(1, pID);
+            preparedQuery.setInt(2, 0);
+            preparedQuery.setInt(3, 0);
+            preparedQuery.setInt(4, 0);
+            preparedQuery.setInt(5, sID);
+
+            output = preparedQuery.executeUpdate();
+            preparedQuery.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+
 }

@@ -2,7 +2,6 @@
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Players</h2>
         <form width = "100%" border = "1" align = "center" method="POST" action="detail.jsp">
             <div class="detail-wrapper">
                 <div class="row">
