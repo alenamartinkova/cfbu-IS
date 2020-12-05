@@ -1,6 +1,4 @@
-<%@ page import = "java.util.*, vis.gateways.*, vis.business.*" %>
-<%@ page import="vis.interfaces.PlayerInterface" %>
-<%@ page import="vis.interfaces.TeamInterface" %>
+<%@ page import = "java.util.*, vis.business.*" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -22,11 +20,9 @@
         /** PREROB DO BUSINESS */
 
         if (playerID != -1) {
-            Player p = new Player();
-            p = p.fetchByID(playerID);
-            Team t = new Team();
-            t = t.fetchByID(p.getTeamID());
-            ArrayList<Team> allTeams = t.fetch();
+            Player p = Player.fetchByID(playerID);
+            Team t = Team.fetchByID(p.getTeamID());
+            ArrayList<Team> allTeams = Team.fetch();
 
             out.println("<form id='form' method='POST' action='update_done.jsp'>");
             out.println("<h2>Player no. "+ p.getId() +"</h2><div class='detail-wrapper'>");

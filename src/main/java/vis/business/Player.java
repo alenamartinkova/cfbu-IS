@@ -70,19 +70,23 @@ public class Player {
         return this.email;
     }
 
-    public void update() throws SQLException {
-        PlayerGateway.update(this);
+    public static void update(Player p) throws SQLException {
+        PlayerGateway.update(p);
     }
 
-    public void insert() throws SQLException {
-        PlayerGateway.insert(this);
+    public static void insert(Player p) throws SQLException {
+        PlayerGateway.insert(p);
     }
 
-    public Player fetchByID(Integer pID) {
+    public static Player fetchByID(Integer pID) {
         return PlayerGateway.fetchByID(pID);
     }
 
-    public ArrayList<Player> fetch() throws SQLException {
+    public static ArrayList<Player> fetch() throws SQLException {
         return PlayerGateway.fetch();
+    }
+
+    public static ArrayList<Player> searchByAttr(String s) {
+        return PlayerGateway.searchByAttr(s);
     }
 }

@@ -53,11 +53,11 @@ public class Team {
         return this.quarantinedFrom;
     }
 
-    public Team fetchByID(Integer tID) {
+    public static Team fetchByID(Integer tID) {
         return TeamGateway.fetchByID(tID);
     }
 
-    public ArrayList<Team> fetch() throws SQLException {
+    public static ArrayList<Team> fetch() throws SQLException {
         return TeamGateway.fetch();
     }
 }

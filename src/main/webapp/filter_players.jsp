@@ -1,6 +1,4 @@
-<%@ page import = "java.io.*,java.util.*, vis.gateways.*, vis.business.*" %>
-<%@ page import="java.sql.SQLException" %>
-<%@ page import="vis.interfaces.PlayerInterface" %>
+<%@ page import = "java.util.*, vis.business.*" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -15,9 +13,7 @@
             <%
 
             String search = request.getParameter("filter");
-                /* PREROB DO BUSINESS */
-            final PlayerInterface pt = new PlayerGateway();
-            ArrayList<Player> players  = pt.searchByAttr(search);
+            ArrayList<Player> players  = Player.searchByAttr(search);
 
             out.println("<p>Searching for: " + search + "</p>");
             out.println("<input class='btn' type='submit' value='Player detail'/>");

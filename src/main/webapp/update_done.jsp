@@ -21,7 +21,7 @@
                 Integer teamNumber = Integer.parseInt(team);
                 Integer idNumber = Integer.parseInt(id);
                 Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
-                p.update();
+                Player.update(p);
 
                 out.println("Player with id " + id + " was successfully updated.");
             } catch (NumberFormatException e) {

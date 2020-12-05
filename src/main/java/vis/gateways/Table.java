@@ -7,14 +7,21 @@ import java.util.ArrayList;
 
 public class Table {
     public static String tableName;
-    public static Connection conn;
+    public static Connection conn = null;
+
+    static {
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static ArrayList<String> columns;
 
-    public Table(String tableName) {};
     public Table(String tableName, ArrayList columns) throws SQLException {
         this.tableName = tableName;
         this.columns = columns;
-        conn = DriverManager.getConnection("jdbc:sqlserver://dbsys.cs.vsb.cz\\STUDENT","mar0702", "XPNAL0PmSe");
     }
 
     public String buildInsert(int valuesCount, int from_column) {
