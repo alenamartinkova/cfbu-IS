@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'org.example'
@@ -10,24 +11,25 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.media']
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'com.oracle.ojdbc:ojdbc10:19.3.0.0'
-}
-
-dependencies {
     implementation 'com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre8'
 }
-
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'dais.Main'
+                'Main-Class': 'vis.desktopapp.Main'
         )
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
@@ -35,4 +37,4 @@ run {
     standardInput = System.in
 }
 
-mainClassName = 'dais.Main'
+mainClassName = 'vis.desktopapp.Main'
