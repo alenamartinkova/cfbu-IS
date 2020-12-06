@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<row>
+  <leagueID>1</leagueID>
+  <name>Extraliga</name>
+  <category>1</category>
+</row>
+<row>
+  <leagueID>2</leagueID>
+  <name>Prvá liga</name>
+  <category>2</category>
+</row>
+<row>
+  <leagueID>3</leagueID>
+  <name>Druhá liga</name>
+  <category>3</category>
+</row>
+<row>
+  <leagueID>4</leagueID>
+  <name>Tretia liga</name>
+  <category>4</category>
+</row>
+</data>
