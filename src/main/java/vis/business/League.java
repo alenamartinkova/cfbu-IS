@@ -1,6 +1,12 @@
 package vis.business;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+import javax.xml.bind.annotation.XmlID;
+
+@JacksonXmlRootElement(localName = "League")
 public class League {
+    @XmlID
     Integer leagueID;
     String name;
     Integer category;
@@ -13,7 +19,7 @@ public class League {
 
     public League(){};
 
-    public Integer getId() {
+    public Integer getLeagueID() {
         return this.leagueID;
     }
 
