@@ -21,6 +21,10 @@ dependencies {
     implementation 'com.microsoft.sqlserver:mssql-jdbc:6.4.0.jre8'
 }
 
+dependencies {
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.1'
+}
+
 jar {
     manifest {
         attributes(
