@@ -91,10 +91,10 @@
                                 document.getElementsByName('changeleague')[0].value = 1;
                                 document.getElementsByName('teamid')[0].value = newTeamID;
                                 document.getElementById('form').submit();
-                                },
+                            },
                             "No - change team":  function() {
                                 alert('You chose to change team');
-                                },
+                            },
                             "Abort":  function() {
                                 dialog.dialog('close');
                                 document.getElementsByName('declined')[0].value = 1;
