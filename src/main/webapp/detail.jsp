@@ -62,6 +62,9 @@
     </center>
 </main>
 <%@ include file="footer.jsp" %>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css">
 <script>
     document.getElementById('button').addEventListener('click', function () {
         var qurantinedFromDateVal = document.getElementsByName('newquarantinedfrom')[0].value;
@@ -80,16 +83,26 @@
             }
 
             if(newLeagueID != currentLeagueID) {
-                var ret = confirm("Team is in different league do you want to proceed?");
-
-                if(!ret) {
-                    document.getElementsByName('declined')[0].value = 1;
-                    document.getElementById('form').submit();
-                } else {
-                    document.getElementsByName('changeleague')[0].value = 1;
-                    document.getElementsByName('teamid')[0].value = newTeamID;
-                    document.getElementById('form').submit();
-                }
+                $(function() {
+                    var dialog = $('<p>Team is in another league, do you want to continue?</p>').dialog({
+                        title: "League change",
+                        buttons: {
+                            "Yes": function() {
+                                document.getElementsByName('changeleague')[0].value = 1;
+                                document.getElementsByName('teamid')[0].value = newTeamID;
+                                document.getElementById('form').submit();
+                                },
+                            "No - change team":  function() {
+                                alert('You chose to change team');
+                                },
+                            "Abort":  function() {
+                                dialog.dialog('close');
+                                document.getElementsByName('declined')[0].value = 1;
+                                document.getElementById('form').submit();
+                            }
+                        }
+                    });
+                });
             } else {
                 document.getElementsByName('teamid')[0].value = newTeamID;
                 document.getElementById('form').submit();

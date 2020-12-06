@@ -1,5 +1,10 @@
 <%@ page import = "vis.business.*" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="java.nio.file.Paths" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="java.nio.file.Files" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.List" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -21,8 +26,11 @@
 
                 if(declinedNumber == 1) {
                     out.println("<h2>Player UPDATE CANCELED</h2>");
-                    System.out.print("Update was canceled because team was in another league");
                     out.println("<p>Update was canceled because team was in another league</p>");
+                    List<String> lines = Arrays.asList("Update was canceled because team was in another league");
+
+                    Files.write(Paths.get("./logs/test.txt"), lines,
+                            StandardCharsets.UTF_8);
                 } else {
                     Integer covidNumber = Integer.parseInt(covid);
                     Integer teamNumber = Integer.parseInt(team);
