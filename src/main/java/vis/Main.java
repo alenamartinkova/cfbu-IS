@@ -8,6 +8,5 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         LeagueGateway l = new LeagueGateway();
         League league = new League(6, "TEST", 6);
-
     }
 }
