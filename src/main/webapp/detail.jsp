@@ -1,4 +1,4 @@
-<%@ page import = "java.util.*, vis.business.*" %>
+<%@ page import = "java.util.*, business.*" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>

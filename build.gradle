@@ -12,7 +12,7 @@ repositories {
 }
 
 javafx {
-    version = "13"
+    version = "11.0.2"
     modules = [ 'javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.media', 'javafx.fxml' ]
 }
 
@@ -28,7 +28,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'vis.desktopapp.Main'
+                'Main-Class': 'desktopapp.Main'
         )
     }
     from {
@@ -41,4 +41,4 @@ run {
     standardInput = System.in
 }
 
-mainClassName = 'vis.desktopapp.Main'
+mainClassName = 'desktopapp.Main'

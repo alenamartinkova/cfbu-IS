@@ -1,4 +1,4 @@
-<%@ page import = "vis.business.Player"%>
+<%@ page import = "business.Player"%>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ include file="header.jsp" %>

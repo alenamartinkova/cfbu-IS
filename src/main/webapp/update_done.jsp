@@ -1,4 +1,4 @@
-<%@ page import = "vis.business.*" %>
+<%@ page import = "business.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
