@@ -17,6 +17,7 @@
             <TableColumn fx:id="match_ID" prefWidth="66.0" text="MatchID" />
             <TableColumn fx:id="first_team" prefWidth="134.0" text="1st Team" />
             <TableColumn fx:id="second_team" minWidth="1.0" text="2nd Team" />
+            <TableColumn fx:id="date" prefWidth="76.0" text="Date" />
          </columns>
          <opaqueInsets>
             <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />

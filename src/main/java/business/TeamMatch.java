@@ -57,6 +57,19 @@ public class TeamMatch {
         return this.teamMatchID;
     }
 
+    public String getFirstTeamName() {
+        return Team.fetchByID(this.firstTeamID).getName();
+    }
+
+    public String getSecondTeamName() {
+        return Team.fetchByID(this.secondTeamID).getName();
+    }
+
+    public String getDate() {
+        return Match.fetchByID(this.matchID).getDate().toString();
+    }
+
+
     public static ArrayList<TeamMatch> fetch() throws SQLException {
         return TeamMatchGateway.fetch();
     }

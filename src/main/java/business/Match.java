@@ -1,5 +1,7 @@
 package business;
 
+import gateways.MatchGateway;
+
 import java.sql.Timestamp;
 
 public class Match {
@@ -8,6 +10,7 @@ public class Match {
     Timestamp date;
     Integer pitchID;
 
+    public Match(){};
     public Match(Integer matchID, Integer p, String d, Integer pID) {
         this.matchID = matchID;
         this.postponed = p;
@@ -28,4 +31,8 @@ public class Match {
     }
 
     public Integer getPitchID() { return this.pitchID; }
+
+    public static Match fetchByID(Integer matchID) {
+        return MatchGateway.fetchByID(matchID);
+    }
 }

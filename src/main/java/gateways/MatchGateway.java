@@ -1,5 +1,6 @@
 package gateways;
 import business.Match;
+import business.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -125,5 +126,25 @@ public class MatchGateway {
         }
 
         return -1;
+    }
+
+    public static Match fetchByID(Integer id) {
+        String queryStr = "SELECT * FROM Match WHERE matchID = ?";
+        String val = id.toString();
+        Match match = new Match();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                match = new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return match;
     }
 }
