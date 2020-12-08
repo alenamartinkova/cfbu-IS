@@ -17,17 +17,18 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MatchDetailController implements Initializable {
     @FXML
-    private ChoiceBox<Team> firstTeamSelect;
+    private ChoiceBox<String> firstTeamSelect;
     @FXML
-    private ChoiceBox<Team> secondTeamSelect;
+    private ChoiceBox<String> secondTeamSelect;
     @FXML
-    private ChoiceBox<Pitch> pitchSelect;
+    private ChoiceBox<String> pitchSelect;
     @FXML
     private TextField date;
     private TeamMatch selectedMatch;
@@ -35,14 +36,22 @@ public class MatchDetailController implements Initializable {
     public void initData(TeamMatch match) throws SQLException {
         this.selectedMatch = match;
         ArrayList<Team> teams = Team.fetch();
+        ArrayList<Pitch> pitches = Pitch.fetch();
         for (int i = 0; i < teams.size(); i++) {
-            this.firstTeamSelect.getItems().add(teams.get(i));
+            this.firstTeamSelect.getItems().add(teams.get(i).getName());
         }
-        this.firstTeamSelect.setValue(this.selectedMatch.getFirstTeam());
-        this.secondTeamSelect.getItems().addAll(Team.fetch());
-        this.secondTeamSelect.setValue(this.selectedMatch.getSecondTeam());
-        this.pitchSelect.getItems().addAll(Pitch.fetch());
-        this.pitchSelect.setValue(this.selectedMatch.getPitch());
+        this.firstTeamSelect.setValue(this.selectedMatch.getFirstTeam().getName());
+
+        for (int i = 0; i < teams.size(); i++) {
+            this.secondTeamSelect.getItems().add(teams.get(i).getName());
+        }
+        this.secondTeamSelect.setValue(this.selectedMatch.getSecondTeam().getName());
+
+        for (int i = 0; i < pitches.size(); i++) {
+            this.pitchSelect.getItems().add(pitches.get(i).getName());
+        }
+
+        this.pitchSelect.setValue(this.selectedMatch.getPitch().getName());
         this.date.setText(this.selectedMatch.getDate());
     }
 
