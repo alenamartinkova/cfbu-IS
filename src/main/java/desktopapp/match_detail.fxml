@@ -7,12 +7,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
-      <Button layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
-      <TextField layoutX="220.0" layoutY="250.0" text="Date" />
+      <Button id="teams_all_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
+      <Button id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
+      <TextField id="date" layoutX="220.0" layoutY="250.0" text="Date" />
       <Button layoutX="256.0" layoutY="309.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Submit" />
-      <ChoiceBox layoutX="226.0" layoutY="101.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="225.0" layoutY="153.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="226.0" layoutY="200.0" prefWidth="150.0" />
+      <ChoiceBox id="first_team_select" layoutX="226.0" layoutY="101.0" prefWidth="150.0" />
+      <ChoiceBox id="second_team_select" layoutX="225.0" layoutY="153.0" prefWidth="150.0" />
+      <ChoiceBox id="pitch_select" layoutX="226.0" layoutY="200.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

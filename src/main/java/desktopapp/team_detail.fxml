@@ -7,12 +7,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
-      <Button layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
-      <TextField layoutX="47.0" layoutY="108.0" text="Team name" />
-      <TextField layoutX="317.0" layoutY="108.0" text="Rank" />
-      <TextField layoutX="47.0" layoutY="173.0" text="Quarantined from" />
-      <TextField layoutX="317.0" layoutY="173.0" text="Covid" />
+      <Button id="all_teams_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
+      <Button id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
+      <TextField id="team_name" layoutX="47.0" layoutY="108.0" text="Team name" />
+      <TextField id="team_rank" layoutX="317.0" layoutY="108.0" text="Rank" />
+      <TextField id="quarantined_from" layoutX="47.0" layoutY="173.0" text="Quarantined from" />
+      <TextField id="covid" layoutX="317.0" layoutY="173.0" text="Covid" />
       <Button layoutX="353.0" layoutY="261.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Submit" />
    </children>
 </AnchorPane>
