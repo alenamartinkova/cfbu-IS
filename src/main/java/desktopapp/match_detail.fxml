@@ -6,15 +6,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="match_detail_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button id="teams_all_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
-      <Button id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
-      <TextField id="date" layoutX="223.0" layoutY="282.0" prefHeight="27.0" prefWidth="156.0" text="Date" />
-      <Button id="submit_button" layoutX="257.0" layoutY="329.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Submit" />
-      <ChoiceBox id="first_team_select" layoutX="226.0" layoutY="101.0" prefWidth="150.0" />
-      <ChoiceBox id="second_team_select" layoutX="225.0" layoutY="159.0" prefWidth="150.0" />
-      <ChoiceBox id="pitch_select" layoutX="226.0" layoutY="216.0" prefWidth="150.0" />
+      <Button fx:id="teams_all_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
+      <Button fx:id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
+      <TextField fx:id="date" layoutX="223.0" layoutY="282.0" prefHeight="27.0" prefWidth="156.0" text="Date" />
+      <Button fx:id="submit_button" layoutX="257.0" layoutY="329.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Submit" />
+      <ChoiceBox fx:id="first_team_select" layoutX="226.0" layoutY="101.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="second_team_select" layoutX="225.0" layoutY="159.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="pitch_select" layoutX="226.0" layoutY="216.0" prefWidth="150.0" />
       <Label layoutX="230.0" layoutY="77.0" text="1st Team" />
       <Label layoutX="230.0" layoutY="136.0" text="2nd Team" />
       <Label layoutX="225.0" layoutY="192.0" text="Pitch" />
