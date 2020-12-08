@@ -71,29 +71,31 @@ public class TeamController implements Initializable {
 
     public void openAllTeams(ActionEvent event) {
         Parent root = null;
+        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root, 645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(root.getScene());
-        window.setTitle("VIS TEAMS");
-        window.show();
+
+        stage.setTitle("VIS TEAMS");
+        stage.show();
     }
 
     public void openAllMatches(ActionEvent event) {
         Parent root = null;
+        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root,645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(root.getScene());
-        window.setTitle("VIS MATCHES");
-        window.show();
+
+        stage.setTitle("VIS MATCHES");
+        stage.show();
     }
 }

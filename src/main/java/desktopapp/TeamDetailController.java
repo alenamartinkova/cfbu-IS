@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -32,7 +33,7 @@ public class TeamDetailController implements Initializable {
         this.team_name.setText(this.selectedTeam.getName());
         this.team_rank.setText(this.selectedTeam.getRank().toString());
         if(this.selectedTeam.getQuarantinedFrom() == null) {
-            this.quarantined_from.setText("");
+            this.quarantined_from.setText("null");
         } else {
             this.quarantined_from.setText(this.selectedTeam.getQuarantinedFrom().toString());
         }
@@ -40,36 +41,35 @@ public class TeamDetailController implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-
-    }
+    public void initialize(URL location, ResourceBundle resources) { }
 
     public void openAllTeams(ActionEvent event) {
         Parent root = null;
+        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root, 645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(root.getScene());
-        window.setTitle("VIS TEAMS");
-        window.show();
+
+        stage.setTitle("VIS TEAMS");
+        stage.show();
     }
 
     public void openAllMatches(ActionEvent event) {
         Parent root = null;
+        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root,645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        window.setScene(root.getScene());
-        window.setTitle("VIS MATCHES");
-        window.show();
+
+        stage.setTitle("VIS MATCHES");
+        stage.show();
     }
 }

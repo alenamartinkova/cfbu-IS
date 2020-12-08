@@ -1,5 +1,7 @@
 package business;
 
+import gateways.MatchGateway;
+import gateways.PitchGateway;
 import gateways.TeamMatchGateway;
 
 import java.sql.SQLException;
@@ -69,9 +71,21 @@ public class TeamMatch {
         return Match.fetchByID(this.matchID).getDate().toString();
     }
 
-
     public static ArrayList<TeamMatch> fetch() throws SQLException {
         return TeamMatchGateway.fetch();
+    }
+
+    public Team getFirstTeam() {
+        return Team.fetchByID(this.firstTeamID);
+    }
+
+    public Team getSecondTeam() {
+        return Team.fetchByID(this.secondTeamID);
+    }
+
+    public Pitch getPitch() {
+        Integer id = MatchGateway.fetchByID(this.matchID).getPitchID();
+        return PitchGateway.fetchByID(id);
     }
 }
 

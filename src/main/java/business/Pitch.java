@@ -1,11 +1,17 @@
 package business;
 
+import gateways.PitchGateway;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Pitch {
     Integer pitchID;
     Integer addressID;
     Integer capacity;
     String name;
 
+    public Pitch(){};
     public Pitch(Integer pID, Integer aID, Integer c, String n) {
         this.pitchID = pID;
         this.addressID = aID;
@@ -27,5 +33,9 @@ public class Pitch {
 
     public String getName() {
         return this.name;
+    }
+
+    public static ArrayList<Pitch> fetch() throws SQLException {
+        return PitchGateway.fetch();
     }
 }
