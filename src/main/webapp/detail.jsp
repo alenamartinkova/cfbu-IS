@@ -17,8 +17,6 @@
             playerID = -1;
         }
 
-        /** PREROB DO BUSINESS */
-
         if (playerID != -1) {
             Player p = Player.fetchByID(playerID);
             Team t = Team.fetchByID(p.getTeamID());

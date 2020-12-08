@@ -1,9 +1,5 @@
 <%@ page import = "business.*" %>
 <%@ page import="java.sql.SQLException" %>
-<%@ page import="java.nio.file.Paths" %>
-<%@ page import="java.nio.charset.StandardCharsets" %>
-<%@ page import="java.nio.file.Files" %>
-<%@ page import="java.util.List" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -27,11 +23,7 @@
                 if(declinedNumber == 1) {
                     out.println("<h2>Player UPDATE CANCELED</h2>");
                     out.println("<p>Update was canceled because team was in another league</p>");
-                    List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
-                    lines.add("Update canceled beacuse team was in another league");
-
-                    Files.write(Paths.get("./logs/test.txt"), lines,
-                            StandardCharsets.UTF_8);
+                    Player.storeError();
 
                 } else {
                     Integer covidNumber = Integer.parseInt(covid);
@@ -40,6 +32,7 @@
                     Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
                     Statistics s = Statistics.fetchByPlayerID(p.getId());
                     Integer changeLeagueNumber = Integer.parseInt(changeLeague);
+
                     if(changeLeagueNumber == 1) {
                         Player.updateAndResetStats(p, s.getStatsID());
 

@@ -181,4 +181,23 @@ public class TeamGateway {
 
         return team;
     }
+
+    public static Team fetchByName(String name) {
+        String queryStr = "SELECT * FROM Team WHERE name = ?";
+        Team team = new Team();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, name);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                team = new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return team;
+    }
 }

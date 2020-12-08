@@ -87,4 +87,12 @@ public class MatchDetailController implements Initializable {
         stage.setTitle("VIS MATCHES");
         stage.show();
     }
+
+    public void onMatchSubmit(ActionEvent event) throws SQLException {
+        boolean doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
+
+        if(doUpdate) {
+            TeamMatch.update(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
+        }
+    }
 }

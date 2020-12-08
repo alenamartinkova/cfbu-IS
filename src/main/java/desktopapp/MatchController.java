@@ -1,7 +1,5 @@
 package desktopapp;
 
-import business.Match;
-import business.Team;
 import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

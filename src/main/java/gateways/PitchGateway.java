@@ -152,4 +152,23 @@ public class PitchGateway {
 
         return pitch;
     }
+
+    public static Pitch fetchByName(String name) {
+        String queryStr = "SELECT * FROM Pitch WHERE name = ?";
+        Pitch pitch = new Pitch();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, name);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                pitch = new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return pitch;
+    }
 }

@@ -1,5 +1,6 @@
 package gateways;
 
+import business.Match;
 import business.TeamMatch;
 
 import java.sql.PreparedStatement;
@@ -113,7 +114,7 @@ public class TeamMatchGateway {
             preparedQuery.setInt(5, teamMatch.getSecondRefereeID());
             preparedQuery.setInt(6, teamMatch.getFirstTeamGoals());
             preparedQuery.setInt(7, teamMatch.getSecondTeamGoals());
-            preparedQuery.setInt(9, teamMatch.getTeamMatchID());
+            preparedQuery.setInt(8, teamMatch.getTeamMatchID());
 
             output = preparedQuery.executeUpdate();
             preparedQuery.close();
@@ -133,5 +134,25 @@ public class TeamMatchGateway {
         }
 
         return -1;
+    }
+
+    public static TeamMatch fetchByID(Integer id) {
+        String queryStr = "SELECT * FROM TeamMatch WHERE teamMatchID = ?";
+        String val = id.toString();
+        TeamMatch match = new TeamMatch();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                match = new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return match;
     }
 }

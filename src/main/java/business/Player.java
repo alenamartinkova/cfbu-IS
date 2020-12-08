@@ -2,9 +2,14 @@ package business;
 
 import gateways.PlayerGateway;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     Integer id;
@@ -92,5 +97,13 @@ public class Player {
 
     public static ArrayList<Player> searchByAttr(String s) {
         return PlayerGateway.searchByAttr(s);
+    }
+
+    public static void storeError() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
+        lines.add("Update canceled because team was in another league");
+
+        Files.write(Paths.get("./logs/test.txt"), lines,
+                StandardCharsets.UTF_8);
     }
 }

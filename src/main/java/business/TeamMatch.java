@@ -2,6 +2,7 @@ package business;
 
 import gateways.MatchGateway;
 import gateways.PitchGateway;
+import gateways.TeamGateway;
 import gateways.TeamMatchGateway;
 
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ public class TeamMatch {
     Integer firstTeamGoals;
     Integer secondTeamGoals;
 
+    public TeamMatch(){};
     public TeamMatch(Integer tmID, Integer mID, Integer ftID, Integer stID, Integer frID, Integer srID, Integer ftGoals, Integer stGoals) {
         this.teamMatchID = tmID;
         this.matchID = mID;
@@ -86,6 +88,54 @@ public class TeamMatch {
     public Pitch getPitch() {
         Integer id = MatchGateway.fetchByID(this.matchID).getPitchID();
         return PitchGateway.fetchByID(id);
+    }
+
+    public static boolean proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
+        Pitch pitch = PitchGateway.fetchByName(pitchName);
+        Team firstTeam = TeamGateway.fetchByName(firstTeamName);
+        Team secondTeam = TeamGateway.fetchByName(secondTeamName);
+
+        ArrayList<Match> matches = MatchGateway.fetch();
+        ArrayList<TeamMatch> teamMatches = TeamMatchGateway.fetch();
+
+
+        for(int i = 0; i < matches.size(); i++) {
+            if(matches.get(i).getMatchID() != match.getMatchID()) {
+                if(matches.get(i).getDate().toString() == date) {
+                    for(int j = 0; j < teamMatches.size(); j++) {
+                        if(checkTeamCollisions(teamMatches.get(j), firstTeam) || checkTeamCollisions(teamMatches.get(j), secondTeam)) {
+                            return false;
+                        }
+                    }
+                }
+
+                if(matches.get(i).getPitchID() == pitch.getPitchID() && date == matches.get(i).getDate().toString()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean checkTeamCollisions(TeamMatch teamMatch, Team team) {
+        if(teamMatch.getFirstTeamID() == team.getId() || teamMatch.getSecondTeamID() == team.getId()) {
+            return  true;
+        }
+
+        return false;
+    }
+
+    public static void update(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
+        Integer pitch = PitchGateway.fetchByName(pitchName).getPitchID();
+        Integer firstTeam = TeamGateway.fetchByName(firstTeamName).getId();
+        Integer secondTeam = TeamGateway.fetchByName(secondTeamName).getId();
+        Match oldMatchData = MatchGateway.fetchByID(match.getMatchID());
+
+        TeamMatch teamMatch = new TeamMatch(match.getTeamMatchID(), match.getMatchID(), firstTeam, secondTeam, match.getFirstRefereeID(), match.getSecondRefereeID(), match.getFirstTeamGoals(), match.getSecondTeamGoals());
+        Match matchNew = new Match(match.getMatchID(), oldMatchData.getPostponed(), date, pitch);
+        TeamMatchGateway.update(teamMatch);
+        MatchGateway.update(matchNew);
     }
 }
 
