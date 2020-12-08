@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MatchDetailController implements Initializable {
@@ -33,7 +34,10 @@ public class MatchDetailController implements Initializable {
 
     public void initData(TeamMatch match) throws SQLException {
         this.selectedMatch = match;
-        this.firstTeamSelect.getItems().addAll(Team.fetch());
+        ArrayList<Team> teams = Team.fetch();
+        for (int i = 0; i < teams.size(); i++) {
+            this.firstTeamSelect.getItems().add(teams.get(i));
+        }
         this.firstTeamSelect.setValue(this.selectedMatch.getFirstTeam());
         this.secondTeamSelect.getItems().addAll(Team.fetch());
         this.secondTeamSelect.setValue(this.selectedMatch.getSecondTeam());
