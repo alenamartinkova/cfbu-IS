@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -50,43 +51,49 @@ public class TeamController implements Initializable {
     @FXML
     public void editTeam(ActionEvent event) {
         Parent root = null;
+        FXMLLoader loader = new FXMLLoader();
         Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/team_detail.fxml").toURI().toURL();
-            root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root,645, 501));
+            loader.setLocation(url);
+            root = loader.load();
+            stage.setScene(new Scene(root, 645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        TeamDetailController controller = loader.getController();
+        controller.initData(team_table.getSelectionModel().getSelectedItem());
+
         stage.setTitle("VIS TEAM DETAIL");
         stage.show();
     }
 
-    public void openAllTeams(ActionEvent actionEvent) {
+    public void openAllTeams(ActionEvent event) {
         Parent root = null;
-        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root,645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setTitle("VIS TEAMS");
-        stage.show();
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(root.getScene());
+        window.setTitle("VIS TEAMS");
+        window.show();
     }
 
-    public void openAllMatches(ActionEvent actionEvent) {
+    public void openAllMatches(ActionEvent event) {
         Parent root = null;
-        Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root,645, 501));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setTitle("VIS MATCHES");
-        stage.show();
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        window.setScene(root.getScene());
+        window.setTitle("VIS MATCHES");
+        window.show();
     }
 }

@@ -3,9 +3,7 @@
 <%@ page import="java.nio.file.Paths" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.nio.file.Files" %>
-<%@ page import="java.util.Arrays" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.sql.Array" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -22,6 +20,7 @@
             String changeLeague = request.getParameter("changeleague");
             String id = request.getParameter("id");
 
+            // prepis do fce v business
             try {
                 Integer declinedNumber = Integer.parseInt(declined);
 

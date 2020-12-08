@@ -49,7 +49,7 @@ public class Team {
         return this.covid;
     }
 
-    public Timestamp getQurantinedFrom() {
+    public Timestamp getQuarantinedFrom() {
         return this.quarantinedFrom;
     }
 

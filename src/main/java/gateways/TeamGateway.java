@@ -37,7 +37,7 @@ public class TeamGateway {
             preparedQuery.setString(2, team.getName());
             preparedQuery.setInt(3, team.getRank());
             preparedQuery.setInt(4, team.getCovid());
-            preparedQuery.setTimestamp(5, team.getQurantinedFrom());
+            preparedQuery.setTimestamp(5, team.getQuarantinedFrom());
 
             output = preparedQuery.executeUpdate();
 
@@ -70,7 +70,7 @@ public class TeamGateway {
             preparedQuery.setString(2, team.getName());
             preparedQuery.setInt(3, team.getRank());
             preparedQuery.setInt(4, team.getCovid());
-            preparedQuery.setTimestamp(5, team.getQurantinedFrom());
+            preparedQuery.setTimestamp(5, team.getQuarantinedFrom());
             preparedQuery.setInt(6, team.getId());
 
             output = preparedQuery.executeUpdate();

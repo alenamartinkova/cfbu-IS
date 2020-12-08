@@ -12,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.ResourceBundle;
 
 public class MatchController implements Initializable {
