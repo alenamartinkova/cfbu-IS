@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="match_detail_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="match_detail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.MatchDetailController">
    <children>
       <Button fx:id="teams_all_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
       <Button fx:id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />

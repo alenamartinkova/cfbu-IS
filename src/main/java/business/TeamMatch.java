@@ -1,5 +1,10 @@
 package business;
 
+import gateways.TeamMatchGateway;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class TeamMatch {
     Integer teamMatchID;
     Integer matchID;
@@ -24,6 +29,13 @@ public class TeamMatch {
     public Integer getMatchID() {
         return this.matchID;
     }
+    public Integer getFirstTeamID() {
+        return this.firstTeamID;
+    }
+
+    public Integer getSecondTeamID() {
+        return this.secondTeamID;
+    }
 
     public Integer getFirstRefereeID() {
         return this.firstRefereeID;
@@ -31,10 +43,6 @@ public class TeamMatch {
 
     public Integer getFirstTeamGoals() {
         return this.firstTeamGoals;
-    }
-
-    public Integer getFirstTeamID() {
-        return this.firstTeamID;
     }
 
     public Integer getSecondRefereeID() {
@@ -45,12 +53,12 @@ public class TeamMatch {
         return this.secondTeamGoals;
     }
 
-    public Integer getSecondTeamID() {
-        return this.secondTeamID;
-    }
-
     public Integer getTeamMatchID() {
         return this.teamMatchID;
+    }
+
+    public static ArrayList<TeamMatch> fetch() throws SQLException {
+        return TeamMatchGateway.fetch();
     }
 }
 

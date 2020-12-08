@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Team {
-    Integer id;
+    Integer teamid;
     Integer rank;
     String name;
     Integer leagueID;
@@ -15,7 +15,7 @@ public class Team {
     Timestamp quarantinedFrom;
 
     public Team(Integer id, Integer l,  String n, Integer r, Integer c, String q) {
-        this.id = id;
+        this.teamid = id;
         this.rank = r;
         this.name = n;
         this.leagueID = l;
@@ -30,7 +30,7 @@ public class Team {
     public Team(){};
 
     public Integer getId() {
-        return this.id;
+        return this.teamid;
     }
 
     public Integer getRank() {

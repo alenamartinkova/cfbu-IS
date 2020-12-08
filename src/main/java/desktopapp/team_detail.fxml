@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="team_detail_table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="team_detail" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.TeamDetailController">
    <children>
-      <Button fx:id="all_teams_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="TEAMS" />
-      <Button fx:id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="MATCHES" />
+      <Button fx:id="all_teams_button" layoutX="47.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" onAction="#openAllTeams" text="TEAMS" />
+      <Button fx:id="matches_all_button" layoutX="173.0" layoutY="34.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" onAction="#openAllMatches" text="MATCHES" />
       <TextField fx:id="team_name" layoutX="47.0" layoutY="108.0" text="Team name" />
       <TextField fx:id="team_rank" layoutX="317.0" layoutY="108.0" text="Rank" />
       <TextField fx:id="quarantined_from" layoutX="47.0" layoutY="173.0" text="Quarantined from" />

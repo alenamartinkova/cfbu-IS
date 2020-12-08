@@ -1,15 +1,20 @@
 package desktopapp;
 
 import business.Team;
-import gateways.TeamGateway;
-import javafx.beans.property.Property;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,5 +45,48 @@ public class TeamController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @FXML
+    public void editTeam(ActionEvent event) {
+        Parent root = null;
+        Stage stage = new Stage();
+        try {
+            URL url = new File("src/main/java/desktopapp/team_detail.fxml").toURI().toURL();
+            root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root,645, 501));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("VIS TEAM DETAIL");
+        stage.show();
+    }
+
+    public void openAllTeams(ActionEvent actionEvent) {
+        Parent root = null;
+        Stage stage = new Stage();
+        try {
+            URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
+            root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root,645, 501));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("VIS TEAMS");
+        stage.show();
+    }
+
+    public void openAllMatches(ActionEvent actionEvent) {
+        Parent root = null;
+        Stage stage = new Stage();
+        try {
+            URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+            root = FXMLLoader.load(url);
+            stage.setScene(new Scene(root,645, 501));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("VIS MATCHES");
+        stage.show();
     }
 }
