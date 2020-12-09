@@ -14,7 +14,7 @@
       <TextField fx:id="team_rank" layoutX="317.0" layoutY="108.0" text="Rank" />
       <TextField fx:id="quarantined_from" layoutX="47.0" layoutY="173.0" text="Quarantined from" />
       <TextField fx:id="covid" layoutX="317.0" layoutY="173.0" text="Covid" />
-      <Button fx:id="submit_button" layoutX="353.0" layoutY="261.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" text="Submit" />
+      <Button fx:id="submit_button" layoutX="353.0" layoutY="261.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="89.0" onAction="#onTeamSubmit" text="Submit" />
       <Label layoutX="47.0" layoutY="85.0" text="Team name" />
       <Label layoutX="317.0" layoutY="85.0" text="Rank" />
       <Label layoutX="47.0" layoutY="149.0" text="Quarantined from" />

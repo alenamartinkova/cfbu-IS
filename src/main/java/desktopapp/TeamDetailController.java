@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TeamDetailController implements Initializable {
@@ -71,5 +72,13 @@ public class TeamDetailController implements Initializable {
 
         stage.setTitle("VIS MATCHES");
         stage.show();
+    }
+
+    public void onTeamSubmit(ActionEvent event) throws SQLException {
+        Integer doUpdate = Team.proceedUpdate();
+
+        if(doUpdate == 0) {
+            Team.update(this.selectedTeam);
+        }
     }
 }

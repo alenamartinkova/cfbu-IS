@@ -60,4 +60,12 @@ public class Team {
     public static ArrayList<Team> fetch() throws SQLException {
         return TeamGateway.fetch();
     }
+
+    public static Integer proceedUpdate() {
+        return 0;
+    }
+
+    public static void update(Team t) throws SQLException {
+        TeamGateway.update(t);
+    }
 }
