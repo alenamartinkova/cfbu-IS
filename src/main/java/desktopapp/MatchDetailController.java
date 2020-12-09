@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.SQLException;
@@ -88,13 +89,26 @@ public class MatchDetailController implements Initializable {
         stage.show();
     }
 
-    public void onMatchSubmit(ActionEvent event) throws SQLException {
+    public void onMatchSubmit(ActionEvent event) throws SQLException, IOException {
         Integer doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
 
         if(doUpdate == 0) {
             TeamMatch.update(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
         } else {
-            System.out.println(doUpdate);
+            Parent root = null;
+            URL url = null;
+
+            if(doUpdate == -3) {
+                url = new File("src/main/java/desktopapp/same_team.fxml").toURI().toURL();
+            } else if (doUpdate == -2) {
+                url = new File("src/main/java/desktopapp/date_collision.fxml").toURI().toURL();
+            } else if (doUpdate == -1) {
+                url = new File("src/main/java/desktopapp/pitch_collision.fxml").toURI().toURL();
+            }
+            root = FXMLLoader.load(url);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 300, 150));
+            stage.show();
         }
     }
 }
