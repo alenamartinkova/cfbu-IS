@@ -176,4 +176,26 @@ public class TeamMatchGateway {
 
         return match;
     }
+
+    public static ArrayList<TeamMatch> fetchByTeamID(Integer id) {
+        String queryStr = "SELECT * FROM TeamMatch WHERE firstTeamID = ? OR secondTeamID = ?";
+        String val = id.toString();
+
+        ArrayList<TeamMatch> matches = new ArrayList<>();
+        try {
+            PreparedStatement query = Table.conn.prepareStatement(queryStr);
+            query.setString(1, val);
+            query.setString(2, val);
+
+            ResultSet rs = query.executeQuery();
+            while (rs.next()) {
+                matches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return matches;
+    }
 }

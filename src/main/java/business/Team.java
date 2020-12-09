@@ -1,6 +1,8 @@
 package business;
 
+import gateways.MatchGateway;
 import gateways.TeamGateway;
+import gateways.TeamMatchGateway;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Team {
@@ -94,5 +97,33 @@ public class Team {
 
     public static void update(Team t) throws SQLException {
         TeamGateway.update(t);
+    }
+
+    public static void stopMatchesAndUpdate(Team team) {
+        try {
+            Timestamp date = new Timestamp(System.currentTimeMillis());
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_YEAR, 14);
+
+            Timestamp twoWeeksFromNow = new Timestamp(calendar.getTime().getTime());
+            //System.out.println(date);
+            //System.out.println(twoWeeksFromNow);
+            //Integer covidNumber = Integer.parseInt(covid);
+
+            //Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantined_from);
+            //TeamGateway.update(t);
+            //System.out.println(team);
+            ArrayList<TeamMatch> tm = TeamMatchGateway.fetchByTeamID(team.getId());
+
+            for(int i = 0; i < tm.size(); i++) {
+                Match m = MatchGateway.fetchByID(tm.get(i).getMatchID());
+
+            }
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 }

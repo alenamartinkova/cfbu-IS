@@ -1,7 +1,6 @@
 package desktopapp;
 
 import business.Team;
-import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TeamDetailController implements Initializable {
@@ -62,7 +60,7 @@ public class TeamDetailController implements Initializable {
         stage.show();
     }
 
-    public void onTeamSubmit(ActionEvent event) throws SQLException, IOException {
+    public void onTeamSubmit(ActionEvent event) throws IOException {
         Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
 
         Parent root = null;
@@ -77,7 +75,7 @@ public class TeamDetailController implements Initializable {
 
         root = FXMLLoader.load(url);
         Stage stage = new Stage();
-        stage.setScene(new Scene(root, 400, 150));
+        stage.setScene(new Scene(root, 500, 200));
         stage.show();
     }
 
@@ -86,63 +84,59 @@ public class TeamDetailController implements Initializable {
         Parent root = null;
         Stage stage = new Stage();
         Stage oldWindow = null;
+        URL url = null;
         switch(buttonID) {
             case "matches_all_button":
                 try {
-                    URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
                     root = FXMLLoader.load(url);
-                    stage.setScene(new Scene(root, 645, 501));
+                    stage.setScene(new Scene(root,645, 501));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                oldWindow.close();
-                stage.setTitle("VIS MATCHES");
-                stage.show();
                 break;
             case "teams_all_button":
                 try {
-                    URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
+                    url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
                     root = FXMLLoader.load(url);
-                    stage.setScene(new Scene(root, 645, 501));
+                    stage.setScene(new Scene(root,645, 501));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                oldWindow.close();
-                stage.setTitle("VIS TEAMS");
-                stage.show();
                 break;
             case "no":
                 try {
-                    URL url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
-                    root = FXMLLoader.load(url);
-                    stage.setScene(new Scene(root, 645, 501));
+                    FXMLLoader loader = new FXMLLoader();
+                    url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
+                    loader.setLocation(url);
+                    root = loader.load(url);
+                    stage.setScene(new Scene(root, 400, 200));
+                    // need new controller for this info window and do the same as here
+                    StopMatchController controller = loader.getController();
+                    controller.initData(this.selectedTeam.getId());
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                stage.setScene(new Scene(root, 400, 150));
-                stage.show();
-                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                oldWindow.close();
                 break;
             case "yes":
                 Team.storeInfo();
                 try {
-                    URL url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
-                    root = FXMLLoader.load(url);
-                    stage.setScene(new Scene(root, 645, 501));
+                    FXMLLoader loader = new FXMLLoader();
+                    url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
+                    loader.setLocation(url);
+                    root = loader.load(url);
+                    stage.setScene(new Scene(root, 400, 200));
+                    StopMatchController controller = loader.getController();
+                    controller.initData(this.selectedTeam.getId());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                stage.setScene(new Scene(root, 400, 150));
-                stage.show();
-
-                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                oldWindow.close();
                 break;
         }
+
+        oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
+        stage.show();
     }
 }
