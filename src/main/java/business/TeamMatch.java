@@ -5,9 +5,14 @@ import gateways.PitchGateway;
 import gateways.TeamGateway;
 import gateways.TeamMatchGateway;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TeamMatch {
     Integer teamMatchID;
@@ -140,6 +145,14 @@ public class TeamMatch {
         Match matchNew = new Match(match.getMatchID(), oldMatchData.getPostponed(), date, pitch);
         TeamMatchGateway.update(teamMatch);
         MatchGateway.update(matchNew);
+    }
+
+    public static void storeError() throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
+        lines.add("Update of match aborted.");
+
+        Files.write(Paths.get("./logs/test.txt"), lines,
+                StandardCharsets.UTF_8);
     }
 }
 

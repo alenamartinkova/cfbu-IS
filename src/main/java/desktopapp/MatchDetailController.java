@@ -84,14 +84,27 @@ public class MatchDetailController implements Initializable {
         }
     }
 
-    public void handleButtons(ActionEvent event) {
+    public void handleButtons(ActionEvent event) throws IOException {
         String buttonID = ((Button)event.getSource()).getId();
         Parent root = null;
         Stage stage = new Stage();
         Stage oldWindow = null;
         switch(buttonID) {
             case "matches_all_button":
+                try {
+                    URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root, 645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                stage.setTitle("VIS MATCHES");
+                stage.show();
+                break;
             case "abort":
+                TeamMatch.storeError();
                 try {
                     URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
                     root = FXMLLoader.load(url);
