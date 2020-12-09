@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -60,38 +61,6 @@ public class MatchDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
-    public void openAllTeams(ActionEvent event) {
-        Parent root = null;
-        Stage stage = new Stage();
-        try {
-            URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
-            root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root, 645, 501));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        oldWindow.close();
-        stage.setTitle("VIS TEAMS");
-        stage.show();
-    }
-
-    public void openAllMatches(ActionEvent event) {
-        Parent root = null;
-        Stage stage = new Stage();
-        try {
-            URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
-            root = FXMLLoader.load(url);
-            stage.setScene(new Scene(root,645, 501));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        oldWindow.close();
-        stage.setTitle("VIS MATCHES");
-        stage.show();
-    }
-
     public void onMatchSubmit(ActionEvent event) throws SQLException, IOException {
         Integer doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
 
@@ -112,6 +81,46 @@ public class MatchDetailController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 400, 150));
             stage.show();
+        }
+    }
+
+    public void handleButtons(ActionEvent event) {
+        String buttonID = ((Button)event.getSource()).getId();
+        Parent root = null;
+        Stage stage = new Stage();
+        Stage oldWindow = null;
+        switch(buttonID) {
+            case "matches_all_button":
+            case "abort":
+                try {
+                    URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root, 645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                stage.setTitle("VIS MATCHES");
+                stage.show();
+                break;
+            case "teams_all_button":
+                try {
+                    URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root, 645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                stage.setTitle("VIS TEAMS");
+                stage.show();
+                break;
+            case "change":
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                break;
         }
     }
 }
