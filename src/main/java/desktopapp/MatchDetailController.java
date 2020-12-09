@@ -1,6 +1,5 @@
 package desktopapp;
 
-import business.Match;
 import business.Pitch;
 import business.Team;
 import business.TeamMatch;
@@ -18,9 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -61,6 +58,12 @@ public class MatchDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
+    /**
+     * Function that handles submit button event
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     public void onMatchSubmit(ActionEvent event) throws SQLException, IOException {
         Integer doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
 
@@ -84,6 +87,11 @@ public class MatchDetailController implements Initializable {
         }
     }
 
+    /**
+     * Function that handles all other button events
+     * @param event
+     * @throws IOException
+     */
     public void handleButtons(ActionEvent event) throws IOException {
         String buttonID = ((Button)event.getSource()).getId();
         Parent root = null;

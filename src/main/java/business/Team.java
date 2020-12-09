@@ -70,6 +70,10 @@ public class Team {
         return TeamGateway.fetch();
     }
 
+    /**
+     * Function that "sends" information about covid
+     * @throws IOException
+     */
     public static void storeInfo() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
         lines.add("Team has covid.");
@@ -78,6 +82,13 @@ public class Team {
                 StandardCharsets.UTF_8);
     }
 
+    /**
+     * Function that checks if team covid status has changed to 1, if no then update if yes then handle alternatives
+     * @param team updated team
+     * @param quarantined_from new value of quarantined from
+     * @param covid new value of covid
+     * @return
+     */
     public static Integer proceedUpdate(Team team, String quarantined_from, String covid) {
         try {
             Integer covidNumber = Integer.parseInt(covid);
@@ -95,34 +106,55 @@ public class Team {
         }
     }
 
+    /**
+     * Function that calls TeamGateway update
+     * @param t updated team
+     * @throws SQLException
+     */
     public static void update(Team t) throws SQLException {
         TeamGateway.update(t);
     }
 
-    public static void stopMatchesAndUpdate(Team team) {
+    /**
+     * Function that deletes all matches of team in the next two weeks and updates team info
+     * @param team team to update
+     * @param quarantinedFrom new value of quarantined from
+     * @param covid new value of covid - at this point we know it is 1
+     */
+    public static void stopMatchesAndUpdate(Team team, String quarantinedFrom, String covid) {
         try {
             Timestamp date = new Timestamp(System.currentTimeMillis());
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            date.setNanos(0);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             calendar.add(Calendar.DAY_OF_YEAR, 14);
 
             Timestamp twoWeeksFromNow = new Timestamp(calendar.getTime().getTime());
-            //System.out.println(date);
-            //System.out.println(twoWeeksFromNow);
-            //Integer covidNumber = Integer.parseInt(covid);
+            twoWeeksFromNow.setHours(0);
+            twoWeeksFromNow.setMinutes(0);
+            twoWeeksFromNow.setSeconds(0);
+            twoWeeksFromNow.setNanos(0);
+            Integer covidNumber = Integer.parseInt(covid);
 
-            //Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantined_from);
-            //TeamGateway.update(t);
-            //System.out.println(team);
+            Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantinedFrom);
+            TeamGateway.update(t);
+
             ArrayList<TeamMatch> tm = TeamMatchGateway.fetchByTeamID(team.getId());
 
             for(int i = 0; i < tm.size(); i++) {
                 Match m = MatchGateway.fetchByID(tm.get(i).getMatchID());
 
+                if(m.getDate().after(date) && m.getDate().before(twoWeeksFromNow)) {
+                    TeamMatchGateway.delete(tm.get(i).getTeamMatchID());
+                    MatchGateway.delete(m.getMatchID());
+                }
             }
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | SQLException e) {
             e.printStackTrace();
         }
     }

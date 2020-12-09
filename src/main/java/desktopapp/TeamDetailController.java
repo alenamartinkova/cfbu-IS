@@ -60,31 +60,45 @@ public class TeamDetailController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Function that handles submit event
+     * @param event
+     * @throws IOException
+     */
     public void onTeamSubmit(ActionEvent event) throws IOException {
         Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
 
         Parent root = null;
         URL url = null;
+        FXMLLoader loader = new FXMLLoader();
+
         if(doUpdate == 0) {
             openAllMatches(event);
         } else if (doUpdate == -1) {
-
+            System.out.println("Error");
         } else if (doUpdate == -2) {
             url = new File("src/main/java/desktopapp/inform_players.fxml").toURI().toURL();
+            loader.setLocation(url);
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 500, 200));
+            InformPlayersController controller = loader.getController();
+            controller.initData(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
+            stage.show();
         }
-
-        root = FXMLLoader.load(url);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, 500, 200));
-        stage.show();
     }
 
-    public void handleButtons(ActionEvent event) throws IOException {
+    /**
+     * Function that handles button event
+     * @param event
+     */
+    public void handleButtons(ActionEvent event) {
         String buttonID = ((Button)event.getSource()).getId();
         Parent root = null;
         Stage stage = new Stage();
         Stage oldWindow = null;
         URL url = null;
+
         switch(buttonID) {
             case "matches_all_button":
                 try {
@@ -100,35 +114,6 @@ public class TeamDetailController implements Initializable {
                     url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
                     root = FXMLLoader.load(url);
                     stage.setScene(new Scene(root,645, 501));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "no":
-                try {
-                    FXMLLoader loader = new FXMLLoader();
-                    url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
-                    loader.setLocation(url);
-                    root = loader.load(url);
-                    stage.setScene(new Scene(root, 400, 200));
-                    // need new controller for this info window and do the same as here
-                    StopMatchController controller = loader.getController();
-                    controller.initData(this.selectedTeam.getId());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "yes":
-                Team.storeInfo();
-                try {
-                    FXMLLoader loader = new FXMLLoader();
-                    url = new File("src/main/java/desktopapp/stop_matches.fxml").toURI().toURL();
-                    loader.setLocation(url);
-                    root = loader.load(url);
-                    stage.setScene(new Scene(root, 400, 200));
-                    StopMatchController controller = loader.getController();
-                    controller.initData(this.selectedTeam.getId());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

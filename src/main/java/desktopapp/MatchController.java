@@ -47,6 +47,11 @@ public class MatchController implements Initializable {
         }
     }
 
+    /**
+     * Function that handles edit match button event
+     * @param event
+     * @throws SQLException
+     */
     public void editMatch(ActionEvent event) throws SQLException {
         Parent root = null;
         FXMLLoader loader = new FXMLLoader();

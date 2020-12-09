@@ -48,7 +48,10 @@ public class TeamController implements Initializable {
         }
     }
 
-    @FXML
+    /**
+     * Function that handles edit team button
+     * @param event
+     */
     public void editTeam(ActionEvent event) {
         Parent root = null;
         FXMLLoader loader = new FXMLLoader();
@@ -71,6 +74,10 @@ public class TeamController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Function that handles TEAMS button
+     * @param event
+     */
     public void openAllTeams(ActionEvent event) {
         Parent root = null;
         Stage stage = new Stage();
@@ -88,6 +95,10 @@ public class TeamController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Function that handles MATCHES button
+     * @param event
+     */
     public void openAllMatches(ActionEvent event) {
         Parent root = null;
         Stage stage = new Stage();
