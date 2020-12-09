@@ -16,7 +16,6 @@
             String changeLeague = request.getParameter("changeleague");
             String id = request.getParameter("id");
 
-            // prepis do fce v business
             try {
                 Integer declinedNumber = Integer.parseInt(declined);
 
@@ -30,17 +29,14 @@
                     Integer teamNumber = Integer.parseInt(team);
                     Integer idNumber = Integer.parseInt(id);
                     Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
-                    Statistics s = Statistics.fetchByPlayerID(p.getId());
                     Integer changeLeagueNumber = Integer.parseInt(changeLeague);
 
                     if(changeLeagueNumber == 1) {
-                        Player.updateAndResetStats(p, s.getStatsID());
-
+                        Player.updateAndResetStats(p);
                         out.println("<h2>Player UPDATE DONE</h2>");
                         out.println("Player with id " + id + " was successfully updated and stats reseted.");
                     } else {
                         Player.update(p);
-
                         out.println("<h2>Player UPDATE DONE</h2>");
                         out.println("Player with id " + id + " was successfully updated.");
                     }

@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +95,16 @@ public class TeamMatch {
         return PitchGateway.fetchByID(id);
     }
 
+    /**
+     * Function that proceeds update and decides what to do next
+     * @param match updated TeamMatch object
+     * @param firstTeamName selected first team name
+     * @param secondTeamName selected second team name
+     * @param pitchName selected pitch name
+     * @param date selected date
+     * @return Integer based on which we decide later
+     * @throws SQLException
+     */
     public static Integer proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
         if(firstTeamName == secondTeamName) {
             return -3;
@@ -127,6 +136,12 @@ public class TeamMatch {
         return 0;
     }
 
+    /**
+     * Function that checks if team is in selected match
+     * @param teamMatch selected TeamMatch object
+     * @param team compared Team object
+     * @return boolean value if team is in selected match
+     */
     private static boolean checkTeamCollisions(TeamMatch teamMatch, Team team) {
         if(teamMatch.getFirstTeamID() == team.getId() || teamMatch.getSecondTeamID() == team.getId()) {
             return  true;
@@ -135,6 +150,15 @@ public class TeamMatch {
         return false;
     }
 
+    /**
+     * Function that calls update on Match gateway and TeamMatch gateway
+     * @param match updated TeamMatch object
+     * @param firstTeamName selected first team name
+     * @param secondTeamName selected second team name
+     * @param pitchName selected pitch name
+     * @param date selected date
+     * @throws SQLException
+     */
     public static void update(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
         Integer pitch = PitchGateway.fetchByName(pitchName).getPitchID();
         Integer firstTeam = TeamGateway.fetchByName(firstTeamName).getId();
@@ -147,6 +171,10 @@ public class TeamMatch {
         MatchGateway.update(matchNew);
     }
 
+    /**
+     * Function that stores information about aborting match update
+     * @throws IOException
+     */
     public static void storeError() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
         lines.add("Update of match aborted.");

@@ -75,16 +75,23 @@ public class Player {
         return this.email;
     }
 
+    /**
+     * Function that calls update on player gateway
+     * @param p updated player
+     * @throws SQLException
+     */
     public static void update(Player p) throws SQLException {
         PlayerGateway.update(p);
     }
 
-    public static void updateAndResetStats(Player p, Integer sID) throws SQLException {
-        PlayerGateway.updateAndResetStats(p, sID);
-    }
-
-    public static void insert(Player p) throws SQLException {
-        PlayerGateway.insert(p);
+    /**
+     * Function that calls update and reset stats function on player gateway
+     * @param p updated player
+     * @throws SQLException
+     */
+    public static void updateAndResetStats(Player p) throws SQLException {
+        Statistics s = Statistics.fetchByPlayerID(p.getId());
+        PlayerGateway.updateAndResetStats(p, s.getStatsID());
     }
 
     public static Player fetchByID(Integer pID) {
@@ -95,10 +102,19 @@ public class Player {
         return PlayerGateway.fetch();
     }
 
+    /**
+     * Function that calls gateway search by attribute function
+     * @param s searched value
+     * @return
+     */
     public static ArrayList<Player> searchByAttr(String s) {
         return PlayerGateway.searchByAttr(s);
     }
 
+    /**
+     * Function that stores update abortion into log file
+     * @throws IOException
+     */
     public static void storeError() throws IOException {
         List<String> lines = Files.readAllLines(Paths.get("./logs/test.txt"));
         lines.add("Update canceled because team was in another league");

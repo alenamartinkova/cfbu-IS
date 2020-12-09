@@ -38,6 +38,11 @@ public class Statistics {
         return this.statsID;
     }
 
+    /**
+     * Function that gets players statistics
+     * @param playerID selected player ID
+     * @return Statistics object
+     */
     public static Statistics fetchByPlayerID(Integer playerID) {
         return StatisticsGateway.fetchByPlayerID(playerID);
     }

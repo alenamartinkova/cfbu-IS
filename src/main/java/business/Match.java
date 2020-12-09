@@ -32,6 +32,11 @@ public class Match {
 
     public Integer getPitchID() { return this.pitchID; }
 
+    /**
+     * Function that returns selected match
+     * @param matchID
+     * @return
+     */
     public static Match fetchByID(Integer matchID) {
         return MatchGateway.fetchByID(matchID);
     }
