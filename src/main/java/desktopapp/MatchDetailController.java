@@ -89,10 +89,12 @@ public class MatchDetailController implements Initializable {
     }
 
     public void onMatchSubmit(ActionEvent event) throws SQLException {
-        boolean doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
+        Integer doUpdate = TeamMatch.proceedUpdate(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
 
-        if(doUpdate) {
+        if(doUpdate == 0) {
             TeamMatch.update(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
+        } else {
+            System.out.println(doUpdate);
         }
     }
 }

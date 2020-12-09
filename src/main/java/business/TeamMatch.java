@@ -90,7 +90,11 @@ public class TeamMatch {
         return PitchGateway.fetchByID(id);
     }
 
-    public static boolean proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
+    public static Integer proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
+        if(firstTeamName == secondTeamName) {
+            return -3;
+        }
+
         Pitch pitch = PitchGateway.fetchByName(pitchName);
         Team firstTeam = TeamGateway.fetchByName(firstTeamName);
         Team secondTeam = TeamGateway.fetchByName(secondTeamName);
@@ -104,18 +108,18 @@ public class TeamMatch {
                 if(matches.get(i).getDate().toString() == date) {
                     for(int j = 0; j < teamMatches.size(); j++) {
                         if(checkTeamCollisions(teamMatches.get(j), firstTeam) || checkTeamCollisions(teamMatches.get(j), secondTeam)) {
-                            return false;
+                            return -2;
                         }
                     }
                 }
 
                 if(matches.get(i).getPitchID() == pitch.getPitchID() && date == matches.get(i).getDate().toString()) {
-                    return false;
+                    return -1;
                 }
             }
         }
 
-        return true;
+        return 0;
     }
 
     private static boolean checkTeamCollisions(TeamMatch teamMatch, Team team) {
