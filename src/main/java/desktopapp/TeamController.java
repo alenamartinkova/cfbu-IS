@@ -65,6 +65,8 @@ public class TeamController implements Initializable {
         TeamDetailController controller = loader.getController();
         controller.initData(team_table.getSelectionModel().getSelectedItem());
 
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS TEAM DETAIL");
         stage.show();
     }
@@ -80,6 +82,8 @@ public class TeamController implements Initializable {
             e.printStackTrace();
         }
 
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS TEAMS");
         stage.show();
     }
@@ -95,6 +99,8 @@ public class TeamController implements Initializable {
             e.printStackTrace();
         }
 
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS MATCHES");
         stage.show();
     }

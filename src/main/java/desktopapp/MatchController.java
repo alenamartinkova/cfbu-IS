@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -61,7 +62,8 @@ public class MatchController implements Initializable {
 
         MatchDetailController controller = loader.getController();
         controller.initData(match_table.getSelectionModel().getSelectedItem());
-
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS MATCH DETAIL");
         stage.show();
     }

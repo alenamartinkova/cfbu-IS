@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
@@ -69,7 +70,8 @@ public class MatchDetailController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS TEAMS");
         stage.show();
     }
@@ -84,7 +86,8 @@ public class MatchDetailController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS MATCHES");
         stage.show();
     }

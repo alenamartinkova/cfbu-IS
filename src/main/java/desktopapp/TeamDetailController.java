@@ -54,7 +54,8 @@ public class TeamDetailController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS TEAMS");
         stage.show();
     }
@@ -69,7 +70,8 @@ public class TeamDetailController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.setTitle("VIS MATCHES");
         stage.show();
     }
