@@ -1,6 +1,7 @@
 package desktopapp;
 
 import business.Team;
+import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -77,10 +79,49 @@ public class TeamDetailController implements Initializable {
     }
 
     public void onTeamSubmit(ActionEvent event) throws SQLException {
-        Integer doUpdate = Team.proceedUpdate();
+        Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
 
         if(doUpdate == 0) {
-            Team.update(this.selectedTeam);
+            openAllMatches(event);
+        } else if (doUpdate == -1) {
+            
+        } else if (doUpdate == -2) {
+
+        }
+    }
+
+    public void handleButtons(ActionEvent event) {
+        String buttonID = ((Button)event.getSource()).getId();
+        Parent root = null;
+        Stage stage = new Stage();
+        Stage oldWindow = null;
+        switch(buttonID) {
+            case "matches_all_button":
+                try {
+                    URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root, 645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                stage.setTitle("VIS MATCHES");
+                stage.show();
+                break;
+            case "teams_all_button":
+                try {
+                    URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root, 645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                oldWindow.close();
+                stage.setTitle("VIS TEAMS");
+                stage.show();
+                break;
         }
     }
 }

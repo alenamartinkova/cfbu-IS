@@ -1,0 +1,6 @@
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:24:23 +0100] "GET /index HTTP/1.1" 302 - http-bio-8080-exec-1 0
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:24:23 +0100] "GET /index/ HTTP/1.1" 200 3269 http-bio-8080-exec-3 88
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:24:27 +0100] "GET /index/players_all.jsp HTTP/1.1" 200 11901 http-bio-8080-exec-4 720
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:24:36 +0100] "POST /index/filter_players.jsp HTTP/1.1" 200 3919 http-bio-8080-exec-5 1453
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:24:45 +0100] "POST /index/detail.jsp HTTP/1.1" 200 9942 http-bio-8080-exec-6 180
+0:0:0:0:0:0:0:1 - - [09/Dec/2020:17:25:54 +0100] "POST /index/update_done.jsp HTTP/1.1" 200 3179 http-bio-8080-exec-8 399
