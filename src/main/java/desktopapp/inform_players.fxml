@@ -6,14 +6,14 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.TeamDetailController">
    <children>
       <Label layoutX="90.0" layoutY="48.0" text="Do you want to inform players?">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="304.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="87.0" text="Yes" />
-      <Button layoutX="47.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="87.0" text="No" />
+      <Button fx:id="yes" layoutX="304.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="87.0" onAction="#handleButtons" text="Yes" />
+      <Button fx:id="no" layoutX="47.0" layoutY="135.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="87.0" onAction="#handleButtons" text="No" />
    </children>
 </AnchorPane>
