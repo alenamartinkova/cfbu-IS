@@ -110,7 +110,7 @@ public class MatchDetailController implements Initializable {
             }
             root = FXMLLoader.load(url);
             Stage stage = new Stage();
-            stage.setScene(new Scene(root, 300, 150));
+            stage.setScene(new Scene(root, 400, 150));
             stage.show();
         }
     }

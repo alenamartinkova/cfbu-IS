@@ -6,6 +6,7 @@ import gateways.TeamGateway;
 import gateways.TeamMatchGateway;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class TeamMatch {
@@ -100,20 +101,19 @@ public class TeamMatch {
         Team secondTeam = TeamGateway.fetchByName(secondTeamName);
 
         ArrayList<Match> matches = MatchGateway.fetch();
-        ArrayList<TeamMatch> teamMatches = TeamMatchGateway.fetch();
-
 
         for(int i = 0; i < matches.size(); i++) {
             if(matches.get(i).getMatchID() != match.getMatchID()) {
-                if(matches.get(i).getDate().toString() == date) {
-                    for(int j = 0; j < teamMatches.size(); j++) {
-                        if(checkTeamCollisions(teamMatches.get(j), firstTeam) || checkTeamCollisions(teamMatches.get(j), secondTeam)) {
-                            return -2;
-                        }
-                    }
+
+                if(matches.get(i).getDate().toString().equalsIgnoreCase(date)) {
+                   TeamMatch tm = TeamMatchGateway.fetchByMatchID(matches.get(i).getMatchID());
+
+                   if(checkTeamCollisions(tm, firstTeam) || checkTeamCollisions(tm, secondTeam)) {
+                       return -2;
+                   }
                 }
 
-                if(matches.get(i).getPitchID() == pitch.getPitchID() && date == matches.get(i).getDate().toString()) {
+                if(matches.get(i).getPitchID() == pitch.getPitchID() && matches.get(i).getDate().toString().equalsIgnoreCase(date)) {
                     return -1;
                 }
             }
