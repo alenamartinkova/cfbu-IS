@@ -12,7 +12,7 @@
             <%
 
             String search = request.getParameter("filter");
-            ArrayList<Player> players  = Player.searchByAttr(search);
+            ArrayList<Player> players = Player.searchByAttr(search);
 
             out.println("<p>Searching for: " + search + "</p>");
             out.println("<input class='btn' type='submit' value='Player detail'/>");

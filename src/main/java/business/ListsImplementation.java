@@ -1,6 +1,5 @@
 package business;
 
-import DTO.*;
 import gateways.*;
 
 import java.sql.SQLException;
@@ -8,47 +7,47 @@ import java.util.ArrayList;
 
 public class ListsImplementation implements MyList {
     @Override
-    public ArrayList<PlayerDTO> getPlayerList() throws SQLException {
+    public ArrayList<Player> getPlayerList() throws SQLException {
         return getPList();
     }
 
     @Override
-    public ArrayList<TeamMatchDTO> getTeamMatchList() throws SQLException {
+    public ArrayList<TeamMatch> getTeamMatchList() throws SQLException {
         return getTMList();
     }
 
     @Override
-    public ArrayList<TeamDTO> getTeamList() throws SQLException {
+    public ArrayList<Team> getTeamList() throws SQLException {
         return getTList();
     }
 
     @Override
-    public ArrayList<PitchDTO> getPitchList() throws SQLException {
+    public ArrayList<Pitch> getPitchList() throws SQLException {
         return getPiList();
     }
 
     @Override
-    public ArrayList<MatchDTO> getMatchList() throws SQLException {
+    public ArrayList<Match> getMatchList() throws SQLException {
         return getMList();
     }
 
-    private static ArrayList<PlayerDTO> getPList() throws SQLException {
-        return PlayerGateway.fetch();
+    private static ArrayList<Player> getPList() throws SQLException {
+        return Player.arrayListToBO(PlayerGateway.fetch());
     }
 
-    private static ArrayList<TeamMatchDTO> getTMList() throws SQLException {
-        return TeamMatchGateway.fetch();
+    private static ArrayList<TeamMatch> getTMList() throws SQLException {
+        return TeamMatch.arrayListToBO(TeamMatchGateway.fetch());
     }
 
-    private static ArrayList<TeamDTO> getTList() throws SQLException {
-        return TeamGateway.fetch();
+    private static ArrayList<Team> getTList() throws SQLException {
+        return Team.arrayListToBO(TeamGateway.fetch());
     }
 
-    private static ArrayList<PitchDTO> getPiList() throws SQLException {
-        return PitchGateway.fetch();
+    private static ArrayList<Pitch> getPiList() throws SQLException {
+        return Pitch.arrayListToBO(PitchGateway.fetch());
     }
 
-    private static ArrayList<MatchDTO> getMList() throws SQLException {
-        return MatchGateway.fetch();
+    private static ArrayList<Match> getMList() throws SQLException {
+        return Match.arrayListToBO(MatchGateway.fetch());
     }
 }

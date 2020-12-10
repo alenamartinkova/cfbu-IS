@@ -1,7 +1,5 @@
 package desktopapp;
 
-import business.TeamMatch;
-import gateways.TeamMatchGateway;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 
 public class Desktop extends Application {
 
@@ -20,8 +17,8 @@ public class Desktop extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws SQLException {
-        Parent root = null;
+    public void start(Stage primaryStage) {
+        Parent root;
         FXMLLoader loader = new FXMLLoader();
         try {
             URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();

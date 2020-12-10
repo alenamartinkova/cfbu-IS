@@ -3,7 +3,6 @@ package desktopapp;
 import business.ListProxyImplementation;
 import business.MyList;
 import business.Team;
-import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,10 +37,10 @@ public class TeamController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        team_ID.setCellValueFactory(new PropertyValueFactory<Team, Integer>("id"));
-        team_name.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
-        team_rank.setCellValueFactory(new PropertyValueFactory<Team, Integer>("rank"));
-        team_league.setCellValueFactory(new PropertyValueFactory<Team, Integer>("leagueID"));
+        team_ID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        team_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        team_rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        team_league.setCellValueFactory(new PropertyValueFactory<>("leagueID"));
 
         try {
             MyList list = new ListProxyImplementation();

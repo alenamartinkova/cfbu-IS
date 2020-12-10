@@ -1,6 +1,7 @@
 package business;
 
 import DTO.PlayerDTO;
+import DTO.TeamDTO;
 import gateways.PlayerGateway;
 
 import java.io.IOException;
@@ -109,8 +110,8 @@ public class Player {
      * @param s searched value
      * @return
      */
-    public static ArrayList<PlayerDTO> searchByAttr(String s) {
-        return PlayerGateway.searchByAttr(s);
+    public static ArrayList<Player> searchByAttr(String s) {
+        return Player.arrayListToBO(PlayerGateway.searchByAttr(s));
     }
 
     /**
@@ -123,5 +124,14 @@ public class Player {
 
         Files.write(Paths.get("./logs/test.txt"), lines,
                 StandardCharsets.UTF_8);
+    }
+
+    public static ArrayList<Player> arrayListToBO(ArrayList<PlayerDTO> playerDTOS) {
+        ArrayList<Player> p = new ArrayList<>();
+
+        for(int i = 0; i < playerDTOS.size(); i++) {
+            p.add(playerDTOS.get(i).toBO());
+        }
+        return p;
     }
 }

@@ -1,7 +1,5 @@
 package business;
 
-import DTO.*;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,7 +11,7 @@ public class ListProxyImplementation implements MyList {
     private MyList matchList;
 
     @Override
-    public ArrayList<PlayerDTO> getPlayerList() throws SQLException {
+    public ArrayList<Player> getPlayerList() throws SQLException {
         if (this.playerList == null) {
             System.out.println("Fetching player list");
             this.playerList = new ListsImplementation();
@@ -22,7 +20,7 @@ public class ListProxyImplementation implements MyList {
     }
 
     @Override
-    public ArrayList<TeamMatchDTO> getTeamMatchList() throws SQLException {
+    public ArrayList<TeamMatch> getTeamMatchList() throws SQLException {
         if (this.teamMatchList == null) {
             System.out.println("Fetching team match list");
             this.teamMatchList = new ListsImplementation();
@@ -31,7 +29,7 @@ public class ListProxyImplementation implements MyList {
     }
 
     @Override
-    public ArrayList<TeamDTO> getTeamList() throws SQLException {
+    public ArrayList<Team> getTeamList() throws SQLException {
         if (this.teamList == null) {
             System.out.println("Fetching team list");
             this.teamList = new ListsImplementation();
@@ -40,7 +38,7 @@ public class ListProxyImplementation implements MyList {
     }
 
     @Override
-    public ArrayList<PitchDTO> getPitchList() throws SQLException {
+    public ArrayList<Pitch> getPitchList() throws SQLException {
         if (this.pitchList == null) {
             System.out.println("Fetching pitch list");
             this.pitchList = new ListsImplementation();
@@ -49,7 +47,7 @@ public class ListProxyImplementation implements MyList {
     }
 
     @Override
-    public ArrayList<MatchDTO> getMatchList() throws SQLException {
+    public ArrayList<Match> getMatchList() throws SQLException {
         if (this.matchList == null) {
             System.out.println("Fetching player list");
             this.matchList = new ListsImplementation();
