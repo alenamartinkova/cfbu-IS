@@ -32,10 +32,10 @@ public class InformPlayersController implements Initializable {
 
     public void handleButtons(ActionEvent event) throws IOException {
         String buttonID = ((Button)event.getSource()).getId();
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
-        Stage oldWindow = null;
-        URL url = null;
+        Stage oldWindow;
+        URL url;
         FXMLLoader loader = new FXMLLoader();
 
         switch(buttonID) {
@@ -49,7 +49,6 @@ public class InformPlayersController implements Initializable {
             loader.setLocation(url);
             root = loader.load();
             stage.setScene(new Scene(root, 400, 200));
-            // need new controller for this info window and do the same as here
             StopMatchController controller = loader.getController();
             controller.initData(this.team, this.q, this.c);
 

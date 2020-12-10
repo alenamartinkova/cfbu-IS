@@ -1,8 +1,6 @@
 package desktopapp;
 
-import business.Pitch;
-import business.Team;
-import business.TeamMatch;
+import business.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,8 +33,10 @@ public class MatchDetailController implements Initializable {
 
     public void initData(TeamMatch match) throws SQLException {
         this.selectedMatch = match;
-        ArrayList<Team> teams = Team.fetch();
-        ArrayList<Pitch> pitches = Pitch.fetch();
+        MyList list = new ListProxyImplementation();
+        ArrayList<Team> teams = list.getTeamList();
+        ArrayList<Pitch> pitches = list.getPitchList();
+
         for (int i = 0; i < teams.size(); i++) {
             this.firstTeamSelect.getItems().add(teams.get(i).getName());
         }
@@ -70,7 +70,7 @@ public class MatchDetailController implements Initializable {
         if(doUpdate == 0) {
             TeamMatch.update(this.selectedMatch, this.firstTeamSelect.getValue(), this.secondTeamSelect.getValue(), this.pitchSelect.getValue(), this.date.getText());
         } else {
-            Parent root = null;
+            Parent root;
             URL url = null;
 
             if(doUpdate == -3) {
@@ -94,9 +94,9 @@ public class MatchDetailController implements Initializable {
      */
     public void handleButtons(ActionEvent event) throws IOException {
         String buttonID = ((Button)event.getSource()).getId();
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
-        Stage oldWindow = null;
+        Stage oldWindow;
         switch(buttonID) {
             case "matches_all_button":
                 try {
@@ -138,6 +138,7 @@ public class MatchDetailController implements Initializable {
                 stage.setTitle("VIS TEAMS");
                 stage.show();
                 break;
+            case "ok":
             case "change":
                 oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 oldWindow.close();

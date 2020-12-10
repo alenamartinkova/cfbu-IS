@@ -45,7 +45,7 @@ public class TeamDetailController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) { }
 
     public void openAllMatches(ActionEvent event) {
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
@@ -68,8 +68,8 @@ public class TeamDetailController implements Initializable {
     public void onTeamSubmit(ActionEvent event) throws IOException {
         Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
 
-        Parent root = null;
-        URL url = null;
+        Parent root;
+        URL url;
         FXMLLoader loader = new FXMLLoader();
 
         if(doUpdate == 0) {
@@ -94,10 +94,10 @@ public class TeamDetailController implements Initializable {
      */
     public void handleButtons(ActionEvent event) {
         String buttonID = ((Button)event.getSource()).getId();
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
-        Stage oldWindow = null;
-        URL url = null;
+        Stage oldWindow;
+        URL url;
 
         switch(buttonID) {
             case "matches_all_button":

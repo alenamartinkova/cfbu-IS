@@ -37,9 +37,9 @@ public class StopMatchController implements Initializable {
      */
     public void handleStopMatch(ActionEvent event) throws IOException {
         String buttonID = ((Button)event.getSource()).getId();
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
-        Stage oldWindow = null;
+        Stage oldWindow;
         URL url = null;
         switch(buttonID) {
             case "stop":

@@ -66,10 +66,6 @@ public class Team {
         return TeamGateway.fetchByID(tID);
     }
 
-    public static ArrayList<Team> fetch() throws SQLException {
-        return TeamGateway.fetch();
-    }
-
     /**
      * Function that "sends" information about covid
      * @throws IOException

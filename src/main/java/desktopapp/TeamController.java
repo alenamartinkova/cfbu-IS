@@ -1,6 +1,9 @@
 package desktopapp;
 
+import business.ListProxyImplementation;
+import business.MyList;
 import business.Team;
+import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +44,8 @@ public class TeamController implements Initializable {
         team_league.setCellValueFactory(new PropertyValueFactory<Team, Integer>("leagueID"));
 
         try {
-            ArrayList<Team> teams = Team.fetch();
+            MyList list = new ListProxyImplementation();
+            ArrayList<Team> teams = list.getTeamList();
             team_table.getItems().setAll(teams);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -53,7 +57,7 @@ public class TeamController implements Initializable {
      * @param event
      */
     public void editTeam(ActionEvent event) {
-        Parent root = null;
+        Parent root;
         FXMLLoader loader = new FXMLLoader();
         Stage stage = new Stage();
         try {
@@ -79,7 +83,7 @@ public class TeamController implements Initializable {
      * @param event
      */
     public void openAllTeams(ActionEvent event) {
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
@@ -100,7 +104,7 @@ public class TeamController implements Initializable {
      * @param event
      */
     public void openAllMatches(ActionEvent event) {
-        Parent root = null;
+        Parent root;
         Stage stage = new Stage();
         try {
             URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();

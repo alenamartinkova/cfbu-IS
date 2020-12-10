@@ -18,9 +18,11 @@
         }
 
         if (playerID != -1) {
+            MyList list = new ListProxyImplementation();
+
             Player p = Player.fetchByID(playerID);
             Team t = Team.fetchByID(p.getTeamID());
-            ArrayList<Team> allTeams = Team.fetch();
+            ArrayList<Team> allTeams = list.getTeamList();
             Statistics s = Statistics.fetchByPlayerID(playerID);
 
             out.println("<form id='form' method='POST' action='update_done.jsp'>");

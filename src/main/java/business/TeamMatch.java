@@ -78,10 +78,6 @@ public class TeamMatch {
         return Match.fetchByID(this.matchID).getDate().toString();
     }
 
-    public static ArrayList<TeamMatch> fetch() throws SQLException {
-        return TeamMatchGateway.fetch();
-    }
-
     public Team getFirstTeam() {
         return Team.fetchByID(this.firstTeamID);
     }

@@ -6,13 +6,13 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopapp.MatchDetailController">
    <children>
       <Label layoutX="66.0" layoutY="33.0" text="Team IDs cannot be the same!!">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="158.0" layoutY="92.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="74.0" text="OK" />
+      <Button fx:id="ok" layoutX="158.0" layoutY="92.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="74.0" onAction="#handleButtons" text="OK" />
    </children>
 </AnchorPane>

@@ -1,5 +1,7 @@
 package desktopapp;
 
+import business.ListProxyImplementation;
+import business.MyList;
 import business.TeamMatch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,13 +36,14 @@ public class MatchController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        match_ID.setCellValueFactory(new PropertyValueFactory<TeamMatch, Integer>("MatchID"));
-        first_team.setCellValueFactory(new PropertyValueFactory<TeamMatch, String>("firstTeamName"));
-        second_team.setCellValueFactory(new PropertyValueFactory<TeamMatch, String>("secondTeamName"));
-        date.setCellValueFactory(new PropertyValueFactory<TeamMatch, String>("date"));
+        match_ID.setCellValueFactory(new PropertyValueFactory<>("MatchID"));
+        first_team.setCellValueFactory(new PropertyValueFactory<>("firstTeamName"));
+        second_team.setCellValueFactory(new PropertyValueFactory<>("secondTeamName"));
+        date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         try {
-            ArrayList<TeamMatch> data = TeamMatch.fetch();
+            MyList list = new ListProxyImplementation();
+            ArrayList<TeamMatch> data = list.getTeamMatchList();
             match_table.getItems().setAll(data);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -53,7 +56,7 @@ public class MatchController implements Initializable {
      * @throws SQLException
      */
     public void editMatch(ActionEvent event) throws SQLException {
-        Parent root = null;
+        Parent root;
         FXMLLoader loader = new FXMLLoader();
         Stage stage = new Stage();
         try {
