@@ -1,19 +1,52 @@
-<%@ page import = "java.io.*,java.util.*, dais.tables.*, dais.entities.*" %>
+<%@ page import = "business.*" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
-        <h2>Team UPDATE DONE</h2>
         <%
-            String name = request.getParameter("newval");
+            String declined = request.getParameter("declined");
+            String name = request.getParameter("newname");
+            String sureName = request.getParameter("newsurename");
+            String email = request.getParameter("newemail");
+            String covid = request.getParameter("newcovid");
+            String quaraFrom = request.getParameter("newquarantinedfrom");
+            String stick = request.getParameter("stick");
+            String dateBirth = request.getParameter("date");
+            String team = request.getParameter("teamid");
+            String changeLeague = request.getParameter("changeleague");
             String id = request.getParameter("id");
-            String rank = request.getParameter("rank");
-            String league_id = request.getParameter("league");
 
-            TeamTable tt = new TeamTable();
-            tt.update(Integer.parseInt(id), Integer.parseInt(rank), name, Integer.parseInt(league_id));
+            try {
+                Integer declinedNumber = Integer.parseInt(declined);
 
-            out.println("Team " + name + " was successfully updated.");
+                if(declinedNumber == 1) {
+                    out.println("<h2>Player UPDATE CANCELED</h2>");
+                    out.println("<p>Update was canceled because team was in another league</p>");
+                    Player.storeError();
+
+                } else {
+                    Integer covidNumber = Integer.parseInt(covid);
+                    Integer teamNumber = Integer.parseInt(team);
+                    Integer idNumber = Integer.parseInt(id);
+                    Player p = new Player(idNumber, teamNumber, name, sureName, dateBirth, covidNumber, quaraFrom, email, stick);
+                    Integer changeLeagueNumber = Integer.parseInt(changeLeague);
+
+                    if(changeLeagueNumber == 1) {
+                        Player.updateAndResetStats(p);
+                        out.println("<h2>Player UPDATE DONE</h2>");
+                        out.println("Player with id " + id + " was successfully updated and stats reseted.");
+                    } else {
+                        Player.update(p);
+                        out.println("<h2>Player UPDATE DONE</h2>");
+                        out.println("Player with id " + id + " was successfully updated.");
+                    }
+
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         %>
 
     </center>
