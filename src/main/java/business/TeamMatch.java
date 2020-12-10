@@ -189,12 +189,12 @@ public class TeamMatch {
         Integer pitch = PitchGateway.fetchByName(pitchName).getPitchID();
         Integer firstTeam = TeamGateway.fetchByName(firstTeamName).getId();
         Integer secondTeam = TeamGateway.fetchByName(secondTeamName).getId();
-        Match oldMatchData = MatchGateway.fetchByID(match.getMatchID());
+        Match oldMatchData = MatchGateway.fetchByID(match.getMatchID()).toBO();
 
         TeamMatch teamMatch = new TeamMatch(match.getTeamMatchID(), match.getMatchID(), firstTeam, secondTeam, match.getFirstRefereeID(), match.getSecondRefereeID(), match.getFirstTeamGoals(), match.getSecondTeamGoals());
         Match matchNew = new Match(match.getMatchID(), oldMatchData.getPostponed(), date, pitch);
         TeamMatchGateway.update(teamMatch);
-        MatchGateway.update(matchNew);
+        MatchGateway.update(matchNew.toDTO());
     }
 
     /**

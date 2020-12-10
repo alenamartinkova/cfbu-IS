@@ -34,7 +34,8 @@ public class Match {
     public Integer getPitchID() { return this.pitchID; }
 
     public MatchDTO toDTO() {
-        return null;
+        MatchDTO matchDTO = new MatchDTO(this.matchID, this.pitchID, this.date.toString(), this.pitchID);
+        return matchDTO;
     }
 
     /**
@@ -43,6 +44,6 @@ public class Match {
      * @return
      */
     public static Match fetchByID(Integer matchID) {
-        return MatchGateway.fetchByID(matchID);
+        return MatchGateway.fetchByID(matchID).toBO();
     }
 }

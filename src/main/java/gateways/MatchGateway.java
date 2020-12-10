@@ -1,6 +1,5 @@
 package gateways;
-import business.Match;
-import business.Team;
+import DTO.MatchDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,19 +11,19 @@ public class MatchGateway {
     );
     public MatchGateway() {};
 
-    public static ArrayList<Match> fetch() throws SQLException {
+    public static ArrayList<MatchDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Match");
-        ArrayList<Match> matches = new ArrayList<>();
+        ArrayList<MatchDTO> matches = new ArrayList<>();
         while (rs.next()) {
-            matches.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+            matches.add(new MatchDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
         }
 
         rs.close();
         return matches;
     }
 
-    public static ArrayList<Match> fetchByAttr(Object ... values) {
-        ArrayList<Match> match = new ArrayList<>();
+    public static ArrayList<MatchDTO> fetchByAttr(Object ... values) {
+        ArrayList<MatchDTO> match = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         String queryStr = "SELECT * FROM Match WHERE ";
@@ -52,7 +51,7 @@ public class MatchGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match.add(new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
+                match.add(new MatchDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -63,7 +62,7 @@ public class MatchGateway {
     }
 
 
-    public static Integer insert(Match match) throws SQLException {
+    public static Integer insert(MatchDTO match) throws SQLException {
         Table t = new Table("Match", columns);
         String query = t.buildInsert(3, 1);
 
@@ -95,7 +94,7 @@ public class MatchGateway {
         return output;
     }
 
-    public static Integer update(Match match) throws SQLException {
+    public static Integer update(MatchDTO match) throws SQLException {
         int output = 0;
         Table t = new Table("Match", columns);
         String query = t.buildUpdate(1);
@@ -128,17 +127,17 @@ public class MatchGateway {
         return -1;
     }
 
-    public static Match fetchByID(Integer id) {
+    public static MatchDTO fetchByID(Integer id) {
         String queryStr = "SELECT * FROM Match WHERE matchID = ?";
         String val = id.toString();
-        Match match = new Match();
+        MatchDTO match = new MatchDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match = new Match(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
+                match = new MatchDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4));
             }
             rs.close();
         } catch (SQLException e) {

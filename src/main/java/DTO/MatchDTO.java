@@ -1,5 +1,7 @@
 package DTO;
 
+import business.Match;
+
 import java.sql.Timestamp;
 
 public class MatchDTO {
@@ -7,4 +9,31 @@ public class MatchDTO {
     Integer postponed;
     Timestamp date;
     Integer pitchID;
+
+    public MatchDTO(){};
+    public MatchDTO (Integer matchID, Integer p, String d, Integer pID) {
+        this.matchID = matchID;
+        this.postponed = p;
+        this.date = Timestamp.valueOf(d);
+        this.pitchID = pID;
+    }
+
+    public Integer getPostponed() {
+        return this.postponed;
+    }
+
+    public Timestamp getDate() {
+        return this.date;
+    }
+
+    public Integer getMatchID() {
+        return this.matchID;
+    }
+
+    public Integer getPitchID() { return this.pitchID; }
+
+    public Match toBO() {
+        Match match = new Match(this.matchID, this.pitchID, this.date.toString(), this.pitchID);
+        return match;
+    }
 }

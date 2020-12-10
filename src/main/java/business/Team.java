@@ -143,7 +143,7 @@ public class Team {
             ArrayList<TeamMatch> tm = TeamMatchGateway.fetchByTeamID(team.getId());
 
             for(int i = 0; i < tm.size(); i++) {
-                Match m = MatchGateway.fetchByID(tm.get(i).getMatchID());
+                Match m = MatchGateway.fetchByID(tm.get(i).getMatchID()).toBO();
 
                 if(m.getDate().after(date) && m.getDate().before(twoWeeksFromNow)) {
                     TeamMatchGateway.delete(tm.get(i).getTeamMatchID());
