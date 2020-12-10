@@ -1,6 +1,7 @@
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\TeamMatchGateway.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\CoachGateway.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\StatisticsGateway.java
+C:\Users\tom_\Desktop\DAIS_java\src\main\java\desktopapp\StopMatchController.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\desktopapp\TeamController.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\UserGateway.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\RefereeGateway.java
@@ -16,6 +17,7 @@ C:\Users\tom_\Desktop\DAIS_java\src\main\java\business\Statistics.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\Table.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\business\Team.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\business\TeamMatch.java
+C:\Users\tom_\Desktop\DAIS_java\src\main\java\desktopapp\InformPlayersController.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\business\Pitch.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\desktopapp\Desktop.java
 C:\Users\tom_\Desktop\DAIS_java\src\main\java\gateways\LeagueGateway.java
