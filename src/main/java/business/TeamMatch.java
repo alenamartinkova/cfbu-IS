@@ -22,6 +22,7 @@ public class TeamMatch {
     Integer secondRefereeID;
     Integer firstTeamGoals;
     Integer secondTeamGoals;
+    MyList list;
 
     public TeamMatch(){};
     public TeamMatch(Integer tmID, Integer mID, Integer ftID, Integer stID, Integer frID, Integer srID, Integer ftGoals, Integer stGoals) {
@@ -33,6 +34,7 @@ public class TeamMatch {
         this.secondRefereeID = srID;
         this.firstTeamGoals = ftGoals;
         this.secondTeamGoals = stGoals;
+        this.list = new ListProxyImplementation();
     }
 
     public Integer getMatchID() {
@@ -101,16 +103,39 @@ public class TeamMatch {
      * @return Integer based on which we decide later
      * @throws SQLException
      */
-    public static Integer proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
+    public Integer proceedUpdate(TeamMatch match, String firstTeamName, String secondTeamName, String pitchName, String date) throws SQLException {
         if(firstTeamName == secondTeamName) {
             return -3;
         }
 
-        Pitch pitch = PitchGateway.fetchByName(pitchName);
-        Team firstTeam = TeamGateway.fetchByName(firstTeamName);
-        Team secondTeam = TeamGateway.fetchByName(secondTeamName);
+        Team firstTeam = null;
+        Team secondTeam = null;
+        Pitch pitch = null;
+        // use lazy loading to load data
+        ArrayList<Pitch> pitches = this.list.getPitchList();
+        ArrayList<Team> teams = this.list.getTeamList();
+        ArrayList<Match> matches = this.list.getMatchList();
 
-        ArrayList<Match> matches = MatchGateway.fetch();
+        for(int i = 0; i < teams.size(); i++) {
+            if(teams.get(i).getName() == firstTeamName) {
+                firstTeam = teams.get(i);
+            } else if (teams.get(i).getName() == secondTeamName) {
+                secondTeam = teams.get(i);
+            }
+
+            if(firstTeam != null && secondTeam != null) {
+                break;
+            }
+        }
+
+
+        for(int i = 0; i < pitches.size(); i++) {
+            if(pitches.get(i).getName() == pitchName) {
+                pitch = pitches.get(i);
+                break;
+            }
+        }
+
 
         for(int i = 0; i < matches.size(); i++) {
             if(matches.get(i).getMatchID() != match.getMatchID()) {

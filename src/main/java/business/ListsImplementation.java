@@ -1,9 +1,6 @@
 package business;
 
-import gateways.PitchGateway;
-import gateways.PlayerGateway;
-import gateways.TeamGateway;
-import gateways.TeamMatchGateway;
+import gateways.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +26,11 @@ public class ListsImplementation implements MyList {
         return getPiList();
     }
 
+    @Override
+    public ArrayList<Match> getMatchList() throws SQLException {
+        return getMList();
+    }
+
     private static ArrayList<Player> getPList() throws SQLException {
         return PlayerGateway.fetch();
     }
@@ -43,5 +45,9 @@ public class ListsImplementation implements MyList {
 
     private static ArrayList<Pitch> getPiList() throws SQLException {
         return PitchGateway.fetch();
+    }
+
+    private static ArrayList<Match> getMList() throws SQLException {
+        return MatchGateway.fetch();
     }
 }

@@ -8,4 +8,5 @@ public interface MyList {
     ArrayList<TeamMatch> getTeamMatchList() throws SQLException;
     ArrayList<Team> getTeamList() throws SQLException;
     ArrayList<Pitch> getPitchList() throws SQLException;
+    ArrayList<Match> getMatchList() throws SQLException;
 }
