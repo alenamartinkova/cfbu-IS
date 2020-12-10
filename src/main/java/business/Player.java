@@ -98,10 +98,6 @@ public class Player {
         return PlayerGateway.fetchByID(pID);
     }
 
-    public static ArrayList<Player> fetch() throws SQLException {
-        return PlayerGateway.fetch();
-    }
-
     /**
      * Function that calls gateway search by attribute function
      * @param s searched value

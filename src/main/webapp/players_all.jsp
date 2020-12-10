@@ -1,6 +1,8 @@
 <%@ page import = "business.Player"%>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="business.ListProxyImplementation" %>
+<%@ page import="business.MyList" %>
 <%@ include file="header.jsp" %>
 <main>
     <center>
@@ -14,7 +16,8 @@
 
             <%
               try {
-                    ArrayList<Player> players  = Player.fetch();
+                    MyList list = new ListProxyImplementation();
+                    ArrayList<Player> players = list.getPlayerList();
 
                     out.println("<input class='btn' type='submit' value='Player detail'/>");
                     out.println("<div class='table-wrapper'><table><tbody>");
