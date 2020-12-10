@@ -8,6 +8,7 @@ public class ListProxyImplementation implements MyList {
     private MyList teamList;
     private MyList teamMatchList;
     private MyList pitchList;
+    private MyList matchList;
 
     @Override
     public ArrayList<Player> getPlayerList() throws SQLException {
@@ -45,4 +46,12 @@ public class ListProxyImplementation implements MyList {
         return this.pitchList.getPitchList();
     }
 
+    @Override
+    public ArrayList<Match> getMatchList() throws SQLException {
+        if (this.matchList == null) {
+            System.out.println("Fetching player list");
+            this.matchList = new ListsImplementation();
+        }
+        return this.matchList.getMatchList();
+    }
 }

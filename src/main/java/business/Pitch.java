@@ -34,13 +34,4 @@ public class Pitch {
     public String getName() {
         return this.name;
     }
-
-    /**
-     * Function that returns all pitches
-     * @return
-     * @throws SQLException
-     */
-    public static ArrayList<Pitch> fetch() throws SQLException {
-        return PitchGateway.fetch();
-    }
 }

@@ -119,21 +119,17 @@ public class Team {
      */
     public static void stopMatchesAndUpdate(Team team, String quarantinedFrom, String covid) {
         try {
+            // Set time boundries
             Timestamp date = new Timestamp(System.currentTimeMillis());
-            date.setHours(0);
-            date.setMinutes(0);
-            date.setSeconds(0);
-            date.setNanos(0);
+            date = setTimeToZero(date);
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             calendar.add(Calendar.DAY_OF_YEAR, 14);
 
             Timestamp twoWeeksFromNow = new Timestamp(calendar.getTime().getTime());
-            twoWeeksFromNow.setHours(0);
-            twoWeeksFromNow.setMinutes(0);
-            twoWeeksFromNow.setSeconds(0);
-            twoWeeksFromNow.setNanos(0);
+            twoWeeksFromNow = setTimeToZero(twoWeeksFromNow);
+
             Integer covidNumber = Integer.parseInt(covid);
 
             Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantinedFrom);
@@ -153,5 +149,14 @@ public class Team {
         } catch (NumberFormatException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private static Timestamp setTimeToZero(Timestamp date) {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setNanos(0);
+
+        return date;
     }
 }
