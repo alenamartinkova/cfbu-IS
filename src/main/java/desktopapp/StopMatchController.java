@@ -45,14 +45,14 @@ public class StopMatchController implements Initializable {
             case "stop":
                 Team.stopMatchesAndUpdate(this.team, this.q, this.c);
                 try {
-                    url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
             case "dont_stop":
                 try {
-                    url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

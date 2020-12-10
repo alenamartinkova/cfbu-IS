@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -73,6 +74,39 @@ public class MatchController implements Initializable {
         Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
         oldWindow.close();
         stage.setTitle("VIS MATCH DETAIL");
+        stage.show();
+    }
+
+    public void handleButtons(ActionEvent event) {
+        String buttonID = ((Button)event.getSource()).getId();
+        Parent root;
+        Stage stage = new Stage();
+        Stage oldWindow;
+        URL url;
+
+        switch(buttonID) {
+            case "matches_all_button":
+                try {
+                    url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root,645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "teams_all_button":
+                try {
+                    url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
+                    root = FXMLLoader.load(url);
+                    stage.setScene(new Scene(root,645, 501));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+
+        oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        oldWindow.close();
         stage.show();
     }
 }
