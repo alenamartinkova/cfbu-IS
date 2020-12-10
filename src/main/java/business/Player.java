@@ -1,5 +1,6 @@
 package business;
 
+import DTO.PlayerDTO;
 import gateways.PlayerGateway;
 
 import java.io.IOException;
@@ -37,6 +38,10 @@ public class Player {
         }
         this.email = e;
         this.stick = s;
+    }
+
+    public PlayerDTO toDTO() {
+        return null;
     }
 
     public Integer getId() {

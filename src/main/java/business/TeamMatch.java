@@ -1,5 +1,6 @@
 package business;
 
+import DTO.TeamMatchDTO;
 import gateways.MatchGateway;
 import gateways.PitchGateway;
 import gateways.TeamGateway;
@@ -35,6 +36,10 @@ public class TeamMatch {
         this.firstTeamGoals = ftGoals;
         this.secondTeamGoals = stGoals;
         this.list = new ListProxyImplementation();
+    }
+
+    public TeamMatchDTO toDTO() {
+        return null;
     }
 
     public Integer getMatchID() {

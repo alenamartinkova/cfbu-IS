@@ -1,5 +1,6 @@
 package business;
 
+import DTO.MatchDTO;
 import gateways.MatchGateway;
 
 import java.sql.Timestamp;
@@ -31,6 +32,10 @@ public class Match {
     }
 
     public Integer getPitchID() { return this.pitchID; }
+
+    public MatchDTO toDTO() {
+        return null;
+    }
 
     /**
      * Function that returns selected match

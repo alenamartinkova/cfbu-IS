@@ -1,5 +1,6 @@
 package business;
 
+import DTO.TeamDTO;
 import gateways.MatchGateway;
 import gateways.TeamGateway;
 import gateways.TeamMatchGateway;
@@ -60,6 +61,10 @@ public class Team {
 
     public Timestamp getQuarantinedFrom() {
         return this.quarantinedFrom;
+    }
+
+    public TeamDTO toDTO() {
+        return null;
     }
 
     public static Team fetchByID(Integer tID) {
