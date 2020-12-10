@@ -1,5 +1,6 @@
 package gateways;
 
+import DTO.PitchDTO;
 import business.Match;
 import business.Pitch;
 
@@ -16,19 +17,19 @@ public class PitchGateway {
     );
     public PitchGateway()  {};
 
-    public static ArrayList<Pitch> fetch() throws SQLException {
+    public static ArrayList<PitchDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Pitch");
-        ArrayList<Pitch> pitches = new ArrayList<>();
+        ArrayList<PitchDTO> pitches = new ArrayList<>();
         while (rs.next()) {
-            pitches.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+            pitches.add(new PitchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
         }
 
         rs.close();
         return pitches;
     }
 
-    public static ArrayList<Pitch> fetchByAttr(Object ... values) {
-        ArrayList<Pitch> pitch = new ArrayList<>();
+    public static ArrayList<PitchDTO> fetchByAttr(Object ... values) {
+        ArrayList<PitchDTO> pitch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         String queryStr = "SELECT * FROM Pitch WHERE ";
@@ -56,7 +57,7 @@ public class PitchGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                pitch.add(new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
+                pitch.add(new PitchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -67,7 +68,7 @@ public class PitchGateway {
     }
 
 
-    public static Integer insert(Pitch pitch) throws SQLException {
+    public static Integer insert(PitchDTO pitch) throws SQLException {
         Table t = new Table("Pitch", columns);
         String query = t.buildInsert(3, 1);
 
@@ -99,7 +100,7 @@ public class PitchGateway {
         return output;
     }
 
-    public static Integer update(Pitch pitch) throws SQLException {
+    public static Integer update(PitchDTO pitch) throws SQLException {
         int output = 0;
 
         Table t = new Table("Pitch", columns);
@@ -133,17 +134,17 @@ public class PitchGateway {
         return -1;
     }
 
-    public static Pitch fetchByID(Integer id) {
+    public static PitchDTO fetchByID(Integer id) {
         String queryStr = "SELECT * FROM Pitch WHERE pitchID = ?";
         String val = id.toString();
-        Pitch pitch = new Pitch();
+        PitchDTO pitch = new PitchDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                pitch = new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4));
+                pitch = new PitchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4));
             }
             rs.close();
         } catch (SQLException e) {
@@ -153,16 +154,16 @@ public class PitchGateway {
         return pitch;
     }
 
-    public static Pitch fetchByName(String name) {
+    public static PitchDTO fetchByName(String name) {
         String queryStr = "SELECT * FROM Pitch WHERE name = ?";
-        Pitch pitch = new Pitch();
+        PitchDTO pitch = new PitchDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, name);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                pitch = new Pitch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4));
+                pitch = new PitchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4));
             }
             rs.close();
         } catch (SQLException e) {

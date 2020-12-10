@@ -41,7 +41,8 @@ public class Player {
     }
 
     public PlayerDTO toDTO() {
-        return null;
+        PlayerDTO playerDTO = new PlayerDTO(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid, this.quarantinedFrom.toString(), this.email, this.stick);
+        return playerDTO;
     }
 
     public Integer getId() {
@@ -86,7 +87,7 @@ public class Player {
      * @throws SQLException
      */
     public static void update(Player p) throws SQLException {
-        PlayerGateway.update(p);
+        PlayerGateway.update(p.toDTO());
     }
 
     /**
@@ -96,11 +97,11 @@ public class Player {
      */
     public static void updateAndResetStats(Player p) throws SQLException {
         Statistics s = Statistics.fetchByPlayerID(p.getId());
-        PlayerGateway.updateAndResetStats(p, s.getStatsID());
+        PlayerGateway.updateAndResetStats(p.toDTO(), s.getStatsID());
     }
 
     public static Player fetchByID(Integer pID) {
-        return PlayerGateway.fetchByID(pID);
+        return PlayerGateway.fetchByID(pID).toBO();
     }
 
     /**
@@ -108,7 +109,7 @@ public class Player {
      * @param s searched value
      * @return
      */
-    public static ArrayList<Player> searchByAttr(String s) {
+    public static ArrayList<PlayerDTO> searchByAttr(String s) {
         return PlayerGateway.searchByAttr(s);
     }
 

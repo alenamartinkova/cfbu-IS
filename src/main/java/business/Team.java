@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,11 +63,12 @@ public class Team {
     }
 
     public TeamDTO toDTO() {
-        return null;
+        TeamDTO teamDTO = new TeamDTO(this.teamid, this.leagueID, this.name, this.rank, this.covid, this.quarantinedFrom.toString());
+        return teamDTO;
     }
 
     public static Team fetchByID(Integer tID) {
-        return TeamGateway.fetchByID(tID);
+        return TeamGateway.fetchByID(tID).toBO();
     }
 
     /**
@@ -98,7 +98,7 @@ public class Team {
                 return -2;
             } else {
                 Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantined_from);
-                TeamGateway.update(t);
+                TeamGateway.update(t.toDTO());
                 return 0;
             }
         } catch (NumberFormatException | SQLException e) {
@@ -113,7 +113,7 @@ public class Team {
      * @throws SQLException
      */
     public static void update(Team t) throws SQLException {
-        TeamGateway.update(t);
+        TeamGateway.update(t.toDTO());
     }
 
     /**
@@ -138,9 +138,9 @@ public class Team {
             Integer covidNumber = Integer.parseInt(covid);
 
             Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantinedFrom);
-            TeamGateway.update(t);
+            TeamGateway.update(t.toDTO());
 
-            ArrayList<TeamMatch> tm = TeamMatchGateway.fetchByTeamID(team.getId());
+            ArrayList<TeamMatch> tm = TeamMatch.arrayListToBO(TeamMatchGateway.fetchByTeamID(team.getId()));
 
             for(int i = 0; i < tm.size(); i++) {
                 Match m = MatchGateway.fetchByID(tm.get(i).getMatchID()).toBO();
@@ -163,5 +163,14 @@ public class Team {
         date.setNanos(0);
 
         return date;
+    }
+
+    public static ArrayList<Team> arrayListToBO(ArrayList<TeamDTO> teamDTOS) {
+        ArrayList<Team> t = new ArrayList<>();
+
+        for(int i = 0; i < teamDTOS.size(); i++) {
+            t.add(teamDTOS.get(i).toBO());
+        }
+        return t;
     }
 }

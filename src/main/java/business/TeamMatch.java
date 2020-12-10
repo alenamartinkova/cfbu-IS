@@ -39,7 +39,8 @@ public class TeamMatch {
     }
 
     public TeamMatchDTO toDTO() {
-        return null;
+        TeamMatchDTO teamMatchDTO = new TeamMatchDTO(this.teamMatchID, this.matchID, this.firstTeamID, this.secondTeamID, this.firstRefereeID, this.secondRefereeID, this.firstTeamGoals, this.secondTeamGoals);
+        return teamMatchDTO;
     }
 
     public Integer getMatchID() {
@@ -95,7 +96,7 @@ public class TeamMatch {
 
     public Pitch getPitch() {
         Integer id = MatchGateway.fetchByID(this.matchID).getPitchID();
-        return PitchGateway.fetchByID(id);
+        return PitchGateway.fetchByID(id).toBO();
     }
 
     /**
@@ -117,9 +118,10 @@ public class TeamMatch {
         Team secondTeam = null;
         Pitch pitch = null;
         // use lazy loading to load data
-        ArrayList<Pitch> pitches = this.list.getPitchList();
-        ArrayList<Team> teams = this.list.getTeamList();
-        ArrayList<Match> matches = this.list.getMatchList();
+
+        ArrayList<Pitch> pitches = Pitch.arrayListToBO(this.list.getPitchList());
+        ArrayList<Team> teams = Team.arrayListToBO(this.list.getTeamList());
+        ArrayList<Match> matches = Match.arrayListToBO(this.list.getMatchList());
 
         for(int i = 0; i < teams.size(); i++) {
             if(teams.get(i).getName() == firstTeamName) {
@@ -133,7 +135,6 @@ public class TeamMatch {
             }
         }
 
-
         for(int i = 0; i < pitches.size(); i++) {
             if(pitches.get(i).getName() == pitchName) {
                 pitch = pitches.get(i);
@@ -146,7 +147,7 @@ public class TeamMatch {
             if(matches.get(i).getMatchID() != match.getMatchID()) {
 
                 if(matches.get(i).getDate().toString().equalsIgnoreCase(date)) {
-                   TeamMatch tm = TeamMatchGateway.fetchByMatchID(matches.get(i).getMatchID());
+                   TeamMatch tm = TeamMatchGateway.fetchByMatchID(matches.get(i).getMatchID()).toBO();
 
                    if(checkTeamCollisions(tm, firstTeam) || checkTeamCollisions(tm, secondTeam)) {
                        return -2;
@@ -193,7 +194,7 @@ public class TeamMatch {
 
         TeamMatch teamMatch = new TeamMatch(match.getTeamMatchID(), match.getMatchID(), firstTeam, secondTeam, match.getFirstRefereeID(), match.getSecondRefereeID(), match.getFirstTeamGoals(), match.getSecondTeamGoals());
         Match matchNew = new Match(match.getMatchID(), oldMatchData.getPostponed(), date, pitch);
-        TeamMatchGateway.update(teamMatch);
+        TeamMatchGateway.update(teamMatch.toDTO());
         MatchGateway.update(matchNew.toDTO());
     }
 
@@ -207,6 +208,15 @@ public class TeamMatch {
 
         Files.write(Paths.get("./logs/test.txt"), lines,
                 StandardCharsets.UTF_8);
+    }
+
+    public static ArrayList<TeamMatch> arrayListToBO(ArrayList<TeamMatchDTO> teamDTOS) {
+        ArrayList<TeamMatch> t = new ArrayList<>();
+
+        for(int i = 0; i < teamDTOS.size(); i++) {
+            t.add(teamDTOS.get(i).toBO());
+        }
+        return t;
     }
 }
 

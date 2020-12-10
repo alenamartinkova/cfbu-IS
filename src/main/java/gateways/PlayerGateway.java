@@ -1,5 +1,6 @@
 package gateways;
 
+import DTO.PlayerDTO;
 import business.Player;
 
 import java.sql.*;
@@ -12,19 +13,19 @@ public class PlayerGateway {
     );
     public PlayerGateway() { };
 
-    public static ArrayList<Player> fetch() throws SQLException {
+    public static ArrayList<PlayerDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM PLAYER");
-        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<PlayerDTO> players = new ArrayList<>();
         while (rs.next()) {
-            players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            players.add(new PlayerDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
         }
 
         rs.close();
         return players;
     }
 
-    public static ArrayList<Player> fetchByAttr(Object ... values) {
-        ArrayList<Player> player = new ArrayList<>();
+    public static ArrayList<PlayerDTO> fetchByAttr(Object ... values) {
+        ArrayList<PlayerDTO> player = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         String queryStr = "SELECT * FROM PLAYER WHERE ";
@@ -56,7 +57,7 @@ public class PlayerGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                player.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                player.add(new PlayerDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -66,7 +67,7 @@ public class PlayerGateway {
         return player;
     }
 
-    public static Integer insert(Player player) throws SQLException {
+    public static Integer insert(PlayerDTO player) throws SQLException {
         Table t = new Table("Player", columns);
         String query = t.buildInsert(8, 1);
 
@@ -103,7 +104,7 @@ public class PlayerGateway {
         return output;
     }
 
-    public static Integer update(Player player) throws SQLException {
+    public static Integer update(PlayerDTO player) throws SQLException {
         int output = 0;
 
         Table t = new Table("Player", columns);
@@ -142,8 +143,8 @@ public class PlayerGateway {
         return -1;
     }
 
-    public static ArrayList<Player> searchByAttr(String val) {
-        ArrayList<Player> players = new ArrayList<Player>();
+    public static ArrayList<PlayerDTO> searchByAttr(String val) {
+        ArrayList<PlayerDTO> players = new ArrayList<PlayerDTO>();
 
         String queryStr = "SELECT * FROM Player WHERE memberID LIKE ? OR name LIKE ? OR sureName LIKE ? OR email LIKE ?";
 
@@ -156,7 +157,7 @@ public class PlayerGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                players.add(new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                players.add(new PlayerDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -166,17 +167,17 @@ public class PlayerGateway {
         return players;
     }
 
-    public static Player fetchByID(Integer id) {
+    public static PlayerDTO fetchByID(Integer id) {
         String queryStr = "SELECT * FROM Player WHERE memberID = ?";
         String val = id.toString();
-        Player player = new Player();
+        PlayerDTO player = new PlayerDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                player = new Player(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9));
+                player = new PlayerDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9));
             }
             rs.close();
         } catch (SQLException e) {
@@ -186,7 +187,7 @@ public class PlayerGateway {
         return player;
     }
 
-    public static Integer updateAndResetStats(Player player, Integer sID) throws SQLException {
+    public static Integer updateAndResetStats(PlayerDTO player, Integer sID) throws SQLException {
         int output = 0;
         output = PlayerGateway.update(player);
         output = StatisticsGateway.updateBasedOnPlayerID(player.getId(), sID);

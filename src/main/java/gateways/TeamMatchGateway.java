@@ -1,5 +1,6 @@
 package gateways;
 
+import DTO.TeamMatchDTO;
 import business.Match;
 import business.TeamMatch;
 
@@ -16,19 +17,19 @@ public class TeamMatchGateway {
     );
     public TeamMatchGateway(){};
 
-    public static ArrayList<TeamMatch> fetch() throws SQLException {
+    public static ArrayList<TeamMatchDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TeamMatch");
-        ArrayList<TeamMatch> teamMatches = new ArrayList<>();
+        ArrayList<TeamMatchDTO> teamMatches = new ArrayList<>();
         while (rs.next()) {
-            teamMatches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+            teamMatches.add(new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
         }
 
         rs.close();
         return teamMatches;
     }
 
-    public static ArrayList<TeamMatch> fetchByAttr(Object ... values) {
-        ArrayList<TeamMatch> teamMatch = new ArrayList<>();
+    public static ArrayList<TeamMatchDTO> fetchByAttr(Object ... values) {
+        ArrayList<TeamMatchDTO> teamMatch = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         String queryStr = "SELECT * FROM TeamMatch WHERE ";
@@ -51,7 +52,7 @@ public class TeamMatchGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                teamMatch.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+                teamMatch.add(new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
 
             }
             rs.close();
@@ -63,7 +64,7 @@ public class TeamMatchGateway {
     }
 
 
-    public static Integer insert(TeamMatch teamMatch) throws SQLException {
+    public static Integer insert(TeamMatchDTO teamMatch) throws SQLException {
         Table t = new Table("TeamMatch", columns);
         String query = t.buildInsert(7, 1);
 
@@ -99,7 +100,7 @@ public class TeamMatchGateway {
         return output;
     }
 
-    public static Integer update(TeamMatch teamMatch) throws SQLException {
+    public static Integer update(TeamMatchDTO teamMatch) throws SQLException {
         int output = 0;
         Table t = new Table("TeamMatch", columns);
         String query = t.buildUpdate(1);
@@ -136,17 +137,17 @@ public class TeamMatchGateway {
         return -1;
     }
 
-    public static TeamMatch fetchByID(Integer id) {
+    public static TeamMatchDTO fetchByID(Integer id) {
         String queryStr = "SELECT * FROM TeamMatch WHERE teamMatchID = ?";
         String val = id.toString();
-        TeamMatch match = new TeamMatch();
+        TeamMatchDTO match = new TeamMatchDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match = new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+                match = new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
             }
             rs.close();
         } catch (SQLException e) {
@@ -156,18 +157,18 @@ public class TeamMatchGateway {
         return match;
     }
 
-    public static TeamMatch fetchByMatchID(Integer id) {
+    public static TeamMatchDTO fetchByMatchID(Integer id) {
         String queryStr = "SELECT * FROM TeamMatch WHERE matchID = ?";
         String val = id.toString();
 
-        TeamMatch match = new TeamMatch();
+        TeamMatchDTO match = new TeamMatchDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                match = new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
+                match = new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
             }
             rs.close();
         } catch (SQLException e) {
@@ -177,11 +178,11 @@ public class TeamMatchGateway {
         return match;
     }
 
-    public static ArrayList<TeamMatch> fetchByTeamID(Integer id) {
+    public static ArrayList<TeamMatchDTO> fetchByTeamID(Integer id) {
         String queryStr = "SELECT * FROM TeamMatch WHERE firstTeamID = ? OR secondTeamID = ?";
         String val = id.toString();
 
-        ArrayList<TeamMatch> matches = new ArrayList<>();
+        ArrayList<TeamMatchDTO> matches = new ArrayList<>();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
@@ -189,7 +190,7 @@ public class TeamMatchGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                matches.add(new TeamMatch(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
+                matches.add(new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
             }
             rs.close();
         } catch (SQLException e) {

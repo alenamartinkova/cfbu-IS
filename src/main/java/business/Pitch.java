@@ -1,8 +1,6 @@
 package business;
 
-import gateways.PitchGateway;
-
-import java.sql.SQLException;
+import DTO.PitchDTO;
 import java.util.ArrayList;
 
 public class Pitch {
@@ -33,5 +31,19 @@ public class Pitch {
 
     public String getName() {
         return this.name;
+    }
+
+    public PitchDTO toDTO() {
+        PitchDTO pitchDTO = new PitchDTO(this.pitchID, this.addressID, this.capacity, this.name);
+        return pitchDTO;
+    }
+
+    public static ArrayList<Pitch> arrayListToBO(ArrayList<PitchDTO> pitchDTOS) {
+        ArrayList<Pitch> p = new ArrayList<>();
+
+        for(int i = 0; i < pitchDTOS.size(); i++) {
+            p.add(pitchDTOS.get(i).toBO());
+        }
+        return p;
     }
 }

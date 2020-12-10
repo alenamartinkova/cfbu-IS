@@ -4,6 +4,7 @@ import DTO.MatchDTO;
 import gateways.MatchGateway;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Match {
     Integer matchID;
@@ -36,6 +37,15 @@ public class Match {
     public MatchDTO toDTO() {
         MatchDTO matchDTO = new MatchDTO(this.matchID, this.pitchID, this.date.toString(), this.pitchID);
         return matchDTO;
+    }
+
+    public static ArrayList<Match> arrayListToBO(ArrayList<MatchDTO> matchDTOS) {
+        ArrayList<Match> m = new ArrayList<>();
+
+        for(int i = 0; i < matchDTOS.size(); i++) {
+            m.add(matchDTOS.get(i).toBO());
+        }
+        return m;
     }
 
     /**
