@@ -93,7 +93,7 @@
                                 document.getElementById('form').submit();
                             },
                             "No - change team":  function() {
-                                alert('You chose to change team');
+                                dialog.dialog('close');
                             },
                             "Abort":  function() {
                                 dialog.dialog('close');
