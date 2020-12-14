@@ -11,10 +11,10 @@ public class League {
     String name;
     Integer category;
 
-    public League(Integer id, String n,  Integer c) {
-        this.leagueID = id;
-        this.name = n;
-        this.category = c;
+    public League(LeagueBuilder lb) {
+        this.leagueID = lb.id;
+        this.name = lb.name;
+        this.category = lb.category;
     }
 
     public League(){};
@@ -29,6 +29,32 @@ public class League {
 
     public String getName() {
         return this.name;
+    }
+
+    public static class LeagueBuilder
+    {
+        private int id;
+        private String name;
+        private Integer category;
+
+        public LeagueBuilder(Integer id) {
+            this.id = id;
+        }
+
+        public LeagueBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+        public LeagueBuilder category(Integer category) {
+            this.category = category;
+            return this;
+        }
+
+        //Return the finally consrcuted User object
+        public League build() {
+            League l = new League(this);
+            return l;
+        }
     }
 }
 
