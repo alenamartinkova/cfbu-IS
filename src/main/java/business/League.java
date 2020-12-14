@@ -33,7 +33,7 @@ public class League {
 
     public static class LeagueBuilder
     {
-        private int id;
+        private Integer id;
         private String name;
         private Integer category;
 

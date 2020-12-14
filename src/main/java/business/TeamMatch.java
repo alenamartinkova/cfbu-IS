@@ -38,14 +38,10 @@ public class TeamMatch {
         this.list = new ListProxyImplementation();
     }
 
-    public TeamMatchDTO toDTO() {
-        TeamMatchDTO teamMatchDTO = new TeamMatchDTO(this.teamMatchID, this.matchID, this.firstTeamID, this.secondTeamID, this.firstRefereeID, this.secondRefereeID, this.firstTeamGoals, this.secondTeamGoals);
-        return teamMatchDTO;
-    }
-
     public Integer getMatchID() {
         return this.matchID;
     }
+
     public Integer getFirstTeamID() {
         return this.firstTeamID;
     }
@@ -218,6 +214,12 @@ public class TeamMatch {
         }
         return t;
     }
+
+    public TeamMatchDTO toDTO() {
+        TeamMatchDTO teamMatchDTO = new TeamMatchDTO(this.teamMatchID, this.matchID, this.firstTeamID, this.secondTeamID, this.firstRefereeID, this.secondRefereeID, this.firstTeamGoals, this.secondTeamGoals);
+        return teamMatchDTO;
+    }
+
 }
 
 

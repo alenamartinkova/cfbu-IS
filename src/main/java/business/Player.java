@@ -41,11 +41,6 @@ public class Player {
         this.stick = s;
     }
 
-    public PlayerDTO toDTO() {
-        PlayerDTO playerDTO = new PlayerDTO(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid, this.quarantinedFrom.toString(), this.email, this.stick);
-        return playerDTO;
-    }
-
     public Integer getId() {
         return this.id;
     }
@@ -133,5 +128,10 @@ public class Player {
             p.add(playerDTOS.get(i).toBO());
         }
         return p;
+    }
+
+    public PlayerDTO toDTO() {
+        PlayerDTO playerDTO = new PlayerDTO(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid, this.quarantinedFrom.toString(), this.email, this.stick);
+        return playerDTO;
     }
 }
