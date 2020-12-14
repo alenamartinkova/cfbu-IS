@@ -119,9 +119,9 @@ public class TeamMatch {
         Pitch pitch = null;
         // use lazy loading to load data
 
-        ArrayList<Pitch> pitches = Pitch.arrayListToBO(this.list.getPitchList());
-        ArrayList<Team> teams = Team.arrayListToBO(this.list.getTeamList());
-        ArrayList<Match> matches = Match.arrayListToBO(this.list.getMatchList());
+        ArrayList<Pitch> pitches = this.list.getPitchList();
+        ArrayList<Team> teams = this.list.getTeamList();
+        ArrayList<Match> matches = this.list.getMatchList();
 
         for(int i = 0; i < teams.size(); i++) {
             if(teams.get(i).getName() == firstTeamName) {
