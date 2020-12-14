@@ -28,41 +28,6 @@ public class StatisticsGateway {
         return stats;
     }
 
-    public static ArrayList<StatisticsDTO> fetchByAttr(Object ... values) {
-        ArrayList<StatisticsDTO> stats = new ArrayList<>();
-        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-
-        String queryStr = "SELECT * FROM Stats WHERE ";
-        for (int i = 0; i < values.length; i++) {
-            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
-            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
-        }
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            Integer index = 1;
-            for (int i = 0; i < values.length; i++) {
-                if (i % 2 != 0) {
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-                }
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                stats.add(new StatisticsDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return stats;
-    }
-
-
     public static Integer insert(StatisticsDTO stats) throws SQLException {
         Table t = new Table("Stats", columns);
         String query = t.buildInsert(4, 1);

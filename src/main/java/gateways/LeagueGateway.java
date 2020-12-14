@@ -24,7 +24,7 @@ public class LeagueGateway {
     };
 
     public static ArrayList<League> fetch() {
-        TypeReference<ArrayList<League>> typeReference = new TypeReference<ArrayList<League>>() {};
+        TypeReference<ArrayList<League>> typeReference = new TypeReference<>() {};
         ArrayList<League> l = new ArrayList<>();
         ObjectMapper mapper = new XmlMapper();
 

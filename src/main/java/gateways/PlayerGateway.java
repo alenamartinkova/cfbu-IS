@@ -24,49 +24,6 @@ public class PlayerGateway {
         return players;
     }
 
-    public static ArrayList<PlayerDTO> fetchByAttr(Object ... values) {
-        ArrayList<PlayerDTO> player = new ArrayList<>();
-        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-
-        String queryStr = "SELECT * FROM PLAYER WHERE ";
-        for (int i = 0; i < values.length; i++) {
-            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
-            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
-        }
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            Integer index = 1;
-            for (int i = 0; i < values.length; i++) {
-                if (i % 2 != 0) {
-                    if (values[i] instanceof String) {
-                        query.setString(index, (String) values[i]);
-                        index++;
-                    }
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-
-                    if (values[i] instanceof Timestamp) {
-                        query.setTimestamp(index, (Timestamp) values[i]);
-                        index++;
-                    }
-                }
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                player.add(new PlayerDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8), rs.getString(9)));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return player;
-    }
-
     public static Integer insert(PlayerDTO player) throws SQLException {
         Table t = new Table("Player", columns);
         String query = t.buildInsert(8, 1);
@@ -144,7 +101,7 @@ public class PlayerGateway {
     }
 
     public static ArrayList<PlayerDTO> searchByAttr(String val) {
-        ArrayList<PlayerDTO> players = new ArrayList<PlayerDTO>();
+        ArrayList<PlayerDTO> players = new ArrayList<>();
 
         String queryStr = "SELECT * FROM Player WHERE memberID LIKE ? OR name LIKE ? OR sureName LIKE ? OR email LIKE ?";
 

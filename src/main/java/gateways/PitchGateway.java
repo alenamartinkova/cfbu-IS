@@ -28,46 +28,6 @@ public class PitchGateway {
         return pitches;
     }
 
-    public static ArrayList<PitchDTO> fetchByAttr(Object ... values) {
-        ArrayList<PitchDTO> pitch = new ArrayList<>();
-        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-
-        String queryStr = "SELECT * FROM Pitch WHERE ";
-        for (int i = 0; i < values.length; i++) {
-            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
-            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
-        }
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            Integer index = 1;
-            for (int i = 0; i < values.length; i++) {
-                if (i % 2 != 0) {
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-
-                    if (values[i] instanceof String) {
-                        query.setString(index, (String) values[i]);
-                        index++;
-                    }
-                }
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                pitch.add(new PitchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4)));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return pitch;
-    }
-
-
     public static Integer insert(PitchDTO pitch) throws SQLException {
         Table t = new Table("Pitch", columns);
         String query = t.buildInsert(3, 1);

@@ -16,7 +16,7 @@ public class TeamGateway {
 
     public static ArrayList<TeamDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM TEAM");
-        ArrayList<TeamDTO> teams = new ArrayList<TeamDTO>();
+        ArrayList<TeamDTO> teams = new ArrayList<>();
         while (rs.next()) {
             teams.add(new TeamDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
         }
@@ -82,75 +82,6 @@ public class TeamGateway {
 
         return output;
     }
-
-
-    public static ArrayList<TeamDTO> fetchByAttr(Object ... values) {
-        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-        ArrayList<TeamDTO> team = new ArrayList<TeamDTO>();
-
-        String queryStr = "SELECT * FROM TEAM WHERE ";
-        for (int i = 0; i < values.length; i++) {
-            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
-            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
-        }
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            Integer index = 1;
-            for (int i = 0; i < values.length; i++) {
-                if (i % 2 != 0) {
-                    if (values[i] instanceof String) {
-                        query.setString(index, (String) values[i]);
-                        index++;
-                    }
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-
-                    if (values[i] instanceof Date){
-                        query.setDate(index, (Date)values[i]);
-                        index++;
-                    }
-                }
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                team.add(new TeamDTO(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return team;
-    }
-
-    public static ArrayList<Team> searchByAttr(String val) {
-        ArrayList<Team> team = new ArrayList<Team>();
-
-        String queryStr = "SELECT * FROM TEAM WHERE TEAMID LIKE ? OR RANK LIKE ? OR NAME LIKE ? OR LEAGUEID LIKE ?";
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-
-            for (int i = 1; i <= 4; i++) {
-                query.setString(i, "%" + val + "%");
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                team.add(new Team(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6)));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return team;
-    }
-
 
     public static Integer delete(Integer id) {
         try {

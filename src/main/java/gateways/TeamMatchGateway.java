@@ -28,42 +28,6 @@ public class TeamMatchGateway {
         return teamMatches;
     }
 
-    public static ArrayList<TeamMatchDTO> fetchByAttr(Object ... values) {
-        ArrayList<TeamMatchDTO> teamMatch = new ArrayList<>();
-        if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
-
-        String queryStr = "SELECT * FROM TeamMatch WHERE ";
-        for (int i = 0; i < values.length; i++) {
-            if (i%2 == 0 && i != values.length - 2) queryStr += values[i] + " = ? AND ";
-            else if (i%2 == 0 && i == values.length - 2) queryStr += values[i] + " = ?";
-        }
-
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            Integer index = 1;
-            for (int i = 0; i < values.length; i++) {
-                if (i % 2 != 0) {
-                    if (values[i] instanceof Integer) {
-                        query.setInt(index, (Integer) values[i]);
-                        index++;
-                    }
-                }
-            }
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                teamMatch.add(new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8)));
-
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return teamMatch;
-    }
-
-
     public static Integer insert(TeamMatchDTO teamMatch) throws SQLException {
         Table t = new Table("TeamMatch", columns);
         String query = t.buildInsert(7, 1);
@@ -135,26 +99,6 @@ public class TeamMatchGateway {
         }
 
         return -1;
-    }
-
-    public static TeamMatchDTO fetchByID(Integer id) {
-        String queryStr = "SELECT * FROM TeamMatch WHERE teamMatchID = ?";
-        String val = id.toString();
-        TeamMatchDTO match = new TeamMatchDTO();
-        try {
-            PreparedStatement query = Table.conn.prepareStatement(queryStr);
-            query.setString(1, val);
-
-            ResultSet rs = query.executeQuery();
-            while (rs.next()) {
-                match = new TeamMatchDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6), rs.getInt(7), rs.getInt(8));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-
-        return match;
     }
 
     public static TeamMatchDTO fetchByMatchID(Integer id) {
