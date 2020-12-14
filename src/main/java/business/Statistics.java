@@ -1,5 +1,7 @@
 package business;
 
+import DTO.PlayerDTO;
+import DTO.StatisticsDTO;
 import gateways.StatisticsGateway;
 
 public class Statistics {
@@ -44,6 +46,11 @@ public class Statistics {
      * @return Statistics object
      */
     public static Statistics fetchByPlayerID(Integer playerID) {
-        return StatisticsGateway.fetchByPlayerID(playerID);
+        return StatisticsGateway.fetchByPlayerID(playerID).toBO();
+    }
+
+    public StatisticsDTO toDTO() {
+        StatisticsDTO statisticsDTO = new StatisticsDTO(this.statsID, this.playerID, this.assists, this.goals, this.points);
+        return statisticsDTO;
     }
 }

@@ -1,5 +1,6 @@
 package gateways;
 
+import DTO.StatisticsDTO;
 import business.Player;
 import business.Statistics;
 
@@ -16,19 +17,19 @@ public class StatisticsGateway {
     );
     public StatisticsGateway() {};
 
-    public static ArrayList<Statistics> fetch() throws SQLException {
+    public static ArrayList<StatisticsDTO> fetch() throws SQLException {
         ResultSet rs = Table.conn.createStatement().executeQuery("SELECT * FROM Stats");
-        ArrayList<Statistics> stats = new ArrayList<>();
+        ArrayList<StatisticsDTO> stats = new ArrayList<>();
         while (rs.next()) {
-            stats.add(new Statistics(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
+            stats.add(new StatisticsDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
         }
 
         rs.close();
         return stats;
     }
 
-    public static ArrayList<Statistics> fetchByAttr(Object ... values) {
-        ArrayList<Statistics> stats = new ArrayList<>();
+    public static ArrayList<StatisticsDTO> fetchByAttr(Object ... values) {
+        ArrayList<StatisticsDTO> stats = new ArrayList<>();
         if (values.length % 2 != 0 || values.length == 0) throw new IllegalArgumentException("There must be even number of arguments.");
 
         String queryStr = "SELECT * FROM Stats WHERE ";
@@ -51,7 +52,7 @@ public class StatisticsGateway {
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                stats.add(new Statistics(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
+                stats.add(new StatisticsDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5)));
             }
             rs.close();
         } catch (SQLException e) {
@@ -62,7 +63,7 @@ public class StatisticsGateway {
     }
 
 
-    public static Integer insert(Statistics stats) throws SQLException {
+    public static Integer insert(StatisticsDTO stats) throws SQLException {
         Table t = new Table("Stats", columns);
         String query = t.buildInsert(4, 1);
 
@@ -95,7 +96,7 @@ public class StatisticsGateway {
         return output;
     }
 
-    public static Integer update(Statistics stats) throws SQLException {
+    public static Integer update(StatisticsDTO stats) throws SQLException {
         int output = 0;
         Table t = new Table("Stats", columns);
         String query = t.buildUpdate(1);
@@ -130,17 +131,17 @@ public class StatisticsGateway {
         return -1;
     }
 
-    public static Statistics fetchByPlayerID(Integer pID) {
+    public static StatisticsDTO fetchByPlayerID(Integer pID) {
         String queryStr = "SELECT * FROM Stats WHERE playerID = ?";
         String val = pID.toString();
-        Statistics statistics = new Statistics();
+        StatisticsDTO statistics = new StatisticsDTO();
         try {
             PreparedStatement query = Table.conn.prepareStatement(queryStr);
             query.setString(1, val);
 
             ResultSet rs = query.executeQuery();
             while (rs.next()) {
-                statistics = new Statistics(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+                statistics = new StatisticsDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
             }
             rs.close();
         } catch (SQLException e) {
