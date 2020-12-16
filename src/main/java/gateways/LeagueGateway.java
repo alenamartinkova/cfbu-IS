@@ -38,6 +38,30 @@ public class LeagueGateway {
         return l;
     }
 
+    public static League fetchByID(Integer id) {
+        TypeReference<ArrayList<League>> typeReference = new TypeReference<>() {};
+        ArrayList<League> l = new ArrayList<>();
+        ObjectMapper mapper = new XmlMapper();
+
+        try {
+            InputStream input = new FileInputStream(new File("./xml/League.xml"));
+            l = mapper.readValue(input, typeReference);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        League league = null;
+
+        for(int i = 0; i < l.size(); i++) {
+            if(l.get(i).getLeagueID() == id) {
+                league = new League.LeagueBuilder(id).name(l.get(i).getName()).category(l.get(i).getCategory()).build();
+                break;
+            }
+        }
+
+        return league;
+    }
+
     public Integer insert(League l) {
         this.leagues.add(l);
 

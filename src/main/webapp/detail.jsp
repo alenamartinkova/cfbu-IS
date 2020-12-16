@@ -24,6 +24,7 @@
             Team t = Team.fetchByID(p.getTeamID());
             ArrayList<Team> allTeams = list.getTeamList();
             Statistics s = Statistics.fetchByPlayerID(playerID);
+            League l = League.fetchByID(t.getLeagueID());
 
             out.println("<form id='form' method='POST' action='update_done.jsp'>");
             out.println("<h2>Player no. "+ p.getId() +"</h2><div class='detail-wrapper'>");
@@ -34,7 +35,7 @@
             out.println("<div class='row'><p><strong>Date of birth: </strong>" + p.getDateOfBirth() +"</p>");
             out.println("<p><strong>Quarantined from: </strong><input type='text' name='newquarantinedfrom' value='" + p.getQuarantinedFrom() + "'></div>");
             out.println("<div class='row'><p><strong>Stick: </strong>" + p.getStick() + "</p>");
-            out.println("<p><strong>Team: </strong>" + t.getName() + "</p></div>");
+            out.println("<p><strong>Team: </strong>" + t.getName() + ", " + l.getName() +"</p></div>");
             out.println("<div class='row'><p><strong>Goals: </strong>" + s.getGoals() + "</p>");
             out.println("<p><strong>Assists: </strong>" + s.getAssists() + "</p></div></div>");
 

@@ -1,6 +1,7 @@
 package business;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import gateways.LeagueGateway;
 
 import javax.xml.bind.annotation.XmlID;
 
@@ -29,6 +30,10 @@ public class League {
 
     public String getName() {
         return this.name;
+    }
+
+    public static League fetchByID(Integer id) {
+        return LeagueGateway.fetchByID(id);
     }
 
     public static class LeagueBuilder
