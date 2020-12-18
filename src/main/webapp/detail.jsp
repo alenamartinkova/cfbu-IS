@@ -144,7 +144,7 @@
 
         if(hours > 24 || minutes > 60 || seconds > 60) return false;
         if(hours < 0 || minutes < 0 || seconds < 0) return false;
-        
+
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
         // Adjust for leap years

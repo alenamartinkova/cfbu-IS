@@ -25,7 +25,10 @@ public class TeamMatch {
     Integer secondTeamGoals;
     MyList list;
 
-    public TeamMatch(){};
+    public TeamMatch(){
+        this.list = new ListProxyImplementation();
+    }
+
     public TeamMatch(Integer tmID, Integer mID, Integer ftID, Integer stID, Integer frID, Integer srID, Integer ftGoals, Integer stGoals) {
         this.teamMatchID = tmID;
         this.matchID = mID;
@@ -120,9 +123,9 @@ public class TeamMatch {
         ArrayList<Match> matches = this.list.getMatchList();
 
         for(int i = 0; i < teams.size(); i++) {
-            if(teams.get(i).getName() == firstTeamName) {
+            if(teams.get(i).getName().equalsIgnoreCase(firstTeamName)) {
                 firstTeam = teams.get(i);
-            } else if (teams.get(i).getName() == secondTeamName) {
+            } else if (teams.get(i).getName().equalsIgnoreCase(secondTeamName)) {
                 secondTeam = teams.get(i);
             }
 
@@ -132,7 +135,7 @@ public class TeamMatch {
         }
 
         for(int i = 0; i < pitches.size(); i++) {
-            if(pitches.get(i).getName() == pitchName) {
+            if(pitches.get(i).getName().equalsIgnoreCase(pitchName)) {
                 pitch = pitches.get(i);
                 break;
             }
@@ -167,7 +170,7 @@ public class TeamMatch {
      */
     private static boolean checkTeamCollisions(TeamMatch teamMatch, Team team) {
         if(teamMatch.getFirstTeamID() == team.getId() || teamMatch.getSecondTeamID() == team.getId()) {
-            return  true;
+            return true;
         }
 
         return false;

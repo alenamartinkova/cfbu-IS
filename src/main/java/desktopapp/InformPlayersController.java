@@ -18,13 +18,13 @@ import java.util.ResourceBundle;
 public class InformPlayersController implements Initializable {
 
     private Team team;
-    private String q;
     private String c;
+    private String n;
 
-    public void initData(Team t, String q, String c) {
+    public void initData(Team t, String c, String n) {
         this.team = t;
-        this.q = q;
         this.c = c;
+        this.n = n;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class InformPlayersController implements Initializable {
             root = loader.load();
             stage.setScene(new Scene(root, 400, 200));
             StopMatchController controller = loader.getController();
-            controller.initData(this.team, this.q, this.c);
+            controller.initData(this.team, this.c, this.n);
 
         } catch (IOException e) {
             e.printStackTrace();

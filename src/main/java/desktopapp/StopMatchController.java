@@ -18,13 +18,13 @@ import java.util.ResourceBundle;
 public class StopMatchController implements Initializable {
 
     private Team team;
-    private String q;
     private String c;
+    private String n;
 
-    public void initData(Team t, String q, String c) {
+    public void initData(Team t, String c, String n) {
         this.team = t;
-        this.q = q;
         this.c = c;
+        this.n = n;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class StopMatchController implements Initializable {
         URL url = null;
         switch(buttonID) {
             case "stop":
-                Team.stopMatchesAndUpdate(this.team, this.q, this.c);
+                Team.stopMatchesAndUpdate(this.team, this.c, this.n);
                 try {
                     url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
                 } catch (IOException e) {

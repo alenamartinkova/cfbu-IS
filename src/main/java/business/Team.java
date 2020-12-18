@@ -86,18 +86,18 @@ public class Team {
     /**
      * Function that checks if team covid status has changed to 1, if no then update if yes then handle alternatives
      * @param team updated team
-     * @param quarantined_from new value of quarantined from
      * @param covid new value of covid
+     * @param team_name new value of team name
      * @return
      */
-    public static Integer proceedUpdate(Team team, String quarantined_from, String covid) {
+    public static Integer proceedUpdate(Team team, String covid, String team_name) {
         try {
             Integer covidNumber = Integer.parseInt(covid);
 
             if(covidNumber == 1) {
                 return -2;
             } else {
-                Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantined_from);
+                Team t = new Team(team.getId(), team.getLeagueID(), team_name, team.getRank(), covidNumber, team.getQuarantinedFrom().toString());
                 TeamGateway.update(t.toDTO());
                 return 0;
             }
@@ -119,10 +119,10 @@ public class Team {
     /**
      * Function that deletes all matches of team in the next two weeks and updates team info
      * @param team team to update
-     * @param quarantinedFrom new value of quarantined from
      * @param covid new value of covid - at this point we know it is 1
+     * @param name new value of name
      */
-    public static void stopMatchesAndUpdate(Team team, String quarantinedFrom, String covid) {
+    public static void stopMatchesAndUpdate(Team team, String covid, String name) {
         try {
             // Set time boundries
             Timestamp date = new Timestamp(System.currentTimeMillis());
@@ -137,7 +137,7 @@ public class Team {
 
             Integer covidNumber = Integer.parseInt(covid);
 
-            Team t = new Team(team.getId(), team.getLeagueID(), team.getName(), team.getRank(), covidNumber, quarantinedFrom);
+            Team t = new Team(team.getId(), team.getLeagueID(), name, team.getRank(), covidNumber, team.getQuarantinedFrom().toString());
             TeamGateway.update(t.toDTO());
 
             ArrayList<TeamMatch> tm = TeamMatch.arrayListToBO(TeamMatchGateway.fetchByTeamID(team.getId()));

@@ -23,8 +23,6 @@ public class TeamDetailController implements Initializable {
     @FXML
     private TextField team_rank;
     @FXML
-    private TextField quarantined_from;
-    @FXML
     private TextField covid;
 
     private Team selectedTeam;
@@ -33,11 +31,6 @@ public class TeamDetailController implements Initializable {
         this.selectedTeam = team;
         this.team_name.setText(this.selectedTeam.getName());
         this.team_rank.setText(this.selectedTeam.getRank().toString());
-        if(this.selectedTeam.getQuarantinedFrom() == null) {
-            this.quarantined_from.setText("null");
-        } else {
-            this.quarantined_from.setText(this.selectedTeam.getQuarantinedFrom().toString());
-        }
         this.covid.setText(this.selectedTeam.getCovid().toString());
     }
 
@@ -66,7 +59,7 @@ public class TeamDetailController implements Initializable {
      * @throws IOException
      */
     public void onTeamSubmit(ActionEvent event) throws IOException {
-        Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
+        Integer doUpdate = Team.proceedUpdate(this.selectedTeam, this.covid.getText(), this.team_name.getText());
 
         Parent root;
         URL url;
@@ -83,7 +76,7 @@ public class TeamDetailController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root, 500, 200));
             InformPlayersController controller = loader.getController();
-            controller.initData(this.selectedTeam, this.quarantined_from.getText(), this.covid.getText());
+            controller.initData(this.selectedTeam, this.covid.getText(), this.team_name.getText());
             stage.show();
         }
     }
