@@ -63,7 +63,7 @@ public class Team {
     }
 
     public TeamDTO toDTO() {
-        TeamDTO teamDTO = new TeamDTO(this.teamid, this.leagueID, this.name, this.rank, this.covid,  this.quarantinedFrom == null?null:this.quarantinedFrom.toString());
+        TeamDTO teamDTO = new TeamDTO(this.teamid, this.leagueID, this.name, this.rank, this.covid, this.quarantinedFrom == null?null:this.quarantinedFrom.toString());
         return teamDTO;
     }
 
@@ -97,7 +97,7 @@ public class Team {
             if(covidNumber == 1) {
                 return -2;
             } else {
-                Team t = new Team(team.getId(), team.getLeagueID(), team_name, team.getRank(), covidNumber, team.getQuarantinedFrom().toString());
+                Team t = new Team(team.getId(), team.getLeagueID(), team_name, team.getRank(), covidNumber, team.getQuarantinedFrom() == null ? null : team.getQuarantinedFrom().toString() );
                 TeamGateway.update(t.toDTO());
                 return 0;
             }
@@ -137,7 +137,7 @@ public class Team {
 
             Integer covidNumber = Integer.parseInt(covid);
 
-            Team t = new Team(team.getId(), team.getLeagueID(), name, team.getRank(), covidNumber, team.getQuarantinedFrom().toString());
+            Team t = new Team(team.getId(), team.getLeagueID(), name, team.getRank(), covidNumber,  team.getQuarantinedFrom() == null ? null : team.getQuarantinedFrom().toString() );
             TeamGateway.update(t.toDTO());
 
             ArrayList<TeamMatch> tm = TeamMatch.arrayListToBO(TeamMatchGateway.fetchByTeamID(team.getId()));

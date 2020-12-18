@@ -37,11 +37,11 @@ public class TeamDetailController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
-    public void openAllMatches(ActionEvent event) {
+    public void openAllTeams(ActionEvent event) {
         Parent root;
         Stage stage = new Stage();
         try {
-            URL url = new File("src/main/java/desktopapp/matches_all.fxml").toURI().toURL();
+            URL url = new File("src/main/java/desktopapp/teams_all.fxml").toURI().toURL();
             root = FXMLLoader.load(url);
             stage.setScene(new Scene(root,645, 501));
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class TeamDetailController implements Initializable {
         }
         Stage oldWindow = (Stage) ((Node)event.getSource()).getScene().getWindow();
         oldWindow.close();
-        stage.setTitle("VIS MATCHES");
+        stage.setTitle("VIS TEAMS");
         stage.show();
     }
 
@@ -66,7 +66,7 @@ public class TeamDetailController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
 
         if(doUpdate == 0) {
-            openAllMatches(event);
+            openAllTeams(event);
         } else if (doUpdate == -1) {
             System.out.println("Error");
         } else if (doUpdate == -2) {
