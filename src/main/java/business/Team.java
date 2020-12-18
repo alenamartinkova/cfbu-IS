@@ -63,7 +63,7 @@ public class Team {
     }
 
     public TeamDTO toDTO() {
-        TeamDTO teamDTO = new TeamDTO(this.teamid, this.leagueID, this.name, this.rank, this.covid, this.quarantinedFrom.toString());
+        TeamDTO teamDTO = new TeamDTO(this.teamid, this.leagueID, this.name, this.rank, this.covid,  this.quarantinedFrom == null?null:this.quarantinedFrom.toString());
         return teamDTO;
     }
 

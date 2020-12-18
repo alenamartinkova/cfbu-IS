@@ -69,7 +69,7 @@ public class PlayerDTO {
     }
 
     public Player toBO() {
-        Player player = new Player(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid,  this.quarantinedFrom == null?null:this.quarantinedFrom.toString(), this.email, this.stick);
+        Player player = new Player(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid, this.quarantinedFrom == null?null:this.quarantinedFrom.toString(), this.email, this.stick);
         return player;
     }
 }

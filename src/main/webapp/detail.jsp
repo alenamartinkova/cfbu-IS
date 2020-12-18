@@ -54,7 +54,7 @@
             out.println("<input type='hidden' name='id' value='" + p.getId() + "'>");
             out.println("<input type='hidden' name='changeleague' value='0'>");
             out.println("<input type='hidden' name='teamid' value='" + p.getTeamID() + "'>");
-            out.println("<input type='hidden' name='currentLeagueID' value='" + p.getTeamID() + "'>");
+            out.println("<input type='hidden' name='currentLeagueID' value='" + t.getLeagueID() + "'>");
             out.println("<input type='hidden' name='date' value='" + p.getDateOfBirth() + "'>");
             out.println("<input type='hidden' name='stick' value='" + p.getStick() + "'>");
             out.println("<input type='hidden' name='declined' value='0'>");
@@ -116,12 +116,19 @@
     // Validates that the input string is a valid date formatted as "YYYY-mm-dd"
     function isValidDate(dateString)
     {
-        // First check for the pattern
-        if(!/^\d{4}-\d{1,2}-\d{1,2}$/.test(dateString))
+        var str = dateString.split(' ');
+        var date = str[0];
+        var time = str[1];
+
+        // First check for the pattern - date
+        if(!/^\d{4}-\d{1,2}-\d{1,2}$/.test(date))
+            return false;
+        // First check for the pattern - time
+        if(!/^\d{2}:\d{2}:\d{2}.\d{1}$/.test(time))
             return false;
 
         // Parse the date parts to integers
-        var parts = dateString.split("-");
+        var parts = date.split("-");
         var day = parseInt(parts[2], 10);
         var month = parseInt(parts[1], 10);
         var year = parseInt(parts[0], 10);
@@ -130,6 +137,14 @@
         if(year < 1000 || year > 3000 || month == 0 || month > 12)
             return false;
 
+        var partsTime = time.split(":")
+        var hours = parseInt(partsTime[0], 10);
+        var minutes = parseInt(partsTime[1], 10);
+        var seconds = parseInt(partsTime[2], 10);
+
+        if(hours > 24 || minutes > 60 || seconds > 60) return false;
+        if(hours < 0 || minutes < 0 || seconds < 0) return false;
+        
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
         // Adjust for leap years

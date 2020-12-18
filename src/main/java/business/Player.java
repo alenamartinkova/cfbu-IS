@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Player {
@@ -131,7 +132,7 @@ public class Player {
     }
 
     public PlayerDTO toDTO() {
-        PlayerDTO playerDTO = new PlayerDTO(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid, this.quarantinedFrom.toString(), this.email, this.stick);
+        PlayerDTO playerDTO = new PlayerDTO(this.id, this.teamID, this.name, this.sureName, this.dateOfBirth.toString(), this.covid,  this.quarantinedFrom == null?null:this.quarantinedFrom.toString(), this.email, this.stick);
         return playerDTO;
     }
 }
