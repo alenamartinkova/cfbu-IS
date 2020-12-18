@@ -51,9 +51,6 @@ public class TeamDTO {
     }
 
     public Team toBO() {
-        if(this.quarantinedFrom == null) {
-
-        }
         Team team = new Team(this.teamid, this.leagueID, this.name, this.rank, this.covid, this.quarantinedFrom == null?null:this.quarantinedFrom.toString());
         return team;
     }
